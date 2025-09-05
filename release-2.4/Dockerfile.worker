@@ -1,0 +1,41 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+
+FROM registry.access.redhat.com/ubi9/go-toolset:9.6-1755074415 as builder
+
+ARG VERSION RELEASE DIRECTORY
+
+WORKDIR /opt/app-root/src
+
+COPY ${DIRECTORY}/kernel-module-management .
+RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o worker ./cmd/worker
+
+#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+ARG VERSION RELEASE
+
+COPY --from=builder /opt/app-root/src/worker /usr/local/bin/worker
+
+RUN microdnf update -y \
+    && microdnf install -y kmod \
+    && microdnf clean all
+
+RUN mkdir -p /mnt/img /var/run/kmm/pull-secrets
+
+ENTRYPOINT ["/usr/local/bin/worker"]
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-worker-container" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    name="kernel-module-management/kernel-module-management-worker-rhel9" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management - Worker" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Worker" \
+    summary="Kernel Module Management - Worker" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="the worker component for KMMO"
+#bump13

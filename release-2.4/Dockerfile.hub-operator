@@ -1,0 +1,39 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+
+FROM registry.access.redhat.com/ubi9/go-toolset:9.6-1755074415 as builder
+
+ARG VERSION RELEASE DIRECTORY
+
+WORKDIR /opt/app-root/src
+
+COPY ${DIRECTORY}/kernel-module-management .
+
+COPY .git/modules/kernel-module-management/HEAD .
+COPY .gitmodules .
+
+RUN go build -ldflags="-w -s -X main.Version=$(cat .gitmodules | awk '/branch/{print $3}')  -X main.GitCommit=$(cat HEAD)" -o manager ./cmd/manager-hub/main.go
+
+#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+ARG VERSION RELEASE
+
+COPY --from=builder /opt/app-root/src/manager /usr/local/bin/manager
+ENTRYPOINT ["/usr/local/bin/manager"]
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-hub-operator-container" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    git.commit="$CI_UPSTREAM_SHORT_COMMIT" \
+    name="kernel-module-management/kernel-module-management-hub-rhel9-operator" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management - Hub" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Hub Operator" \
+    summary="Kernel Module Management - Hub Operator" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="the hub-operator component for KMMO"
+#bump13

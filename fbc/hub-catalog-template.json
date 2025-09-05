@@ -1,0 +1,305 @@
+{
+    "schema": "olm.template.basic",
+    "entries": [
+        {
+            "defaultChannel": "stable",
+            "icon": {
+                "base64data": "PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=",
+                "mediatype": "image/svg+xml"
+            },
+            "name": "kernel-module-management-hub",
+            "schema": "olm.package"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                }
+            ],
+            "name": "release-2.0",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.0",
+                    "replaces": "kernel-module-management-hub.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.1",
+                    "replaces": "kernel-module-management-hub.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                }
+            ],
+            "name": "release-2.1",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.0",
+                    "replaces": "kernel-module-management-hub.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.1",
+                    "replaces": "kernel-module-management-hub.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.0",
+                    "replaces": "kernel-module-management-hub.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.1",
+                    "replaces": "kernel-module-management-hub.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                }
+            ],
+            "name": "release-2.2",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.0",
+                    "replaces": "kernel-module-management-hub.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.1",
+                    "replaces": "kernel-module-management-hub.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.0",
+                    "replaces": "kernel-module-management-hub.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.1",
+                    "replaces": "kernel-module-management-hub.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.3.0",
+                    "replaces": "kernel-module-management-hub.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                }
+            ],
+            "name": "release-2.3",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.0",
+                    "replaces": "kernel-module-management-hub.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.1",
+                    "replaces": "kernel-module-management-hub.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.0",
+                    "replaces": "kernel-module-management-hub.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.1",
+                    "replaces": "kernel-module-management-hub.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.3.0",
+                    "replaces": "kernel-module-management-hub.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.4.0",
+                    "replaces": "kernel-module-management-hub.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.4.1",
+                    "replaces": "kernel-module-management-hub.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                }
+            ],
+            "name": "stable",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.1",
+                    "replaces": "kernel-module-management-hub.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.0.2",
+                    "replaces": "kernel-module-management-hub.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.0",
+                    "replaces": "kernel-module-management-hub.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.1.1",
+                    "replaces": "kernel-module-management-hub.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.0",
+                    "replaces": "kernel-module-management-hub.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.2.1",
+                    "replaces": "kernel-module-management-hub.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.3.0",
+                    "replaces": "kernel-module-management-hub.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.4.0",
+                    "replaces": "kernel-module-management-hub.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.4.1",
+                    "replaces": "kernel-module-management-hub.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                }
+            ],
+            "name": "release-2.4",
+            "package": "kernel-module-management-hub",
+            "schema": "olm.channel"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:ef3a9010a9ffd3de442167635e76a292089b8be8f377a971bd152ad98ccb4155"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:bb50d43e994155437da55be23da66e7bc8897fc0f0e86c903970eb72d165bb91"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:f182078b0077b6df6d47ddcab0204e963c1475486bd61b8eccb73b46eb8b2995"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:750f8d79d725fdd88f39fcd2aa7301e2c771a15b804e56c1cf81234fa6aa8c03"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:c8b3505ed491c1bf6a913f161715c8ac483d8d9adf1fd29916ea4edad987cd67"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:5a651f79c2a9bf6dbc5c7fe81c54a1c5faa74fd0934c0b7ce8edbc048acd0e18"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:af5a13351f960c0938c68604b772f24743c0e997701838a7784c53406471e72a"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:0d9f5293d69eebd91fffd83ae371141e640cab8f9e2d559a83714ce0f94fee08"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:41f516aa4d8f96347dd3833448154219717c3c3355f68cad400a7f5b6065017a"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/hub-operator-bundle-2-4@sha256:1b7c3d92b60e39b16fdaed854d7878f2162922b6c77651c8bf5b52abaf2ec5c0"
+        }
+    ]
+}

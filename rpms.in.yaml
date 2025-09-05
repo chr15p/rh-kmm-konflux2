@@ -1,0 +1,19 @@
+packages: 
+  - tar
+  - rsync
+  - findutils
+  - gzip
+  - iproute
+  - util-linux
+  - golang
+  - kmod
+  - kernel-devel
+contentOrigin:
+  repofiles: 
+  - ./ubi.repo
+  - ./redhat.repo
+arches: 
+  - x86_64 
+  - aarch64
+  - ppc64le
+  - s390x

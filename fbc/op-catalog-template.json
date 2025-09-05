@@ -1,0 +1,305 @@
+{
+    "schema": "olm.template.basic",
+    "entries": [
+        {
+            "defaultChannel": "stable",
+            "icon": {
+                "base64data": "PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=",
+                "mediatype": "image/svg+xml"
+            },
+            "name": "kernel-module-management",
+            "schema": "olm.package"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                }
+            ],
+            "name": "release-2.0",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                }
+            ],
+            "name": "release-2.1",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                }
+            ],
+            "name": "release-2.2",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                }
+            ],
+            "name": "release-2.3",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.0",
+                    "replaces": "kernel-module-management.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.1",
+                    "replaces": "kernel-module-management.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                }
+            ],
+            "name": "stable",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.0",
+                    "replaces": "kernel-module-management.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.1",
+                    "replaces": "kernel-module-management.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                }
+            ],
+            "name": "release-2.4",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:69b16d605af30119072ad3ab8594693ac6d7cbeb040ef26046286e71ceb6b92e"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:c7522c7778ace3b9bde3a1f06fe64c6d237237bf6d632df461ca5dbe1cb15d56"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:e39a0b57e73d92c5db330ac9b8a184eeb400397f14c05c1ef75c952d91e4f5b2"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:2a1fbee5bbaabfafcfef71591bc46ecb2eed0a97e1a1866051fe4ae8db54839b"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:5024be9a3190288983e3c42e8a2dbb49aa44cd596237ad9ed0e72de5090dc9b9"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:fb3776324f606ea7ecb090a424c2d411d20271aee67858f893de93b2bcb01f45"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:ece58f1e360eccf7d970dca2f9da0c4d99a692648f165f677f11ff080649cf62"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:6bd423056b555d39337c0e3a9c31e7732e80f34d0c01f0766a6aadb2aff586f8"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:172d6db68159938b388d6a48af67f40c11a145adca13a486135e60833110958a"
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-bundle-2-4@sha256:afd8b13c49d9d6f9493636c6901c31f548be18e8517634d84f247a020611c7ed"
+        }
+    ]
+}

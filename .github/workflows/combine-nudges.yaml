@@ -1,0 +1,23 @@
+name: Combine nudge PRs into one
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  combine-nudges:
+    runs-on: ubuntu-latest
+    #if: ${{ github.actor == 'red-hat-konflux[bot]' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          ref: ${{ github.head_ref }}
+      - name: combine PRs
+        run: python scripts/combine_nudges.py --branch ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+

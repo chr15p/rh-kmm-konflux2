@@ -1,0 +1,33 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+
+FROM registry.redhat.io/ubi9/ubi:9.6 as builder
+ARG VERSION RELEASE DIRECTORY
+
+# install the package that will contain the sign utilities
+RUN dnf download kernel-devel && rpm -i --nodeps ./kernel-devel-*.rpm
+
+#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+ARG VERSION RELEASE
+
+COPY --from=builder /usr/src/kernels/*/scripts/sign-file /usr/local/bin/
+USER 65534:65534
+
+ENTRYPOINT ["/usr/local/bin/sign-file"]
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-signing-container" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    name="kernel-module-management/kernel-module-management-signing-rhel9" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management - Module Signing" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Module Signing" \
+    summary="Kernel Module Management - Module Signing" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="the component for signing kmods for KMMO"
+#bump13

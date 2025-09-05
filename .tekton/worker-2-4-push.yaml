@@ -1,0 +1,52 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/chr15p/rh-kmm-konflux?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/cancel-in-progress: 'false'
+    pipelinesascode.tekton.dev/max-keep-runs: '3'
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "release-2.4" && !("bundle-hack/**".pathChanged() || "fbc/**".pathChanged())
+  creationTimestamp:
+  labels:
+    appstudio.openshift.io/application: kmm-2-4
+    appstudio.openshift.io/component: worker-2-4
+    pipelines.appstudio.openshift.io/type: build
+  name: worker-2-4-on-push
+  namespace: rh-kmm-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/worker-2-4:{{revision}}
+  - name: build-platforms
+    value:
+    - linux/x86_64
+    - linux/arm64
+    - linux/ppc64le
+    - linux/s390x
+  - name: dockerfile
+    value: release-2.4/Dockerfile.worker
+  - name: path-context
+    value: .
+  - name: hermetic
+    value: 'true'
+  - name: prefetch-input
+    value: '{"type": "rpm", "path": "."}'
+  - name: build-source-image
+    value: 'true'
+  - name: build-args-file
+    value: "release-2.4/build_settings.conf"
+  pipelineRef:
+    name: kmm-multi-arch-pipeline
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-worker-2-4
+  workspaces:
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}
