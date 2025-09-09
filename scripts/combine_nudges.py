@@ -50,7 +50,7 @@ def call_gh(test_mode, *args, **kwargs):
     return p.stdout.read()
 
 def get_component(branch: str):
-    matches = re.match(r"konflux/component-updates/component-update-([a-z-]+-[0-9]-[0-9])", branch)
+    matches = re.match(r"konflux/component-updates/.*component-update-([a-z-]+-[0-9]-[0-9])", branch)
     if matches is None:
         return None
     return matches.group(1)
@@ -85,8 +85,8 @@ except Exception as e:
 
 print(MASTER_COMPONENTS)
 
-
 master = get_component(curr_branch)
+print(f"master={master}")
 if master is None or MASTER_COMPONENTS.get(master) is None:
     print(f"{curr_branch} not in watched master components: { ','.join(MASTER_COMPONENTS.keys()) }")
     exit(0)
