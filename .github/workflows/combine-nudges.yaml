@@ -17,7 +17,7 @@ jobs:
           submodules: true
           ref: ${{ github.head_ref }}
       - name: combine PRs
-        run: python scripts/combine_nudges.py --branch ${{ github.head_ref }}
+        run: python scripts/combine_nudges.py --branch ${{ github.head_ref }} --config nudges.yaml
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 

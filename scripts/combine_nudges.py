@@ -135,9 +135,6 @@ if not_found:
 
 print(merge_id)
 
-exit(0)
-
-
 for pr_number in merge_id.values():
     print("call_gh", "pr", "edit", pr_number, "--base", curr_branch)
     out=call_gh(test_mode, "pr", "edit", pr_number, "--base", curr_branch)
