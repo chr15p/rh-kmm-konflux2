@@ -8,6 +8,7 @@ packages:
   - golang
   - kmod
   - kernel-devel
+  - python3-pyyaml
 contentOrigin:
   repofiles: 
   - ./ubi.repo
