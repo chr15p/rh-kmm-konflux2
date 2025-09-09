@@ -1,19 +1,19 @@
 ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
+ARG BRANCH
 
 FROM registry.access.redhat.com/ubi9/go-toolset:9.6-1755074415 as builder
 
-ARG VERSION RELEASE DIRECTORY
+ARG DIRECTORY BRANCH RELEASE
 
 WORKDIR /opt/app-root/src
 
 COPY ${DIRECTORY}/kernel-module-management .
-
-COPY .git/modules/kernel-module-management/HEAD .
+COPY .git/modules/${DIRECTORY}/kernel-module-management/refs/heads/${BRANCH} .
 COPY .gitmodules .
 
-RUN go build -ldflags="-w -s -X main.Version=$(cat .gitmodules | awk '/branch/{print $3}')  -X main.GitCommit=$(cat HEAD)" -o manager ./cmd/manager-hub/main.go
+RUN go build -ldflags="-w -s -X main.Version=${RELEASE}  -X main.GitCommit=$(cat ${BRANCH})" -o manager ./cmd/manager-hub/main.go
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
 FROM registry.redhat.io/ubi9/ubi-minimal:9.6
@@ -27,7 +27,6 @@ LABEL \
     com.redhat.component="kernel-module-management-hub-operator-container" \
     version="${VERSION}" \
     release="${RELEASE}" \
-    git.commit="$CI_UPSTREAM_SHORT_COMMIT" \
     name="kernel-module-management/kernel-module-management-hub-rhel9-operator" \
     License="Apache License 2.0" \
     io.k8s.display-name="Kernel Module Management - Hub" \
