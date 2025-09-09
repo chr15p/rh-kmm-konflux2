@@ -92,4 +92,4 @@ COPY --from=builder /bundle/ /
 #COPY --from=builder /manifests /manifests/
 #COPY --from=builder /metadata /metadata/
 #COPY --from=builder /tests/scorecard /tests/scorecard/
-#bump20
+#bump2

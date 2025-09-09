@@ -9,12 +9,12 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-          ( "release-2.5/operator-2-5.yaml".pathChanged() ||
-            "release-2.5/must-gather-2-5.yaml".pathChanged() ||
-            "release-2.5/signing-2-5.yaml".pathChanged() ||
-            "release-2.5/webhook-2-5.yaml".pathChanged() ||
-            "release-2.5/worker-2-5.yaml".pathChanged() ||
-            "release-2.5/Dockerfile.Dockerfile.operator-bundle".pathChanged() )
+          ( "release-2.5/pullspecs/operator-2-5.yaml".pathChanged() ||
+            "release-2.5/pullspecs/must-gather-2-5.yaml".pathChanged() ||
+            "release-2.5/pullspecs/signing-2-5.yaml".pathChanged() ||
+            "release-2.5/pullspecs/webhook-2-5.yaml".pathChanged() ||
+            "release-2.5/pullspecs/worker-2-5.yaml".pathChanged() ||
+            "release-2.5/Dockerfile.operator-bundle".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: kmm-2-5
