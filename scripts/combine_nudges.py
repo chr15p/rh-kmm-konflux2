@@ -49,8 +49,11 @@ def call_gh(test_mode, *args, **kwargs):
 
     return p.stdout.read()
 
-def get_component(branch: str):
-    matches = re.match(r"konflux/component-updates/.*component-update-([a-z-]+-[0-9]-[0-9])", branch)
+def get_component(branch: str, prefix: str= r".*component-update"):
+
+    branch_regexp=r"konflux/component-updates/" + prefix + "-([a-z-]+-[0-9]-[0-9])"
+    #matches = re.match(r"konflux/component-updates/.*component-update-([a-z-]+-[0-9]-[0-9])", branch)
+    matches = re.match(branch_regexp, branch)
     if matches is None:
         return None
     return matches.group(1)
@@ -85,11 +88,18 @@ except Exception as e:
 
 print(MASTER_COMPONENTS)
 
-master = get_component(curr_branch)
-print(f"master={master}")
-if master is None or MASTER_COMPONENTS.get(master) is None:
+for k,v in MASTER_COMPONENTS.items():
+    master = get_component(curr_branch, v['prefix'])
+    if master is not None: 
+        prefix = v['prefix']
+        components_to_combine =  v['combine']
+        break 
+else:
     print(f"{curr_branch} not in watched master components: { ','.join(MASTER_COMPONENTS.keys()) }")
     exit(0)
+
+#print(f"prefix={prefix} components_to_combine={components_to_combine} master={master}")
+#exit(0)
 
 pr_list={}
 merge_id = {}
@@ -115,14 +125,14 @@ while retries < total_retries:
             curr_pr_id = str(pr["number"])
             continue
 
-        if component is None or component not in MASTER_COMPONENTS[master]:
+        if component is None or component not in components_to_combine:
             continue
 
-        if component in MASTER_COMPONENTS[master]:
+        if component in components_to_combine:
             merge_id[component] = str(pr["number"])
 
 
-    not_found = list(set(MASTER_COMPONENTS[master]).difference(merge_id.keys()))
+    not_found = list(set(components_to_combine).difference(merge_id.keys()))
 
     if not_found :
         print(f"not found components { ','.join(not_found)}")
@@ -140,8 +150,8 @@ for pr_number in merge_id.values():
     out=call_gh(test_mode, "pr", "edit", pr_number, "--base", curr_branch)
     print(out)
 
-    print("call_gh", "pr", "merge", pr_number, "--merge")
-    out=call_gh(test_mode, "pr", "merge", pr_number, "--merge")
+    print("call_gh", "pr", "merge", pr_number, "--squash")
+    out=call_gh(test_mode, "pr", "merge", pr_number, "--squash")
     print(out)
 
 print("call_gh", "pr", "edit", curr_pr_id, "--add-label", "ok-to-merge")
