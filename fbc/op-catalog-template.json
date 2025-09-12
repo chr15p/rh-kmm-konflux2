@@ -201,7 +201,7 @@
                     "skipRange": ">=0.0.0 <2.4.1"
                 }
             ],
-            "name": "stable",
+            "name": "release-2.4",
             "package": "kernel-module-management",
             "schema": "olm.channel"
         },
@@ -255,51 +255,134 @@
                     "name": "kernel-module-management.v2.4.1",
                     "replaces": "kernel-module-management.v2.4.0",
                     "skipRange": ">=0.0.0 <2.4.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.0",
+                    "replaces": "kernel-module-management.v2.4.1",
+                    "skipRange": ">=0.0.0 <2.5.0"
                 }
             ],
-            "name": "release-2.4",
+            "name": "release-2.5",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.0",
+                    "replaces": "kernel-module-management.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.1",
+                    "replaces": "kernel-module-management.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.0",
+                    "replaces": "kernel-module-management.v2.4.1",
+                    "skipRange": ">=0.0.0 <2.5.0"
+                }
+            ],
+            "name": "stable",
             "package": "kernel-module-management",
             "schema": "olm.channel"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.0.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:69b16d605af30119072ad3ab8594693ac6d7cbeb040ef26046286e71ceb6b92e"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.0.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:c7522c7778ace3b9bde3a1f06fe64c6d237237bf6d632df461ca5dbe1cb15d56"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.0.2",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:e39a0b57e73d92c5db330ac9b8a184eeb400397f14c05c1ef75c952d91e4f5b2"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.1.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:2a1fbee5bbaabfafcfef71591bc46ecb2eed0a97e1a1866051fe4ae8db54839b"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.1.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:5024be9a3190288983e3c42e8a2dbb49aa44cd596237ad9ed0e72de5090dc9b9"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.2.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:fb3776324f606ea7ecb090a424c2d411d20271aee67858f893de93b2bcb01f45"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.2.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:ece58f1e360eccf7d970dca2f9da0c4d99a692648f165f677f11ff080649cf62"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.3.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:6bd423056b555d39337c0e3a9c31e7732e80f34d0c01f0766a6aadb2aff586f8"
         },
         {
             "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.4.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:172d6db68159938b388d6a48af67f40c11a145adca13a486135e60833110958a"
         },
         {
             "schema": "olm.bundle",
-            "image": "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-bundle-2-4@sha256:afd8b13c49d9d6f9493636c6901c31f548be18e8517634d84f247a020611c7ed"
+            "name": "kernel-module-management-operator-bundle.v2.4.1",
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:088dde6eb9d239a7a34b6e47a1bc3c3f1f74aabe764744eb9554913181b4e0db"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.5.0",
+            "image": "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5@sha256:abc2b3da38e8ad6645a45ef389aacf73303e5fedc9b0464e6bfa61a021410456"
         }
+
     ]
 }
+
