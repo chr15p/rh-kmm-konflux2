@@ -33,13 +33,11 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: dockerfile
-    value: /fbc/Containerfile.catalogue.hub
-  - name: build-args-file
-    value: "build_settings.conf"
+    value: /fbc/Containerfile.catalogue
   - name: build-args
     value: 
     - OCP=4.20
-    - PACKAGE=kernel-module-management-hub
+    - FBC_CONFIG=fbc/hub-migrated
   pipelineRef:
     name: catalogue-pipeline
   taskRunTemplate:

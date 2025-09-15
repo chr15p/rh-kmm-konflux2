@@ -2,6 +2,7 @@ ARG OCP=4.19
 ARG FBC_CONFIG=fbc/op/
 
 FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v${OCP}
+ARG FBC_CONFIG
 
 ENTRYPOINT ["/bin/opm"]
 CMD ["serve", "/configs", "--cache-dir=/tmp/cache"]
