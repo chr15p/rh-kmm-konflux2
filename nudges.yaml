@@ -1,5 +1,5 @@
 operator-2-4: 
-  prefix: operator-bundle-2-5-component-update
+  prefix: operator-bundle-2-4-component-update
   combine:
   - worker-2-4
   - must-gather-2-4
