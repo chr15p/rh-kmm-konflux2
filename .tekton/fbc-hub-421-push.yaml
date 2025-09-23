@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/chr15p/rh-kmm-konflux?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/cancel-in-progress: 'false'
+    pipelinesascode.tekton.dev/max-keep-runs: '3'
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && ( "fbc/**".pathChanged() || "release-2.5/pullspecs/hub-operator-bundle-2-5.yaml".pathChanged())
+  creationTimestamp:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-421
+    appstudio.openshift.io/component: fbc-hub-421
+    pipelines.appstudio.openshift.io/type: build
+  name: fbc-hub-421-on-push
+  namespace: rh-kmm-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/rh-kmm-tenant/fbc-hub-421:{{revision}}
+  - name: build-platforms
+    value:
+    - linux/x86_64
+    - linux/arm64
+    - linux/ppc64le
+    - linux/s390x
+  - name: dockerfile
+    value: /fbc/Containerfile.catalogue
+  - name: build-args
+    value: 
+    - OCP=4.21
+    - FBC_CONFIG=fbc/hub-migrated
+  pipelineRef:
+    name: catalogue-pipeline
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-fbc-hub-421
+  workspaces:
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}
+
