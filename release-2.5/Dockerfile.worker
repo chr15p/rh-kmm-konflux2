@@ -39,4 +39,4 @@ LABEL \
     summary="Kernel Module Management - Worker" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="the worker component for KMMO"
-#bump6
+#bump7

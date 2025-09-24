@@ -32,4 +32,4 @@ LABEL \
     summary="Kernel Module Management - Must-Gather" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="must-gather gathers debugging and log data for the KMM operator" 
-#bump6
+#bump7
