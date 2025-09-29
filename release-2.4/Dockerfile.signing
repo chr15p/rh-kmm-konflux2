@@ -22,7 +22,8 @@ LABEL \
     com.redhat.component="kernel-module-management-signing-container" \
     version="${VERSION}" \
     release="${RELEASE}" \
-    name="kernel-module-management/kernel-module-management-signing-rhel9" \
+    name="kmm/kernel-module-management-signing-rhel9" \
+    cpe="cpe:/a:redhat:kernel_module_management:2.5::el9" \
     License="Apache License 2.0" \
     io.k8s.display-name="Kernel Module Management - Module Signing" \
     io.openshift.tags="Operating System" \

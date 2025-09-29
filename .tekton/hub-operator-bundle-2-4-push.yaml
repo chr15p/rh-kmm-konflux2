@@ -8,12 +8,13 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "release-2.4"
-       && ( "bundle-hack/must-gather.yaml".pathChanged()
-            || "bundle-hack/hub-operator.yaml".pathChanged()
-            || "bundle-hack/signing.yaml".pathChanged()
-            || "bundle-hack/webhook.yaml".pathChanged()
-            || "bundle-hack/worker.yaml".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
+          ( "release-2.4/pullspecs/hub-operator-2-4.yaml".pathChanged() ||
+            "release-2.4/pullspecs/must-gather-2-4.yaml".pathChanged() ||
+            "release-2.4/pullspecs/signing-2-4.yaml".pathChanged() ||
+            "release-2.4/pullspecs/webhook-2-4.yaml".pathChanged() ||
+            "release-2.4/pullspecs/worker-2-4.yaml".pathChanged() ||
+            "release-2.4/Dockerfile.hub-operator-bundle".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: kmm-2-4

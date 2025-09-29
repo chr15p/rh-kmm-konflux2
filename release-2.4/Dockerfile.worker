@@ -30,7 +30,8 @@ LABEL \
     com.redhat.component="kernel-module-management-worker-container" \
     version="${VERSION}" \
     release="${RELEASE}" \
-    name="kernel-module-management/kernel-module-management-worker-rhel9" \
+    name="kmm/kernel-module-management-worker-rhel9" \
+    cpe="cpe:/a:redhat:kernel_module_management:2.5::el9" \
     License="Apache License 2.0" \
     io.k8s.display-name="Kernel Module Management - Worker" \
     io.openshift.tags="Operating System" \
