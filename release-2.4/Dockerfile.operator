@@ -27,7 +27,8 @@ LABEL \
     com.redhat.component="kernel-module-management-operator-container" \
     version="${VERSION}" \
     release="${RELEASE}" \
-    name="kernel-module-management/kernel-module-management-rhel9-operator" \
+    name="kmm/kernel-module-management-rhel9-operator" \
+    cpe="cpe:/a:redhat:kernel_module_management:2.5::el9" \
     License="Apache License 2.0" \
     io.k8s.display-name="Kernel Module Management" \
     io.openshift.tags="Operating System" \
