@@ -8,65 +8,40 @@ spec:
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-bundle-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/hub-operator-bundle-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/hub-operator-bundle-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-hub-rhel9-operator  
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/hub-operator-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/hub-operator-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-must-gather-rhel9 
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/must-gather-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/must-gather-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-rhel9-operator
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-signing-rhel9
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/signing-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/signing-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-webhook-server-rhel9
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/webhook-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/webhook-2-5
   - source: registry.redhat.io/kmm/kernel-module-management-worker-rhel9   
     mirrorSourcePolicy: AllowContactingSource
     mirrors:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/worker-2-4
+    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/worker-2-5
 
-
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-bundle-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/hub-operator-bundle-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-hub-rhel9-operator 
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/hub-operator-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-must-gather-rhel9 
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/must-gather-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-rhel9-operator
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/operator-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-signing-rhel9
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/signing-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-webhook-server-rhel9
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/webhook-2-4
-  - source: registry.stage.redhat.io/kmm/kernel-module-management-worker-rhel9   
-    mirrorSourcePolicy: AllowContactingSource
-    mirrors:
-    - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-4/worker-2-4
