@@ -34,10 +34,18 @@ spec:
     - linux/s390x
   - name: dockerfile
     value: /fbc/Containerfile.catalogue
+  - name: opm-args
+    value:
+      - alpha
+      - render-template
+      - basic
+      - "fbc/op-catalog-template.json"
+  - name: opm-output-path
+    value: fbc/kernel-module-management/catalog.json
   - name: build-args
     value: 
     - OCP=4.15
-    - FBC_CONFIG=fbc/op
+    - FBC_CONFIG=fbc/configs
   pipelineRef:
     name: catalogue-pipeline
   taskRunTemplate:
