@@ -37,4 +37,4 @@ LABEL \
     summary="Kernel Module Management - Hub Operator" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="the hub-operator component for KMMO"
-#bump13
+#bumnp14
