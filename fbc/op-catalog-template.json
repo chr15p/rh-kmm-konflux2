@@ -380,9 +380,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.5.0",
-            "image": "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5@sha256:abc2b3da38e8ad6645a45ef389aacf73303e5fedc9b0464e6bfa61a021410456"
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:84fc7b63cfd8422ccaad642ba3b81db61169edf3f7b64cf6efd98a9161c9e135"
         }
-
     ]
 }
-
