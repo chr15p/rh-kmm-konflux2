@@ -3,6 +3,7 @@ import yaml
 import argparse
 from string import Template
 import os
+import re
 
 def read_key_value_file(filename="config.conf"):
     data = {}
@@ -108,13 +109,22 @@ spec_delete = {
     "maturity",
 }
 
+#replacements = {
+#    "quay.io/edge-infrastructure/kernel-module-management-worker:latest": pullspecs['WORKER_IMAGE'],
+#    "quay.io/edge-infrastructure/kernel-module-management-signimage:latest": pullspecs['SIGNING_IMAGE'],
+#    "quay.io/edge-infrastructure/kernel-module-management-operator:latest": pullspecs['OPERATOR_IMAGE'],
+#    "quay.io/edge-infrastructure/kernel-module-management-must-gather:latest": pullspecs['MUST_GATHER_IMAGE'],
+#    "quay.io/edge-infrastructure/kernel-module-management-webhook-server:latest": pullspecs['WEBHOOK_IMAGE'],
+#    "quay.io/edge-infrastructure/kernel-module-management-operator-hub:latest": pullspecs['HUB_OPERATOR_IMAGE'],
+#}
+#
 replacements = {
-    "quay.io/edge-infrastructure/kernel-module-management-worker:latest": pullspecs['WORKER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-signimage:latest": pullspecs['SIGNING_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator:latest": pullspecs['OPERATOR_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-must-gather:latest": pullspecs['MUST_GATHER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-webhook-server:latest": pullspecs['WEBHOOK_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator-hub:latest": pullspecs['HUB_OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-worker.*": pullspecs['WORKER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-signimage.*": pullspecs['SIGNING_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator.*": pullspecs['OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-must-gather.*": pullspecs['MUST_GATHER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-webhook-server.*": pullspecs['WEBHOOK_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator-hub.*": pullspecs['HUB_OPERATOR_IMAGE'],
 }
 
 
@@ -124,8 +134,8 @@ with open(CSV, 'r') as file:
 #data = data.replace("quay.io/edge-infrastructure/kernel-module-management-webhook-server:latest", "\"{{WEBHOOK_IMAGE}}\"")
 
 for k, v in replacements.items():
-    data = data.replace(k, v)
-
+    data = re.sub(k, v, data)
+    #data = data.replace(k, v)
 
 #with open(CSV) as stream:
 #    try:
@@ -137,6 +147,7 @@ try:
     template=yaml.safe_load(data)
 except yaml.YAMLError as exc:
     print(exc)
+
 
 name=template['metadata']['name'].split(".",1)[0]
 
