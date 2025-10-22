@@ -44,6 +44,13 @@ spec:
     value: 'true'
   - name: build-args-file
     value: "release-2.5/build_settings.conf"
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
   pipelineRef:
     name: kmm-multi-arch-pipeline
   taskRunTemplate:
