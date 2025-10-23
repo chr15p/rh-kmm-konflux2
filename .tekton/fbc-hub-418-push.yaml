@@ -39,11 +39,11 @@ spec:
       - --migrate-level=bundle-object-to-csv-metadata
       - "fbc/hub-catalog-template.json"
   - name: opm-output-path
-    value: fbc/kernel-module-management/catalog.json
+    value: fbc/configs/kernel-module-management/catalog.json
   - name: build-args
     value: 
     - OCP=4.18
-    - FBC_CONFIG=fbc/
+    - FBC_CONFIG=fbc/configs
   pipelineRef:
     name: catalogue-pipeline
   taskRunTemplate:
