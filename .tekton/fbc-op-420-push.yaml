@@ -43,7 +43,7 @@ spec:
   - name: build-args
     value: 
     - OCP=4.20
-    - FBC_CONFIG=fbc/configs
+    - FBC_CONFIG=fbc/
   pipelineRef:
     name: catalogue-pipeline
   taskRunTemplate:
