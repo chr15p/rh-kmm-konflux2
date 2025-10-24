@@ -9,9 +9,13 @@ ARG DIRECTORY SUBMODULE RELEASE
 
 WORKDIR /opt/app-root/src
 COPY ${DIRECTORY}/kernel-module-management .
-COPY .git/modules/${DIRECTORY}/kernel-module-management/refs/${SUBMODULE} submodule
-RUN go build -ldflags="-w -s -X main.Version=${RELEASE} -X main.GitCommit=$(cat submodule)" -o manager cmd/manager/main.go
+COPY .git/modules/${DIRECTORY}/kernel-module-management/HEAD submodule
 
+COPY .git/modules/release-2.4/kernel-module-management/ test1
+
+RUN grep -r 082b8434c2ef4f test1/
+
+RUN go build -ldflags="-w -s -X main.Version=${RELEASE} -X main.GitCommit=$(cat submodule)" -o manager cmd/manager/main.go
 
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
