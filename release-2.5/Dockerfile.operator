@@ -15,8 +15,11 @@ COPY ${DIRECTORY}/kernel-module-management .
 #RUN ls -l test1/kernel-module-management/refs/heads/
 #RUN ls -l test1/kernel-module-management/refs/remotes/origin
 #RUN cat .git/modules/${DIRECTORY}/kernel-module-management/HEAD
-RUN cat .git/modules/${DIRECTORY}/kernel-module-management/HEAD
+RUN ls -lF .git/modules/
+RUN ls -lF .git/modules/${DIRECTORY}/
+RUN ls -lF .git/modules/${DIRECTORY}/kernel-module-management/
 RUN cat .git/modules/release-2.5/kernel-module-management/HEAD
+RUN cat .git/modules/${DIRECTORY}/kernel-module-management/HEAD
 #RUN ls -l .git/modules/${DIRECTORY}/kernel-module-management/HEAD
 #RUN ls -l .git/modules/release-2.4/kernel-module-management/HEAD
 RUN git submodule status release-2.5/kernel-module-management | awk '{print $1 > "surefs/remotes/origin/release-2.5bmodule"}'
