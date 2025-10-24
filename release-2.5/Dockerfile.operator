@@ -9,6 +9,8 @@ ARG DIRECTORY SUBMODULE RELEASE
 
 WORKDIR /opt/app-root/src
 COPY ${DIRECTORY}/kernel-module-management .
+COPY .git/modules/${DIRECTORY}/ test1
+RUN ls -l test1/*
 COPY .git/modules/${DIRECTORY}/kernel-module-management/refs/${SUBMODULE} submodule
 RUN go build -ldflags="-w -s -X main.Version=${RELEASE} -X main.GitCommit=$(cat submodule)" -o manager cmd/manager/main.go
 
