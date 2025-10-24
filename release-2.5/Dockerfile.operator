@@ -8,23 +8,20 @@ FROM registry.access.redhat.com/ubi9/go-toolset:9.6-1760420453 as builder
 ARG DIRECTORY SUBMODULE RELEASE
 
 WORKDIR /opt/app-root/src
+COPY .git/modules/${DIRECTORY}/kernel-module-management/refs/heads/${BRANCH} .
+
+
 COPY ${DIRECTORY}/kernel-module-management .
-#COPY .git/modules/${DIRECTORY}/ test1
-#RUN ls -l .git/modules/${DIRECTORY}/kernel-module-management/
-#RUN ls -l test1/kernel-module-management/refs/
-#RUN ls -l test1/kernel-module-management/refs/heads/
-#RUN ls -l test1/kernel-module-management/refs/remotes/origin
-#RUN cat .git/modules/${DIRECTORY}/kernel-module-management/HEAD
-RUN ls -lF .git/modules/
-RUN ls -lF .git/modules/${DIRECTORY}/
-RUN ls -lF .git/modules/${DIRECTORY}/kernel-module-management/
-RUN cat .git/modules/release-2.5/kernel-module-management/HEAD
-RUN cat .git/modules/${DIRECTORY}/kernel-module-management/HEAD
-#RUN ls -l .git/modules/${DIRECTORY}/kernel-module-management/HEAD
-#RUN ls -l .git/modules/release-2.4/kernel-module-management/HEAD
-RUN git submodule status release-2.5/kernel-module-management | awk '{print $1 > "surefs/remotes/origin/release-2.5bmodule"}'
+COPY .git/modules/${DIRECTORY}/ test1
+
+RUN ls -l test1/kernel-module-management/refs/
+RUN ls -l test1/kernel-module-management/refs/heads/
+RUN ls -l test1/kernel-module-management/refs/remotes/origin
+RUN cat test1/${DIRECTORY}/kernel-module-management/HEAD
+COPY .git/ .
+RUN git submodule status release-2.5/kernel-module-management | awk '{print $1 > "submodule"}'
 RUN cat submodule
-COPY .git/modules/${DIRECTORY}/kernel-module-management/HEAD submodule
+
 RUN go build -ldflags="-w -s -X main.Version=${RELEASE} -X main.GitCommit=$(cat submodule)" -o manager cmd/manager/main.go
 
 
