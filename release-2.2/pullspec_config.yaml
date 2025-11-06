@@ -1,0 +1,22 @@
+
+WORKER_IMAGE:
+  repo: registry.redhat.io/kmm/kernel-module-management-worker-rhel9
+  pullspecfile: release-2.2/pullspecs/worker-2-2.yaml
+
+OPERATOR_IMAGE:
+  repo: registry.redhat.io/kmm/kernel-module-management-rhel9-operator
+  pullspecfile: release-2.2/pullspecs/operator-2-2.yaml
+HUB_OPERATOR_IMAGE:
+  repo: registry.redhat.io/kmm/kernel-module-management-hub-rhel9-operator
+  pullspecfile: release-2.2/pullspecs/hub-operator-2-2.yaml
+MUST_GATHER_IMAGE:
+  repo: registry.redhat.io/kmm/kernel-module-management-must-gather-rhel9
+  pullspecfile: release-2.2/pullspecs/must-gather-2-2.yaml
+SIGNING_IMAGE: 
+  repo: registry.redhat.io/kmm/kernel-module-management-signing-rhel9
+  pullspecfile: release-2.2/pullspecs/signing-2-2.yaml
+WEBHOOK_IMAGE:
+  repo: registry.redhat.io/kmm/kernel-module-management-webhook-server-rhel9
+  pullspecfile: release-2.2/pullspecs/webhook-2-2.yaml
+
+

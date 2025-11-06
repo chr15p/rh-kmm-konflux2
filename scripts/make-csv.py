@@ -42,8 +42,8 @@ outputfile=opt.out
 config=read_key_value_file(opt.config)
 
 
-REPLACE_VERSION=config.get('OLD_VERSION',"2.4.0")
-RELEASE_VERSION=config.get('RELEASE',"2.4.1")
+REPLACE_VERSION=config.get('OLD_VERSION',"0.0.1")
+RELEASE_VERSION=config.get('RELEASE',"9.9.9")
 
 try:
     with open(opt.pullspecs, "r") as file:

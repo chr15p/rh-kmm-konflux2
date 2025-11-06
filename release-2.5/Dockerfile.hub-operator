@@ -28,7 +28,7 @@ LABEL \
     release="${RELEASE}" \
     name="kernel-module-management/kernel-module-management-hub-rhel9-operator" \
     name="kmm/kernel-module-management-hub-rhel9-operator" \
-    cpe="cpe:/a:redhat:kernel_module_management:2.5::el9" \
+    cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
     License="Apache License 2.0" \
     io.k8s.display-name="Kernel Module Management - Hub" \
     io.openshift.tags="Operating System" \
