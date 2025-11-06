@@ -1,0 +1,94 @@
+#!/usr/bin/python
+
+import os
+import sys
+import argparse
+
+#import rh_kmm_konflux_helpers as helpers
+import rh_kmm_konflux.rh_kmm_konflux_helpers as helpers
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespace to query')
+    parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file ')
+    #parser.add_argument('-o', '--outputdir', action='store', required=False, default=".", help='directory to write to')
+    parser.add_argument('-a', '--applications', action='store', required=False, help='applications to get snapshots for (FBC for all fbcs)')
+    parser.add_argument('-p', '--prod', action='store_true', required=False, help='release to prod (not staging)')
+    parser.add_argument('-o', '--outfile', action='store', required=False, help='file to write yaml to')
+
+    opt = parser.parse_args()
+
+    env='staging'
+    if opt.prod:
+        env = 'prod'
+
+    try:
+        konflux = helpers.Konflux(opt.kubeconfig, opt.namespace)
+    except Exception as e:
+        print(f"ERROR: getting client failed {e}")
+        sys.exit(0) 
+
+    try:
+        components = konflux.get_components()
+        image_shas = helpers.get_last_promoted(components, [])
+    except Exception as e:
+        print(f"ERROR: getting components failed {e}")
+        sys.exit(0) 
+
+    applications = {}
+    for comp in components['items']:
+        app = comp['spec']['application'] 
+
+        if opt.applications is None or (app in opt.applications) \
+                or (opt.applications == "FBC" and app.startswith("fbc")):
+            if applications.get(app):
+                applications[app].append(comp['metadata']['name'])
+            else:
+                applications[app] = [comp['metadata']['name']]
+
+    if not applications:
+        print(f"no applications found in {opt.applications}")
+        sys.exit(1)
+
+    try:
+        snapshotList = konflux.get_snapshots()
+    except Exception as e:
+        print(f"ERROR: getting snapshots failed {e}")
+        sys.exit(0) 
+
+
+    release_snapshots={}
+
+    for snap in snapshotList['items']:
+        if not applications.get(snap['spec']['application']):
+            continue
+
+        expect_components = applications[snap['spec']['application']]
+
+        if len(snap['spec']['components']) != len(expect_components):
+            continue
+
+        for i in snap['spec']['components']:
+            if image_shas.get(i['name']) !=  i['containerImage']:
+                break
+        else:
+            release_snapshots[snap['spec']['application']] = snap['metadata']['name']
+
+    #print(release_snapshots)
+
+    if opt.outfile:
+        sys.stdout =  open(opt.outfile, "w")
+
+    for app, snap in release_snapshots.items():
+        print(f"---\n" \
+            "apiVersion: appstudio.redhat.com/v1alpha1\n" \
+            "kind: Release\n" \
+            "metadata:\n" \
+            f"  name: {app}\n" \
+            "  namespace: rh-kmm-tenant\n" \
+            "  labels:\n" \
+            f"    appstudio.openshift.io/application: {app}\n" \
+            "spec:\n" \
+            f"  releasePlan: {app}-release-{env}\n" \
+            f"  snapshot: {snap}\n")

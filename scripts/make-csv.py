@@ -42,8 +42,8 @@ outputfile=opt.out
 config=read_key_value_file(opt.config)
 
 
-REPLACE_VERSION=config.get('OLD_VERSION',"2.4.0")
-RELEASE_VERSION=config.get('RELEASE',"2.4.1")
+REPLACE_VERSION=config.get('OLD_VERSION',"0.0.1")
+RELEASE_VERSION=config.get('RELEASE',"9.9.9")
 
 try:
     with open(opt.pullspecs, "r") as file:
@@ -119,15 +119,14 @@ spec_delete = {
 #}
 #
 replacements = {
-    "quay.io/edge-infrastructure/kernel-module-management-worker:.*": pullspecs['WORKER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-signimage:.*": pullspecs['SIGNING_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator:.*": pullspecs['OPERATOR_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-must-gather:.*": pullspecs['MUST_GATHER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-webhook-server:.*": pullspecs['WEBHOOK_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator-hub:.*": pullspecs['HUB_OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-worker.*": pullspecs['WORKER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-signimage.*": pullspecs['SIGNING_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator.*": pullspecs['OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-must-gather.*": pullspecs['MUST_GATHER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-webhook-server.*": pullspecs['WEBHOOK_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator-hub.*": pullspecs['HUB_OPERATOR_IMAGE'],
 }
 
-print(replacements)
 
 with open(CSV, 'r') as file:
     data = file.read()
