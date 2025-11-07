@@ -79,7 +79,7 @@ LABEL \
         vendor="Red Hat, Inc." \
         distribution-scope="" \
         name="kmm/kernel-module-management-operator-bundle" \
-        cpe="cpe:/a:redhat:kernel_module_management:2.5::el9" \
+        cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
         License="Apache License 2.0" \
         io.k8s.display-name="Kernel Module Management" \
         io.openshift.tags="Operating System" \

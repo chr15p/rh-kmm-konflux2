@@ -12,7 +12,6 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespace to query')
 parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file')
-#parser.add_argument('-w', '--write', action='store_true', default=False, help='write to files (otherwise write to stdout)')
 parser.add_argument('-r', '--release', action='store', required=True, default=None, help='name of release object for bundles')
 parser.add_argument('-t', '--template', action='store', required=False, default="templates/hub-catalog-template.json,templates/op-catalog-template.json", help='comma seperated list of templates to process')
 parser.add_argument('-o', '--outdir', action='store', required=False, default="fbc/", help='directory to write to')

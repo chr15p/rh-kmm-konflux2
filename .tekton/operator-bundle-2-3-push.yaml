@@ -9,18 +9,18 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-          ( "release-2.5/pullspecs/operator-2-5.yaml".pathChanged() ||
-            "release-2.5/pullspecs/must-gather-2-5.yaml".pathChanged() ||
-            "release-2.5/pullspecs/signing-2-5.yaml".pathChanged() ||
-            "release-2.5/pullspecs/webhook-2-5.yaml".pathChanged() ||
-            "release-2.5/pullspecs/worker-2-5.yaml".pathChanged() ||
-            "release-2.5/Dockerfile.operator-bundle".pathChanged() )
+          ( "release-2.3/pullspecs/operator-2-3.yaml".pathChanged() ||
+            "release-2.3/pullspecs/must-gather-2-3.yaml".pathChanged() ||
+            "release-2.3/pullspecs/signing-2-3.yaml".pathChanged() ||
+            "release-2.3/pullspecs/webhook-2-3.yaml".pathChanged() ||
+            "release-2.3/pullspecs/worker-2-3.yaml".pathChanged() ||
+            "release-2.3/Dockerfile.operator-bundle".pathChanged() )
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: kmm-2-5
-    appstudio.openshift.io/component: operator-bundle-2-5
+    appstudio.openshift.io/application: kmm-2-3
+    appstudio.openshift.io/component: operator-bundle-2-3
     pipelines.appstudio.openshift.io/type: build
-  name: operator-bundle-2-5-on-push
+  name: operator-bundle-2-3-on-push
   namespace: rh-kmm-tenant
 spec:
   params:
@@ -29,9 +29,9 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5:{{revision}}
+    value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-3/operator-bundle-2-3:{{revision}}
   - name: dockerfile
-    value: release-2.5/Dockerfile.operator-bundle
+    value: release-2.3/Dockerfile.operator-bundle
   - name: path-context
     value: .
   - name: hermetic
@@ -43,7 +43,7 @@ spec:
   - name: build-index-image
     value: 'false'
   - name: build-args-file
-    value: "release-2.5/build_settings.conf"
+    value: "release-2.3/build_settings.conf"
   taskRunSpecs:
   - pipelineTaskName: prefetch-dependencies
     computeResources:
@@ -66,7 +66,7 @@ spec:
   pipelineRef:
     name: kmm-bundle-pipeline
   taskRunTemplate:
-    serviceAccountName: build-pipeline-operator-bundle-2-5
+    serviceAccountName: build-pipeline-operator-bundle-2-3
   workspaces:
   - name: git-auth
     secret:
