@@ -234,6 +234,26 @@ class Snapshot(KonfluxObj):
         return release_snapshots
 
     
+class PipelineRuns(KonfluxObj):
+    def __init__(self, kubeconfig, namespace, name=None, label_selector=None, field_selector=None, match=None):
+        super().__init__(kubeconfig, 
+                            namespace, 
+                            'tekton.dev/v1',
+                            'PipelineRun',
+                            name=name,
+                            label_selector=label_selector,
+                            field_selector=field_selector,
+                            match=match)
+
+    def components(self):
+        running = []
+        
+        for pipe in self.items():
+            c = pipe['metadata']['labels']['appstudio.openshift.io/component'] 
+            running.append(c) 
+
+        return running
+        
 
 
 class Release(KonfluxObj):
