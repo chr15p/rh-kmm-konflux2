@@ -5,7 +5,7 @@ ARG DIRECTORY
 FROM registry.redhat.io/openshift4/ose-cli-rhel9 as builder
 ARG VERSION RELEASE DIRECTORY
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
 ARG VERSION RELEASE DIRECTORY
 
 RUN microdnf update -y \

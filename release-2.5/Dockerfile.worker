@@ -2,7 +2,7 @@ ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
 
-FROM registry.access.redhat.com/ubi9/go-toolset:9.6-1762373805 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset:9.7-1762230058 as builder
 
 ARG VERSION RELEASE DIRECTORY
 
@@ -12,7 +12,7 @@ COPY ${DIRECTORY}/kernel-module-management .
 RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o worker ./cmd/worker
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
-FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
 ARG VERSION RELEASE
 
 COPY --from=builder /opt/app-root/src/worker /usr/local/bin/worker
