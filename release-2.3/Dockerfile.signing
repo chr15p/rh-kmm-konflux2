@@ -9,7 +9,7 @@ ARG VERSION RELEASE DIRECTORY
 RUN dnf download kernel-devel && rpm -i --nodeps ./kernel-devel-*.rpm
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
-FROM registry.redhat.io/ubi9/ubi-minimal:9.6
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
 ARG VERSION RELEASE
 
 COPY --from=builder /usr/src/kernels/*/scripts/sign-file /usr/local/bin/
