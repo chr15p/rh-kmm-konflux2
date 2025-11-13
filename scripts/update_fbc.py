@@ -43,10 +43,14 @@ if not kmm_version:
 
 images = {}
 for c in filtered_snapshot['components']:
+    print(f"filtered_snapshot['components'] ={c}")
     sha = c["containerImage"].split("@")[1]
-    name = f"{c["rh-registry-repo"].split("/")[-1]}{kmm_version}"
-
-    images[name] = f"{c['rh-registry-repo']}@{sha}"
+    try:
+        name = f"{c["rh-registry-repo"].split("/")[-1]}{kmm_version}"
+        images[name] = f"{c['rh-registry-repo']}@{sha}"
+    except KeyError:
+        name = f"{c["repositories"][0]["rh-registry-repo"].split("/")[-1]}{kmm_version}"
+        images[name] = f"{c["repositories"][0]['rh-registry-repo']}@{sha}"
 
 
 #print(images)

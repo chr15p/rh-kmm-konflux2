@@ -119,12 +119,12 @@ spec_delete = {
 #}
 #
 replacements = {
-    "quay.io/edge-infrastructure/kernel-module-management-worker.*": pullspecs['WORKER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-signimage.*": pullspecs['SIGNING_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator.*": pullspecs['OPERATOR_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-must-gather.*": pullspecs['MUST_GATHER_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-webhook-server.*": pullspecs['WEBHOOK_IMAGE'],
-    "quay.io/edge-infrastructure/kernel-module-management-operator-hub.*": pullspecs['HUB_OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-worker:.*": pullspecs['WORKER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-signimage:.*": pullspecs['SIGNING_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator:.*": pullspecs['OPERATOR_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-must-gather:.*": pullspecs['MUST_GATHER_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-webhook-server:.*": pullspecs['WEBHOOK_IMAGE'],
+    "quay.io/edge-infrastructure/kernel-module-management-operator-hub:.*": pullspecs['HUB_OPERATOR_IMAGE'],
 }
 
 

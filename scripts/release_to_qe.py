@@ -42,7 +42,7 @@ parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespac
 parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file ')
 parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
 parser.add_argument('-d', '--directory', required=True, help='directory containing config filesi (e.g. release-2.5/)')
-parser.add_argument('--commit', default="HEAD", help='')
+parser.add_argument('-g', '--commit', default="HEAD", help='')
 parser.add_argument('-o', '--output', default=None, help='file to write output to')
 opt = parser.parse_args()
 
