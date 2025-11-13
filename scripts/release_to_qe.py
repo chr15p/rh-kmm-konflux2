@@ -58,7 +58,9 @@ relnum = rel.get_latest_rel()
 
 kmm = submodule_version(f"{opt.directory}/{build_settings['PRODUCT']}")
 
-build = build_version(opt.commit)
+#build = build_version(opt.commit)
+build = helpers.get_commit(".", opt.commit)
+
 output = {"version": build_settings.get("RELEASE", "unknown"), "release": relnum, "build_commit": build[:7], "kmm_commit": kmm,  "kmm": {}, "kmmhub": {}}
 fbc={}
 

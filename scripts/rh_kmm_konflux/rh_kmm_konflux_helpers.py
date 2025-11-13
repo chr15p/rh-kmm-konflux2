@@ -3,6 +3,7 @@ import os
 import sys
 import fnmatch
 import re
+import pygit2
 from kubernetes import config
 from openshift.dynamic import DynamicClient
 
@@ -167,6 +168,11 @@ class Component(KonfluxObj):
                 except AttributeError:
                     continue 
 
+            try:
+                comp.status.lastPromotedImage
+            except AttributeError as e:
+                continue
+
             if wanted_components and comp.metadata.name in wanted_components:
                 image_shas[comp.metadata.name] = comp.status.lastPromotedImage
             elif not wanted_components:
@@ -249,8 +255,13 @@ class PipelineRuns(KonfluxObj):
         running = []
         
         for pipe in self.items():
-            c = pipe['metadata']['labels']['appstudio.openshift.io/component'] 
-            running.append(c) 
+            for condition in pipe['status']['conditions']:
+                if condition['reason'] != 'Running':
+                    print(condition['reason'])
+                    break
+            else:
+                c = pipe['metadata']['labels']['appstudio.openshift.io/component'] 
+                running.append(c) 
 
         return running
         
@@ -324,8 +335,11 @@ def get_last_promoted(componentList, wanted_components=[]):
         if wanted_components and comp.metadata.name in wanted_components:
             image_shas[comp.metadata.name] = comp.status.lastPromotedImage
         elif not wanted_components:
-            image_shas[comp.metadata.name] = comp.status.lastPromotedImage
-
+            try:
+                image_shas[comp.metadata.name] = comp.status.lastPromotedImage
+            except Exception as e:
+                print(f"failed to get lastPromotedImage for {comp.metadata.name}")
+                raise e 
     return image_shas
 
 
@@ -367,3 +381,8 @@ def read_key_value_file(filename="build_settings.conf"):
     return data
 
 
+def get_commit(repo, head, short=False) -> str:
+    repo = pygit2.Repository(repo)
+    if short == True:
+        return str(repo.revparse("HEAD").from_object.short_id)
+    return str(repo.revparse("HEAD").from_object.id)

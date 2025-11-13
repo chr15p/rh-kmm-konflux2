@@ -17,6 +17,7 @@ if __name__ == "__main__":
     parser.add_argument('-a', '--application', action='store', required=False, help='get all components for application')
     parser.add_argument('-s', '--stage', action='store', required=False, help='stage to get')
     parser.add_argument('-g', '--git', action='store', required=False, help='git commit to write for')
+    parser.add_argument('--HEAD', action='store_true', required=False, help='use HEAD as the git commit')
 
     opt = parser.parse_args()
 
@@ -34,10 +35,17 @@ if __name__ == "__main__":
 
     try:
         components = helpers.Component(opt.kubeconfig, opt.namespace, label_selector=",".join(labels))
-        image_shas = components.get_last_promoted(wanted_components, wanted_commit=opt.git)
     except Exception as e:
         print(f"ERROR: getting components failed for {','.join(labels)}:\n {e}")
         sys.exit(0) 
+
+    commit=None
+    if opt.HEAD:
+        commit = helpers.get_commit(".","HEAD")
+    elif opt.git:
+        commit = opt.git
+
+    image_shas = components.get_last_promoted(wanted_components, wanted_commit=commit)
 
     if outdir:
         helpers.write_pullspecs(image_shas, outdir)
