@@ -31,4 +31,4 @@ LABEL \
     summary="Kernel Module Management - Webhook Server" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="webhook component for KMMO"
-#bump10
+#bump11
