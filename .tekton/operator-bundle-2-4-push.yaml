@@ -36,12 +36,33 @@ spec:
     value: .
   - name: hermetic
     value: 'true'
+  - name: prefetch-input
+    value: '{"type": "rpm", "path": "."}'
   - name: build-source-image
     value: 'true'
   - name: build-index-image
     value: 'false'
   - name: build-args-file
     value: "release-2.4/build_settings.conf"
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
+  - pipelineTaskName: sast-shell-check
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
+  - pipelineTaskName: sast-unicode-check
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
   pipelineRef:
     name: kmm-bundle-pipeline
   taskRunTemplate:
