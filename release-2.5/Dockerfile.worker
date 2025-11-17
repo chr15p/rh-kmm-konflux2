@@ -2,7 +2,7 @@ ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
 
-FROM registry.access.redhat.com/ubi9/go-toolset:9.7-1762230058 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset:9.7-1763038106 as builder
 
 ARG VERSION RELEASE DIRECTORY
 
