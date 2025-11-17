@@ -9,6 +9,8 @@ packages:
   - kmod
   - kernel-devel
   - python3-pyyaml
+  - openssl-libs
+  - openssl
 contentOrigin:
   repofiles: 
   - ./ubi.repo

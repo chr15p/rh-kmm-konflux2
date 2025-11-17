@@ -31,7 +31,10 @@ All these commands need to be run in a ubi container with access to the files in
 6. install rpm-lockfile-prototype and pre-reqs:
 >    dnf install -y pip skopeo
 >
->    pip install --user https://github.com/konflux-ci/rpm-lockfile-prototype/archive/refs/tags/v0.13.1.tar.gz
+>    pip install --user https://github.com/konflux-ci/rpm-lockfile-prototype/archive/refs/tags/v0.17.1.tar.gz
+
+7. login to registry.redhat.io
+>    skopeo login registry.redhat.io
 
 7. Generate rpms.lock.yaml
 >    rpm-lockfile-prototype -f Dockerfile.operator rpms.in.yaml
