@@ -255,72 +255,6 @@
                     "name": "kernel-module-management-hub.v2.4.1",
                     "replaces": "kernel-module-management-hub.v2.4.0",
                     "skipRange": ">=0.0.0 <2.4.1"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.5.0",
-                    "replaces": "kernel-module-management-hub.v2.4.1",
-                    "skipRange": ">=0.0.0 <2.5.0"
-                }
-            ],
-            "name": "release-2.5",
-            "package": "kernel-module-management-hub",
-            "schema": "olm.channel"
-        },
-        {
-            "entries": [
-                {
-                    "name": "kernel-module-management-hub.v2.0.0",
-                    "skipRange": ">=0.0.0 <2.0.0"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.0.1",
-                    "replaces": "kernel-module-management-hub.v2.0.0",
-                    "skipRange": ">=0.0.0 <2.0.1"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.0.2",
-                    "replaces": "kernel-module-management-hub.v2.0.1",
-                    "skipRange": ">=0.0.0 <2.0.2"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.1.0",
-                    "replaces": "kernel-module-management-hub.v2.0.2",
-                    "skipRange": ">=0.0.0 <2.1.0"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.1.1",
-                    "replaces": "kernel-module-management-hub.v2.1.0",
-                    "skipRange": ">=0.0.0 <2.1.1"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.2.0",
-                    "replaces": "kernel-module-management-hub.v2.1.1",
-                    "skipRange": ">=0.0.0 <2.2.0"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.2.1",
-                    "replaces": "kernel-module-management-hub.v2.2.0",
-                    "skipRange": ">=0.0.0 <2.2.1"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.3.0",
-                    "replaces": "kernel-module-management-hub.v2.2.1",
-                    "skipRange": ">=0.0.0 <2.3.0"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.4.0",
-                    "replaces": "kernel-module-management-hub.v2.3.0",
-                    "skipRange": ">=0.0.0 <2.4.0"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.4.1",
-                    "replaces": "kernel-module-management-hub.v2.4.0",
-                    "skipRange": ">=0.0.0 <2.4.1"
-                },
-                {
-                    "name": "kernel-module-management-hub.v2.5.0",
-                    "replaces": "kernel-module-management-hub.v2.4.1",
-                    "skipRange": ">=0.0.0 <2.5.0"
                 }
             ],
             "name": "stable",
@@ -376,11 +310,6 @@
             "schema": "olm.bundle",
             "name": "kernel-module-management-hub-operator-bundle.v2.4.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:c4dc5f967c59e6371f344aa840fac24d8a17c127c71a2babf67d26cf6526acc5"
-        },
-        {
-            "schema": "olm.bundle",
-            "name": "kernel-module-management-hub-operator-bundle.v2.5.0",
-            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:bffa6490fed140e49041aa8b0c9be4bf1cd350d000e715ada5eb8892c5b83b65"
         }
     ]
 }
