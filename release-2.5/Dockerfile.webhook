@@ -20,6 +20,9 @@ ENTRYPOINT ["/usr/local/bin/webhook-server"]
 LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
 LABEL \
     com.redhat.component="kernel-module-management-webhook-server-container" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
     name="kmm/kernel-module-management-webhook-server-rhel9" \
@@ -31,4 +34,4 @@ LABEL \
     summary="Kernel Module Management - Webhook Server" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="webhook component for KMMO"
-#bump11
+#bump12
