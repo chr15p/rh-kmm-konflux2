@@ -28,6 +28,9 @@ ENTRYPOINT ["/usr/local/bin/worker"]
 LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
 LABEL \
     com.redhat.component="kernel-module-management-worker-container" \
+    vendor="Red Hat" \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
     name="kmm/kernel-module-management-worker-rhel9" \
@@ -39,4 +42,4 @@ LABEL \
     summary="Kernel Module Management - Worker" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="the worker component for KMMO"
-#bump11
+#bump12

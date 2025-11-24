@@ -208,6 +208,8 @@ spec:
       value: 'true'
     - name: BUILDAH_FORMAT
       value: $(params.buildah-format)
+    - name: BUILD_TIMESTAMP
+      value: $(tasks.clone-repository.results.commit-timestamp)
     runAfter:
     - prefetch-dependencies
     taskRef:
