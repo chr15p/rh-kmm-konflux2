@@ -42,7 +42,7 @@ spec:
       - --migrate-level=bundle-object-to-csv-metadata
       - "fbc/hub-catalog-template.json"
   - name: opm-output-path
-    value: fbc/configs/kernel-module-management/catalog.json
+    value: fbc/configs/kernel-module-management-hub/catalog.json
   - name: build-args
     value: 
     - OCP=4.21
