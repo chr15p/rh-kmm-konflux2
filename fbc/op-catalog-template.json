@@ -380,7 +380,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.5.0",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:026833ad778dfb02ed037e2597acbb359bafc0bd044d18430e7e358c7fbcd468"
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:026833ad778dfb02ed037e2597acbb359bafc0bd044d18430e7e358c7fbcd468"
         }
     ]
 }
