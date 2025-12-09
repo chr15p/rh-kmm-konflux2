@@ -20,6 +20,9 @@ ENTRYPOINT ["/usr/local/bin/sign-file"]
 LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
 LABEL \
     com.redhat.component="kernel-module-management-signing-container" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
     name="kmm/kernel-module-management-signing-rhel9" \
@@ -31,4 +34,4 @@ LABEL \
     summary="Kernel Module Management - Module Signing" \
     maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
     description="the component for signing kmods for KMMO"
-#bump1
+#bump12
