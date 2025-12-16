@@ -14,7 +14,7 @@ parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespac
 parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file')
 parser.add_argument('-r', '--release', action='store', required=True, default=None, help='name of release object for bundles')
 parser.add_argument('-t', '--template', action='store', required=False, default="templates/hub-catalog-template.json,templates/op-catalog-template.json", help='comma seperated list of templates to process')
-parser.add_argument('-o', '--outdir', action='store', required=False, default="fbc/", help='directory to write to')
+parser.add_argument('-o', '--outdir', action='store', required=False, default="fbc", help='directory to write to')
 
 
 opt = parser.parse_args()
@@ -29,12 +29,13 @@ except Exception as e:
 
 
 for r in release.objects:
-    #print(r.metadata.name)
+    print(r.metadata.name)
     kmm_version=f".v{r.metadata.labels.kmm}"
     try:
         filtered_snapshot = json.loads(r.status.artifacts.filtered_snapshot)
     except AttributeError:
-       print(f"{r.metadata.name} does not have status.artifacts.filtered_snapshot, release failed?") 
+        print(f"{r.metadata.name} does not have status.artifacts.filtered_snapshot, release failed?")
+        exit(1)
 
 if not kmm_version:
     print("no KMM version found")

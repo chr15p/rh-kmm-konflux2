@@ -1,0 +1,64 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/chr15p/rh-kmm-konflux2?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/cancel-in-progress: 'false'
+    pipelinesascode.tekton.dev/max-keep-runs: '3'
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
+      (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
+       ".tekton/*-${X}-${Y}-push.yaml".pathChanged() ||
+       ("release-${X}.${Y}/**".pathChanged() && !("release-${X}.${Y}/pullspecs/**".pathChanged())))
+  creationTimestamp:
+  labels:
+    appstudio.openshift.io/application: kmm-${X}-${Y}
+    appstudio.openshift.io/component: ${COMPONENT}-${X}-${Y}
+    pipelines.appstudio.openshift.io/type: build
+  name: ${COMPONENT}-${X}-${Y}-on-push
+  namespace: rh-kmm-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: target_branch
+    value: '{{target_branch}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-${X}-${Y}/${COMPONENT}-${X}-${Y}:{{revision}}
+  - name: build-platforms
+    value:
+    - linux/x86_64
+    - linux/arm64
+    - linux/ppc64le
+    - linux/s390x
+  - name: dockerfile
+    value: release-${X}.${Y}/Dockerfile.${COMPONENT}
+  - name: path-context
+    value: .
+  - name: hermetic
+    value: 'true'
+  - name: prefetch-input
+    value: '{"type": "rpm", "path": "."}'
+  - name: build-source-image
+    value: 'true'
+  - name: build-args-file
+    value: "release-${X}.${Y}/build_settings.conf"
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
+  pipelineRef:
+    name: kmm-multi-arch-pipeline
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-${COMPONENT}-${X}-${Y}
+  workspaces:
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}

@@ -1,0 +1,49 @@
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: kmm-2-5
+    kmm: 2.5.0
+  name: kmm-2-5-prod-r12-1
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: kmm-2-5-release-prod
+  snapshot: kmm-2-5-qxdhx
+  data:
+    releaseNotes:
+      type: RHEA
+      issues:
+        fixed:
+          - id: MGMT-21601
+            source: issues.redhat.com
+          - id: MGMT-21653
+            source: issues.redhat.com
+          - id: MGMT-22178
+            source: issues.redhat.com
+          - id: MGMT-21602
+            source: issues.redhat.com
+          - id: MGMT-21653
+            source: issues.redhat.com
+          - id: MGMT-22238
+            source: issues.redhat.com
+          - id: MGMT-22194
+            source: issues.redhat.com
+          - id: MGMT-22155
+            source: issues.redhat.com
+          - id: MGMT-22121
+            source: issues.redhat.com
+          - id: MGMT-21971
+            source: issues.redhat.com
+          - id: MGMT-21969
+            source: issues.redhat.com
+          - id: MGMT-21903
+            source: issues.redhat.com
+          - id: MGMT-21754
+            source: issues.redhat.com
+          - id: MGMT-21753
+            source: issues.redhat.com
+          - id: MGMT-20925
+            source: issues.redhat.com
+          - id: MGMT-20900
+            source: issues.redhat.com

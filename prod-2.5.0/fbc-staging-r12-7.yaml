@@ -1,0 +1,208 @@
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-414
+    kmm: 2.5.0
+  name: fbc-hub-414-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-414-release-staging
+  snapshot: fbc-hub-414-5r2hj
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-415
+    kmm: 2.5.0
+  name: fbc-hub-415-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-415-release-staging
+  snapshot: fbc-hub-415-k8nkk
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-416
+    kmm: 2.5.0
+  name: fbc-hub-416-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-416-release-staging
+  snapshot: fbc-hub-416-pgwhh
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-417
+    kmm: 2.5.0
+  name: fbc-hub-417-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-417-release-staging
+  snapshot: fbc-hub-417-l9zcw
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-418
+    kmm: 2.5.0
+  name: fbc-hub-418-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-418-release-staging
+  snapshot: fbc-hub-418-c9cpq
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-419
+    kmm: 2.5.0
+  name: fbc-hub-419-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-419-release-staging
+  snapshot: fbc-hub-419-56nn5
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-420
+    kmm: 2.5.0
+  name: fbc-hub-420-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-420-release-staging
+  snapshot: fbc-hub-420-gldnk
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-hub-421
+    kmm: 2.5.0
+  name: fbc-hub-421-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-hub-421-release-staging
+  snapshot: fbc-hub-421-6v24d
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-414
+    kmm: 2.5.0
+  name: fbc-op-414-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-414-release-staging
+  snapshot: fbc-op-414-qcj6g
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-415
+    kmm: 2.5.0
+  name: fbc-op-415-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-415-release-staging
+  snapshot: fbc-op-415-496cj
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-416
+    kmm: 2.5.0
+  name: fbc-op-416-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-416-release-staging
+  snapshot: fbc-op-416-jwzjl
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-417
+    kmm: 2.5.0
+  name: fbc-op-417-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-417-release-staging
+  snapshot: fbc-op-417-prxtr
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-418
+    kmm: 2.5.0
+  name: fbc-op-418-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-418-release-staging
+  snapshot: fbc-op-418-mp2dg
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-419
+    kmm: 2.5.0
+  name: fbc-op-419-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-419-release-staging
+  snapshot: fbc-op-419-9szbv
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-420
+    kmm: 2.5.0
+  name: fbc-op-420-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-420-release-staging
+  snapshot: fbc-op-420-9pck6
+
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  labels:
+    appstudio.openshift.io/application: fbc-op-421
+    kmm: 2.5.0
+  name: fbc-op-421-staging-r12-7
+  namespace: rh-kmm-tenant
+spec:
+  releasePlan: fbc-op-421-release-staging
+  snapshot: fbc-op-421-qxh7g
+
