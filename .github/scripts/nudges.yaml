@@ -1,0 +1,67 @@
+release-2-5:
+  - operation:
+    - merge
+    operands: 
+    - worker-2-5
+    - must-gather-2-5
+    - operator-2-5
+    - hub-operator-2-5
+    - signing-2-5
+    - webhook-2-5
+  - operation:
+    - merge
+    - release
+    operands:
+    - operator-bundle-2-5
+    - hub-operator-bundle-2-5
+  
+release-2-4:
+  - operation:
+    - merge
+    operands:
+    - worker-2-4
+    - must-gather-2-4
+    - operator-2-4
+    - hub-operator-2-4
+    - signing-2-4
+    - webhook-2-4
+  - operation:
+    - merge
+    - release
+    operands:
+    - operator-bundle-2-4
+    - hub-operator-bundle-2-4
+
+release-2-3:
+  - operation:
+    - merge
+    operands:
+    - worker-2-3
+    - must-gather-2-3
+    - operator-2-3
+    - hub-operator-2-3
+    - signing-2-3
+    - webhook-2-3
+  - operation:
+    - merge
+    - release
+    operands: 
+    - operator-bundle-2-3
+    - hub-operator-bundle-2-3
+
+release-2-2:
+  - operation:
+    - merge
+    operands:
+    - worker-2-2
+    - must-gather-2-2
+    - operator-2-2
+    - hub-operator-2-2
+    - signing-2-2
+    - webhook-2-2
+  - operation:
+    - merge
+    - release
+    operands: 
+    - operator-bundle-2-2
+    - hub-operator-bundle-2-2
