@@ -1,0 +1,38 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+
+FROM registry.redhat.io/openshift4/ose-cli-rhel9 as builder
+ARG VERSION RELEASE DIRECTORY
+
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
+ARG VERSION RELEASE DIRECTORY
+
+RUN microdnf update -y \
+    && microdnf install -y tar rsync findutils gzip iproute util-linux \
+    && microdnf clean all
+
+COPY --from=builder /usr/bin/oc /usr/bin/oc
+
+COPY ${DIRECTORY}/kernel-module-management/must-gather/* /usr/bin/
+
+CMD "/usr/bin/gather"
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-operator-container" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    name="kmm/kernel-module-management-must-gather-rhel9" \
+    cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management - Must-Gather" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Must-Gather" \
+    summary="Kernel Module Management - Must-Gather" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="must-gather gathers debugging and log data for the KMM operator" 
+#bump12

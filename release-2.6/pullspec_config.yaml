@@ -1,0 +1,45 @@
+
+WORKER_IMAGE:
+  component: worker-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-worker-rhel9
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-worker-rhel9
+  pullspecfile: release-2.5/pullspecs/worker-2-6.yaml
+OPERATOR_IMAGE:
+  component: operator-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-rhel9-operator
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-rhel9-operator
+  pullspecfile: release-2.5/pullspecs/operator-2-6.yaml
+HUB_OPERATOR_IMAGE:
+  component: hub-operator-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-hub-rhel9-operator
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-hub-rhel9-operator
+  pullspecfile: release-2.5/pullspecs/hub-operator-2-6.yaml
+MUST_GATHER_IMAGE:
+  component: must-gather-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-must-gather-rhel9
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-must-gather-rhel9
+  pullspecfile: release-2.5/pullspecs/must-gather-2-6.yaml
+SIGNING_IMAGE: 
+  component: signing-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-signing-rhel9
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-signing-rhel9
+  pullspecfile: release-2.5/pullspecs/signing-2-6.yaml
+WEBHOOK_IMAGE:
+  component: webhook-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-webhook-server-rhel9
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-webhook-server-rhel9
+  pullspecfile: release-2.5/pullspecs/webhook-2-6.yaml
+
+OPERATOR_BUNDLE:
+  component: operator-bundle-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-operator-bundle
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle
+  pullspecfile: release-2.5/pullspecs/webhook-2-6.yaml
+
+HUB_OPERATOR_BUNDLE:
+  component: hub-operator-bundle-2-6
+  repo: registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle
+  stage: registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle
+  pullspecfile: release-2.5/pullspecs/webhook-2-6.yaml
+
+

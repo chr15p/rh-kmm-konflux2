@@ -1,0 +1,37 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+
+FROM registry.access.redhat.com/ubi9/go-toolset:9.7-1769430014 as builder
+
+ARG VERSION RELEASE DIRECTORY
+
+WORKDIR /opt/app-root/src
+COPY ${DIRECTORY}/kernel-module-management .
+RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o webhook-server ./cmd/webhook-server
+
+#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
+
+COPY --from=builder /opt/app-root/src/webhook-server /usr/local/bin/webhook-server
+
+ENTRYPOINT ["/usr/local/bin/webhook-server"]
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-webhook-server-container" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    name="kmm/kernel-module-management-webhook-server-rhel9" \
+    cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management - Webhook Server" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Webhook Server" \
+    summary="Kernel Module Management - Webhook Server" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="webhook component for KMMO"
+#bump12

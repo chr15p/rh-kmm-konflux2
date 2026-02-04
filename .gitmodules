@@ -14,3 +14,7 @@
 	path = release-2.2/kernel-module-management
 	url = https://github.com/rh-ecosystem-edge/kernel-module-management
 	branch = release-2.2
+[submodule "release-2.6/kernel-module-management"]
+	path = release-2.6/kernel-module-management
+	url = https://github.com/rh-ecosystem-edge/kernel-module-management
+	branch = main

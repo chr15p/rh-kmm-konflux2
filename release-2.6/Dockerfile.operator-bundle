@@ -1,0 +1,96 @@
+# Based on ./gatekeeper-operator/bundle.Dockerfile
+FROM registry.access.redhat.com/ubi9/ubi:latest as builder
+
+ARG VERSION
+ARG RELEASE
+ARG OLD_VERSION
+ARG DIRECTORY
+
+COPY . .
+#COPY $DIRECTORY/kernel-module-management/bundle/manifests /manifests/
+#COPY $DIRECTORY/kernel-module-management/bundle/metadata /metadata/
+#COPY $DIRECTORY/kernel-module-management/bundle/tests /tests/
+COPY $DIRECTORY/kernel-module-management/bundle /bundle/
+#COPY $DIRECTORY/kernel-module-management.clusterserviceversion.yaml /manifests/
+
+RUN dnf install -y python3-pyyaml
+
+RUN python3 scripts/make-csv.py --csv /bundle/manifests/kernel-module-management.clusterserviceversion.yaml \
+        --config $DIRECTORY/build_settings.conf \
+        --pullspecs $DIRECTORY/pullspec_config.yaml \
+        --out /bundle/manifests/kernel-module-management.${VERSION}.clusterserviceversion.yaml
+
+RUN rm /bundle/manifests/kernel-module-management.clusterserviceversion.yaml
+RUN sed -i "/operators.operatorframework.io.bundle.channels.v1:/s/v1: .*/v1: stable,release-$VERSION/;" /bundle/metadata/annotations.yaml 
+RUN echo  "  operators.operatorframework.io.bundle.channel.default.v1: stable" >> /bundle/metadata/annotations.yaml 
+
+#####################
+#####################
+#####################
+FROM scratch
+ARG VERSION
+ARG RELEASE
+ARG OLD_VERSION
+
+# These are three labels needed to control how the pipeline should handle this container image
+
+# This first label tells the pipeline that this is a bundle image and should be
+# delivered via an index image
+LABEL com.redhat.delivery.operator.bundle=true
+
+# This second label tells the pipeline which versions of OpenShift the operator supports.
+# This is used to control which index images should include this operator.
+LABEL com.redhat.openshift.versions="v4.14"
+
+# This third label tells the pipeline that this operator should *also* be supported on OCP 4.4 and
+# earlier.  It is used to control whether or not the pipeline should attempt to automatically
+# backport this content into the old appregistry format and upload it to the quay.io application
+# registry endpoints.
+LABEL com.redhat.delivery.backport=false
+
+# Core bundle labels.
+# All these "LABEL operators.operatorframework.io...." also need to be set in bundle/metadata/annotations.yaml 
+
+LABEL operators.operatorframework.io.bundle.manifests.v1=manifests/
+LABEL operators.operatorframework.io.bundle.mediatype.v1=registry+v1
+LABEL operators.operatorframework.io.bundle.metadata.v1=metadata/
+LABEL operators.operatorframework.io.bundle.package.v1=kernel-module-management
+LABEL operators.operatorframework.io.bundle.channels.v1=stable,release-${VERSION}
+LABEL operators.operatorframework.io.bundle.channel.default.v1=stable
+
+# Labels for metrics
+LABEL operators.operatorframework.io.metrics.builder=operator-sdk-v1.32.0
+LABEL operators.operatorframework.io.metrics.mediatype.v1=metrics+v1
+LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
+
+# Labels for testing.
+LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
+LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
+
+# labels for konflux 
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+
+# Main labels
+LABEL \
+        com.redhat.component="kernel-module-management-operator-bundle-container" \
+        version="v${VERSION}" \
+        release="v${RELEASE}" \
+        url="https://github.com/rh-ecosystem-edge/kernel-module-management" \
+        vendor="Red Hat, Inc." \
+        distribution-scope="" \
+        name="kmm/kernel-module-management-operator-bundle" \
+        cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
+        License="Apache License 2.0" \
+        io.k8s.display-name="Kernel Module Management" \
+        io.openshift.tags="Operating System" \
+        io.k8s.description="Kernel Module Management - Operator Bundle" \
+        summary="Kernel Module Management - Operator Bundle" \
+        maintainer="Red Hat Ecosystem - Partner Accelerat`ors Team <edge-kmm@redhat.com>" \
+        description="the bundle for the KMM operator"
+
+# Copy files to locations specified by labels.
+COPY --from=builder /bundle/ /
+#COPY --from=builder /manifests /manifests/
+#COPY --from=builder /metadata /metadata/
+#COPY --from=builder /tests/scorecard /tests/scorecard/
+#bump6

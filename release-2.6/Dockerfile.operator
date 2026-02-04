@@ -1,0 +1,42 @@
+ARG VERSION
+ARG RELEASE
+ARG DIRECTORY
+ARG SUBMODULE
+
+FROM registry.access.redhat.com/ubi9/go-toolset:9.7-1769430014 as builder
+
+ARG DIRECTORY SUBMODULE RELEASE
+
+WORKDIR /opt/app-root/src
+COPY ${DIRECTORY}/kernel-module-management .
+
+COPY .git/modules/${DIRECTORY}/kernel-module-management/${SUBMODULE} submodule
+RUN go build -ldflags="-w -s -X main.Version=${RELEASE} -X main.GitCommit=$(cat submodule)" -o manager cmd/manager/main.go
+
+
+
+#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+FROM registry.redhat.io/ubi9/ubi-minimal:9.7
+ARG VERSION RELEASE
+
+COPY --from=builder /opt/app-root/src/manager /usr/local/bin/manager
+ENTRYPOINT ["/usr/local/bin/manager"]
+
+LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL \
+    com.redhat.component="kernel-module-management-operator-container" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    url="https://github.com/konflux-ci/mintmaker" \
+    version="${VERSION}" \
+    release="${RELEASE}" \
+    name="kmm/kernel-module-management-rhel9-operator" \
+    cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
+    License="Apache License 2.0" \
+    io.k8s.display-name="Kernel Module Management" \
+    io.openshift.tags="Operating System" \
+    io.k8s.description="Kernel Module Management - Operator" \
+    summary="Kernel Module Management - Operator" \
+    maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
+    description="the operator component for KMMO"
+#bump12
