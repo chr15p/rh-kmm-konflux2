@@ -86,7 +86,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-c', '--config', action='store', required=True, default="nudges.yaml", help='yaml config file ')
 parser.add_argument('-p', '--pr', action='store', required=True, default=None, help='pr number')
-parser.add_argument('--test', action='store_true')
+parser.add_argument('--test', action='store_true', default=False)
 
 opt = parser.parse_args()
 curr_pr = opt.pr
@@ -131,7 +131,11 @@ except:
 
 
 raw_prs = call_gh(False, "pr","list","--json","number,headRefName,commits", "--search", "label:konflux-nudge")
-pr_list = json.loads(raw_prs)
+try:
+    pr_list = json.loads(raw_prs)
+except json.decoder.JSONDecodeError as e:
+    print(f"pr list error: {e}")
+    exit(1)
 
 #print(f"{curr_component=} {curr_release=} {curr_pr=}")
 
