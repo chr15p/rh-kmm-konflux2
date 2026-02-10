@@ -12,6 +12,7 @@ RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${C
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
 FROM registry.redhat.io/ubi9/ubi-minimal:9.7
+ARG VERSION RELEASE
 
 COPY --from=builder /opt/app-root/src/webhook-server /usr/local/bin/webhook-server
 

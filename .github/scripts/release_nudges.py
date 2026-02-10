@@ -19,6 +19,27 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
 
     commit = git_commands.get_git_commit(version)
 
+    kube_snapshots = Konflux(config['api_url'],
+                            token,
+                            config['namespace'],
+                            "appstudio.redhat.com/v1alpha1",
+                            "snapshots",
+                            verify)
+
+    snapshot_list = kube_snapshots.get(label_selector={"appstudio.openshift.io/application": application})
+    snap_regexp = r"-r([0-9]+)$"
+    last_release=0
+    for snap in snapshot_list:
+        print(snap['metadata']['name'])
+        matches = re.search(snap_regexp, snap['metadata']['name'])
+        if matches and matches.group(1) and int(matches.group(1)) > last_release:
+            last_release = int(matches.group(1))
+            print(int(matches.group(1)), last_release)
+
+    release_number = last_release +1
+    snapshot_name = f"kmm-{version}-{commit[:7]}-r{release_number}"
+    release_name = f"{releaseplan}-{commit[:7]}-r{release_number}"
+
     kube_components = Konflux(config['api_url'],
                         token,
                         config['namespace'],
@@ -27,7 +48,6 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
                         verify)
 
     component_list = kube_components.get(label_selector={"application": application})
-    snapshot_name = f"kmm-{version}{commit[:7]}-{uuid.uuid4().hex.lower()[0:6]}"
 
     new_snapshot = yaml.safe_load(f"""
         apiVersion: appstudio.redhat.com/v1alpha1
@@ -45,7 +65,7 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
 
     new_snapshot['spec']['components']=[]
     for c in component_list:
-        print( c["spec"]["source"]["git"])
+        #print( c["spec"]["source"]["git"])
         new_snapshot['spec']['components'].append(
             {"name": c['metadata']['name'],
              "containerImage": c['status']['lastPromotedImage'],
@@ -62,12 +82,6 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
     print(yaml.dump(new_snapshot))
 
     if not test_mode:
-        kube_snapshots = Konflux(config['api_url'],
-                            token,
-                            config['namespace'],
-                            "appstudio.redhat.com/v1alpha1",
-                            "snapshots",
-                            verify)
         resp = kube_snapshots.create(new_snapshot)
         print(resp)
 
@@ -89,7 +103,7 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
             kmm: {version}
             midstream: {commit}
             short: {commit[:7]}
-          name: {application}-stage-r1
+          name: {release_name}
           namespace: {config['namespace']}
         spec:
           releasePlan: {releaseplan}
@@ -154,7 +168,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--config', action='store', required=False, default="nudges.yaml", help='yaml config file ')
     parser.add_argument('-b', '--branch', action='store', required=False, default=None, help='source branch')
     parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
-    parser.add_argument('--test', action='store_true')
+    parser.add_argument('--test', action='store_true', default=False)
 
     opt = parser.parse_args()
     test_mode = opt.test
