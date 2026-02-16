@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/chr15p/rh-kmm-konflux2?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/cancel-in-progress: 'false'
+    pipelinesascode.tekton.dev/max-keep-runs: '3'
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
+      (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
+       ".tekton/*-2-6-push.yaml".pathChanged() ||
+       ("release-2.6/**".pathChanged() && !("release-2.6/pullspecs/**".pathChanged())))
+  creationTimestamp:
+  labels:
+    appstudio.openshift.io/application: kmm-2-6
+    appstudio.openshift.io/component: signing-2-6
+    pipelines.appstudio.openshift.io/type: build
+  name: signing-2-6-on-push
+  namespace: rh-kmm-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-6/signing-2-6:{{revision}}
+  - name: build-platforms
+    value:
+    - linux/x86_64
+    - linux/arm64
+    - linux/ppc64le
+    - linux/s390x
+  - name: dockerfile
+    value: release-2.6/Dockerfile.signing
+  - name: path-context
+    value: .
+  - name: hermetic
+    value: 'true'
+  - name: prefetch-input
+    value: '{"type": "rpm", "path": "."}'
+  - name: build-source-image
+    value: 'true'
+  - name: build-args-file
+    value: "release-2.6/build_settings.conf"
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 4Gi
+  pipelineRef:
+    name: kmm-multi-arch-pipeline
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-signing-2-6
+  workspaces:
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}
