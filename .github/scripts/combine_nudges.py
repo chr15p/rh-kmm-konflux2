@@ -30,11 +30,16 @@ def get_commit(msg: str) -> str:
 
 
 def merge_prs(branch, master_pr, nudged_prs):
-    for pr_number in nudged_prs:
+    for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
             continue
         out=git_commands.call_gh(TEST_MODE, "pr", "edit", pr_number, "--base", branch)
         print(out)
+
+
+    for pr_number in nudged_prs.values():
+        if int(pr_number) == int(master_pr):
+            continue
         out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
         print(out)
 
@@ -48,7 +53,7 @@ def get_pr(pr_list, branch, number):
     for pr in pr_list:
         if (branch and branch == pr['headRefName']) or \
             (number and int(number) == pr['number']):
-            print(pr)
+            #print(pr)
             return pr
     return None
 
@@ -78,11 +83,13 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--config', action='store', required=True, default="nudges.yaml", help='yaml config file ')
     parser.add_argument('-p', '--pr', action='store', required=False, default=None, help='pr number')
     parser.add_argument('-b', '--branch', action='store', required=False, default=None, help='pr number')
+    parser.add_argument('-n', '--nocommit', action='store_true', required=False, default=False, help='do not check commit numbers when merging')
     parser.add_argument('--test', action='store_true', default=False)
 
     opt = parser.parse_args()
     curr_number = opt.pr
     curr_branch = opt.branch
+    commit_check = not opt.nocommit   # True if we want commit checking
     TEST_MODE = opt.test
     if not curr_branch and not curr_number:
         print("either --pr or --branch is required")
@@ -102,21 +109,23 @@ if __name__ == "__main__":
         sys.exit(1)
 
     curr_pr = get_pr(pr_list, curr_branch, curr_number)
-
-    curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
+    curr_branch=curr_pr['headRefName']
+    curr_number=curr_pr['number']
 
     nudged_components = {}
+    curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
+    nudged_components[curr_component] = curr_number
     for pr in pr_list:
-        component, version, commit, number = parse_pr(curr_pr)
-        print(component, version, commit, number)
+        component, version, commit, number = parse_pr(pr)
         if version != curr_version or \
-            commit != curr_commit or \
             number == curr_number:
             continue
+        if commit_check and commit != curr_commit:
+            continue
+
         nudged_components[component] = number
 
     print(nudged_components)
-
     ## do we have everything we need?
     not_nudged = []
     for c in CONFIG[f"release-{curr_version}"]["components"]:
@@ -128,7 +137,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     print(f"merge {nudged_components}")
-    #merge_prs(curr_branch, curr_pr, nudged_components.values())
-    print("call_gh", "pr", "edit", curr_pr, "--add-label", "ok-to-merge")
-    #call_gh(test_mode, "pr", "edit", str(curr_pr_id), "--add-label", "ok-to-merge")
+    merge_prs(curr_branch, curr_number, nudged_components)
+    #print("call_gh", "pr", "edit", curr_number, "--add-label", "ok-to-merge")
+    #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
 
