@@ -1,57 +1,16 @@
 #!/usr/bin/python
+import sys
+import re
+import argparse
 import json
 import yaml
-import subprocess
-import argparse
-import time
-import re
+#import subprocess
+#import time
 
+import git_commands
 
-def call_git(test_mode, *args, **kwargs):
-    """
-        wrapper for calls to git
-        *args: one or more strings to be arguements to the git command
-    """
-    params=["git"]
-    for i in args:
-        if isinstance(i, list):
-            params+=i
-        else:
-            params.append(i)
-
-    if test_mode:
-        print(" ".join(params))
-        return ""
-    #subprocess.run(params, check=True)
-    p = subprocess.Popen(params,
-                     stdout=subprocess.PIPE,
-                     stderr=subprocess.STDOUT)
-    return p.stdout.read()
-
-
-def call_gh(test_mode, *args, **kwargs):
-    """
-        wrapper for calls to git
-        *args: one or more strings to be arguements to the git command
-    """
-    params=["gh"]
-    for i in args:
-        if isinstance(i, list):
-            params+=i
-        else:
-            params.append(str(i))
-
-    print(f"run {' '.join(params)}")
-    if test_mode:
-        return ""
-    p = subprocess.Popen(params,
-                     stdout=subprocess.PIPE,
-                     stderr=subprocess.STDOUT)
-
-    return p.stdout.read()
-
-
-def get_component(branch: str, prefix: str= r".*component-update"):
+TEST_MODE = False
+def get_component_name(branch: str, prefix: str= r".*component-update") -> (str,str):
 
     branch_regexp=r"konflux/component-updates/" + prefix + "-([a-z-]+-([0-9]-[0-9]))"
     matches = re.match(branch_regexp, branch)
@@ -60,7 +19,7 @@ def get_component(branch: str, prefix: str= r".*component-update"):
     return matches.group(1),matches.group(2)
 
 
-def get_commit(msg: str):
+def get_commit(msg: str) -> str:
 
     #commit_regexp = r"Image created from \'https://github.com/chr15p/rh-kmm-konflux2?rev=([0-9a-fA-F]+)\'"
     commit_regexp = r"=(.*)\'"
@@ -74,103 +33,103 @@ def merge_prs(branch, master_pr, nudged_prs):
     for pr_number in nudged_prs:
         if int(pr_number) == int(master_pr):
             continue
-        out=call_gh(test_mode, "pr", "edit", pr_number, "--base", curr_branch)
-        out=call_gh(test_mode, "pr", "merge", pr_number, "--squash")
+        out=git_commands.call_gh(TEST_MODE, "pr", "edit", pr_number, "--base", branch)
+        print(out)
+        out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
+        print(out)
 
-    print("call_gh", "pr", "edit", curr_pr, "--add-label", "ok-to-merge")
-    call_gh(test_mode, "pr", "edit", str(master_pr),"--add-label", "ok-to-merge")
-
-
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument('-c', '--config', action='store', required=True, default="nudges.yaml", help='yaml config file ')
-parser.add_argument('-p', '--pr', action='store', required=True, default=None, help='pr number')
-parser.add_argument('--test', action='store_true', default=False)
-
-opt = parser.parse_args()
-curr_pr = opt.pr
-test_mode = opt.test
+    print("call_gh", "pr", "edit", str(master_pr), "--add-label", "ok-to-merge")
+    git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", "ok-to-merge")
 
 
-raw_curr_pr = call_gh(False, "pr", "view","--json","headRefName,commits,labels", opt.pr )
-curr_pr_details = json.loads(raw_curr_pr)
-curr_branch = curr_pr_details['headRefName']
 
-for label in curr_pr_details['labels']:
-    if label['name'] == "ok-to-merge":
-        print(f"all components already added and ok-to-merge label applied")
-        exit(0) 
+def get_pr(pr_list, branch, number):
 
-for commit in curr_pr_details['commits']:
-    curr_commit = get_commit(commit['messageBody'])
-
-try:
-    with open(opt.config,"r") as config_fh:
-         MASTER_COMPONENTS = yaml.safe_load(config_fh)
-except Exception as e:
-    print(f"unable to read config file \"{opt.config}\": {e}")
-    exit(1)
-
-#print(MASTER_COMPONENTS)
-
-curr_component, curr_release = get_component(curr_branch)
-if not curr_component:
-    print("not a valid nudge PR")
-    exit(0)
-
-try:
-    for i in MASTER_COMPONENTS[f"release-{curr_release}"]:
-        if curr_component in i['operands']:
-            PLAN=i
-            break
-    #print(PLAN)
-except:
-    print(f"release-{curr_release} not found in {opt.config}")
-    exit(1)
+    for pr in pr_list:
+        if (branch and branch == pr['headRefName']) or \
+            (number and int(number) == pr['number']):
+            print(pr)
+            return pr
+    return None
 
 
-raw_prs = call_gh(False, "pr","list","--json","number,headRefName,commits", "--search", "label:konflux-nudge")
-try:
-    pr_list = json.loads(raw_prs)
-except json.decoder.JSONDecodeError as e:
-    print(f"pr list error: {e}")
-    exit(1)
-
-#print(f"{curr_component=} {curr_release=} {curr_pr=}")
-
-nudged_components = {}
-for pr in pr_list:
-    component, version = get_component(pr["headRefName"])
-    if component == None or component not in PLAN['operands'] :
-        continue
-
-    if pr['number'] > int(curr_pr):
-        print(f"a newer PR exists for release-{curr_release}, defer to thati ({pr['number']} newer than {curr_pr})")
-        exit(0)
-
-    for commit in pr['commits']:
-        commit = get_commit(commit['messageBody'])
-        if commit != curr_commit:
-            continue        
-
+def parse_pr(pr):
+    component, version = get_component_name(pr["headRefName"])
+    commit = get_commit(pr['commits'][-1]['messageBody'])
     number = pr['number']
-    nudged_components[component] = number
+
+    return component, version, commit, number
+
+
+def read_config_yaml(filename):
+    try:
+        with open(filename,"r") as config_fh:
+            master_components = yaml.safe_load(config_fh)
+    except Exception as e:
+        print(f"unable to read config file \"{filename}\": {e}")
+        sys.exit(1)
+    return master_components
 
 
 
-not_nudged = [arg for arg in PLAN["operands"] if arg not in nudged_components.keys() ]
-if not_nudged:
-    print(f"not all components found (missing {' '.join(not_nudged)})")
-    exit(0)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
 
-for action in PLAN["operation"]:
+    parser.add_argument('-c', '--config', action='store', required=True, default="nudges.yaml", help='yaml config file ')
+    parser.add_argument('-p', '--pr', action='store', required=False, default=None, help='pr number')
+    parser.add_argument('-b', '--branch', action='store', required=False, default=None, help='pr number')
+    parser.add_argument('--test', action='store_true', default=False)
 
-    if action == "merge":
-        print(f"do mergy stuff for {nudged_components}")
-        merge_prs(curr_branch, curr_pr, nudged_components.values())
-        print("call_gh", "pr", "edit", curr_pr, "--add-label", "ok-to-merge")
-        #call_gh(test_mode, "pr", "edit", str(curr_pr_id), "--add-label", "ok-to-merge")
-    elif action == "release":
-        print("do releasy stuff")
+    opt = parser.parse_args()
+    curr_number = opt.pr
+    curr_branch = opt.branch
+    TEST_MODE = opt.test
+    if not curr_branch and not curr_number:
+        print("either --pr or --branch is required")
+        sys.exit(1)
+
+
+    ## read config
+    CONFIG = read_config_yaml(opt.config)
+
+    #print(MASTER_COMPONENTS)
+    ########
+    raw_prs = git_commands.call_gh(False, "pr","list","--json","number,headRefName,commits", "--search", "label:konflux-nudge")
+    try:
+        pr_list = json.loads(raw_prs)
+    except json.decoder.JSONDecodeError as e:
+        print(f"pr list error: {e}")
+        sys.exit(1)
+
+    curr_pr = get_pr(pr_list, curr_branch, curr_number)
+
+    curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
+
+    nudged_components = {}
+    breakpoint()
+    for pr in pr_list:
+        component, version, commit, number = parse_pr(curr_pr)
+        print(component, version, commit, number)
+        if version != curr_version or \
+            commit != curr_commit or \
+            number == curr_number:
+            continue
+        nudged_components[component] = number
+
+    print(nudged_components)
+
+    ## do we have everything we need?
+    not_nudged = []
+    for c in CONFIG[f"release-{curr_version}"]["components"]:
+        if not nudged_components.get(c):
+            not_nudged.append(c)
+
+    if not_nudged:
+        print(f"not all components found (missing {' '.join(not_nudged)})")
+        sys.exit(0)
+
+    print(f"merge {nudged_components}")
+    #merge_prs(curr_branch, curr_pr, nudged_components.values())
+    print("call_gh", "pr", "edit", curr_pr, "--add-label", "ok-to-merge")
+    #call_gh(test_mode, "pr", "edit", str(curr_pr_id), "--add-label", "ok-to-merge")
 
