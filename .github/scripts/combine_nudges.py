@@ -106,7 +106,6 @@ if __name__ == "__main__":
     curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
 
     nudged_components = {}
-    breakpoint()
     for pr in pr_list:
         component, version, commit, number = parse_pr(curr_pr)
         print(component, version, commit, number)
