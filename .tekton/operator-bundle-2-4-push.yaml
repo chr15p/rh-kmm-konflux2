@@ -45,12 +45,24 @@ spec:
   - name: build-args-file
     value: "release-2.4/build_settings.conf"
   taskRunSpecs:
+  - pipelineTaskName: sast-snyk-check
+    computeResources:
+      limits:
+        memory: 4Gi
+      requests:
+        memory: 4Gi
+  - pipelineTaskName: sast-unicode-check
+    computeResources:
+      limits:
+        memory: 4Gi
+      requests:
+        memory: 4Gi
   - pipelineTaskName: prefetch-dependencies
     computeResources:
       requests:
-        memory: 4Gi
+        memory: 6Gi
       limits:
-        memory: 4Gi
+        memory: 6Gi
   - pipelineTaskName: sast-shell-check
     computeResources:
       requests:

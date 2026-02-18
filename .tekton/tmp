@@ -1,0 +1,16 @@
+cp hub-operator-2-5-pull-request.yaml  hub-operator-2-6-pull-request.yaml
+cp hub-operator-2-5-push.yaml  hub-operator-2-6-push.yaml
+cp hub-operator-bundle-2-5-pull-request.yaml  hub-operator-bundle-2-6-pull-request.yaml
+cp hub-operator-bundle-2-5-push.yaml  hub-operator-bundle-2-6-push.yaml
+cp must-gather-2-5-pull-request.yaml  must-gather-2-6-pull-request.yaml
+cp must-gather-2-5-push.yaml  must-gather-2-6-push.yaml
+cp operator-2-5-pull-request.yaml  operator-2-6-pull-request.yaml
+cp operator-2-5-push.yaml  operator-2-6-push.yaml
+cp operator-bundle-2-5-pull-request.yaml  operator-bundle-2-6-pull-request.yaml
+cp operator-bundle-2-5-push.yaml  operator-bundle-2-6-push.yaml
+cp signing-2-5-pull-request.yaml  signing-2-6-pull-request.yaml
+cp signing-2-5-push.yaml  signing-2-6-push.yaml
+cp webhook-2-5-pull-request.yaml  webhook-2-6-pull-request.yaml
+cp webhook-2-5-push.yaml  webhook-2-6-push.yaml
+cp worker-2-5-pull-request.yaml  worker-2-6-pull-request.yaml
+cp worker-2-5-push.yaml  worker-2-6-push.yaml
