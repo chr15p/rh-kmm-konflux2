@@ -69,9 +69,12 @@ components = helpers.Component(opt.kubeconfig, opt.namespace, label_selector="st
 
 image_shas = {}
 for comp in components.items():
-    if comp.status.lastBuiltCommit == build:
-        image_shas[comp.metadata.name] = comp.status.lastPromotedImage
-
+    try:
+        if comp.status.lastBuiltCommit == build:
+            image_shas[comp.metadata.name] = comp.status.lastPromotedImage
+    except AttributeError as e:
+        print(f"failed to get comp.status.lastBuiltCommit for {comp.metadata.name}: {e}")
+        #exit(0)
 
 for k,v in image_shas.items():
     if "hub" in k:
