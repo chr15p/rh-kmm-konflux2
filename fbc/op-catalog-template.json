@@ -331,6 +331,82 @@
                     "name": "kernel-module-management.v2.5.1",
                     "replaces": "kernel-module-management.v2.5.0",
                     "skipRange": ">=0.0.0 <2.5.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.0",
+                    "replaces": "kernel-module-management.v2.5.1",
+                    "skipRange": ">=0.0.0 <2.6.0"
+                }
+            ],
+            "name": "release-2.6",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.0",
+                    "replaces": "kernel-module-management.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.1",
+                    "replaces": "kernel-module-management.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.0",
+                    "replaces": "kernel-module-management.v2.4.1",
+                    "skipRange": ">=0.0.0 <2.5.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.1",
+                    "replaces": "kernel-module-management.v2.5.0",
+                    "skipRange": ">=0.0.0 <2.5.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.0",
+                    "replaces": "kernel-module-management.v2.5.1",
+                    "skipRange": ">=0.0.0 <2.6.0"
                 }
             ],
             "name": "stable",
@@ -396,6 +472,11 @@
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.5.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:f1385af719931a82f572b33e678043ea91edfb5198cf880416c9a1e94455e399"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.6.0",
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:80d1d8080386ba6eed2188b023fbce0fc5a37eee6ef3157f338e8fb2e0ec3a97"
         }
     ]
 }
