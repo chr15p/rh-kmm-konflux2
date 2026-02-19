@@ -2,6 +2,9 @@ api_url: https://api.stone-prd-rh01.pg1f.p1.openshiftapps.com:6443
 namespace: rh-kmm-tenant
 
 release-2-6:
+  bundles:
+  - operator-bundle-2-6
+  - hub-operator-bundle-2-6
   components:
   - worker-2-6
   - must-gather-2-6
@@ -11,6 +14,9 @@ release-2-6:
   - webhook-2-6
 
 release-2-5:
+  bundles:
+  - operator-bundle-2-5
+  - hub-operator-bundle-2-5
   components:
   - worker-2-5
   - must-gather-2-5
@@ -20,15 +26,9 @@ release-2-5:
   - webhook-2-5
 
 release-2-4:
-  components:
-  - worker-2-4
-  - must-gather-2-4
-  - operator-2-4
-  - hub-operator-2-4
-  - signing-2-4
-  - webhook-2-4
-
-release-2-4:
+  bundles:
+  - operator-bundle-2-4
+  - hub-operator-bundle-2-4
   components:
   - worker-2-4
   - must-gather-2-4
@@ -38,6 +38,9 @@ release-2-4:
   - webhook-2-4
 
 release-2-3:
+  bundles:
+  - operator-bundle-2-3
+  - hub-operator-bundle-2-3
   components:
   - worker-2-3
   - must-gather-2-3
@@ -47,6 +50,9 @@ release-2-3:
   - webhook-2-3
 
 release-2-2:
+  bundles:
+  - operator-bundle-2-2
+  - hub-operator-bundle-2-2
   components:
   - worker-2-2
   - must-gather-2-2
@@ -55,13 +61,3 @@ release-2-2:
   - signing-2-2
   - webhook-2-2
 
-bundles:
-  components:
-  - operator-bundle-2-2
-  - hub-operator-bundle-2-2
-  - operator-bundle-2-3
-  - hub-operator-bundle-2-3
-  - operator-bundle-2-4
-  - hub-operator-bundle-2-4
-  - operator-bundle-2-5
-  - hub-operator-bundle-2-5

@@ -128,16 +128,27 @@ if __name__ == "__main__":
     print(nudged_components)
     ## do we have everything we need?
     not_nudged = []
-    for c in CONFIG[f"release-{curr_version}"]["components"]:
-        if not nudged_components.get(c):
-            not_nudged.append(c)
+    #for c in CONFIG[f"release-{curr_version}"]["components"]:
+    #    if not nudged_components.get(c):
+    #        not_nudged.append(c)
+    if CONFIG.get(f"release-{curr_version}"):
+        if curr_component in CONFIG[f"release-{curr_version}"].get("components", []):
+            for c in CONFIG[f"release-{curr_version}"]["components"]:
+                if not nudged_components.get(c):
+                    not_nudged.append(c)
+            label_to_apply="ok-to-merge"
+        elif curr_component in CONFIG[f"release-{curr_version}"].get("bundles", []):
+            for c in CONFIG[f"release-{curr_version}"]["bundles"]:
+                if not nudged_components.get(c):
+                    not_nudged.append(c)
+            label_to_apply="ok-to-release"
 
     if not_nudged:
-        print(f"not all components found (missing {' '.join(not_nudged)})")
+        print(f"not all components found for release-{curr_version}: {label_to_apply} (missing {' '.join(not_nudged)})")
         sys.exit(0)
 
     print(f"merge {nudged_components}")
     merge_prs(curr_branch, curr_number, nudged_components)
-    #print("call_gh", "pr", "edit", curr_number, "--add-label", "ok-to-merge")
+    print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
 

@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: release operands PRs
-        run: python .github/scripts/release_nudges.py --branch ${{ github.head_ref }}  --token="${{secrets.OPENSHIFT_TOKEN}}" --config .github/scripts/nudges.yaml
-        env:
-          OPENSHIFT_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#      - name: release operands PRs
+#        run: python .github/scripts/release_nudges.py --branch ${{ github.head_ref }}  --token="${{secrets.OPENSHIFT_TOKEN}}" --config .github/scripts/nudges.yaml
+#        env:
+#          OPENSHIFT_TOKEN: ${{secrets.GITHUB_TOKEN}}
