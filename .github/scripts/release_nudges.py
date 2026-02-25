@@ -1,72 +1,79 @@
+#!/usr/bin/python
 import sys
 import argparse
 import os
 import re
-from typing import Any, Dict, List, Optional
-import uuid
+from typing import Any, Dict
+#, List, Optional
 import yaml
+import json
 
 import git_commands
+import helpers
 from konflux_api import Konflux
-
-#from kubernetes import config
-#from openshift.dynamic import DynamicClient
-
 
 test_mode=False
 
-def snapshot_and_release(config, token, version, application, releaseplan, verify):
+def get_versions() -> Dict(str,str):
+    return {"kmm-2-6": "2.6.0", "kmm-2-5": "2.5.2", "kmm-2-4": "2.4.3", "kmm-2-3": "2.3.2", "kmm-2-2": "2.2.2"}
 
-    commit = git_commands.get_git_commit(version)
+def parse_image_name(image: str) -> (str, str, str):
+    comp_regexp = r".*/([a-z\-]+)-([0-9]+-[0-9]+)@(.*)"
+    matches = re.search(comp_regexp, image)
+    return matches.group(1),matches.group(2),matches.group(3)
 
-    kube_snapshots = Konflux(config['api_url'],
-                            token,
-                            config['namespace'],
-                            "appstudio.redhat.com/v1alpha1",
-                            "snapshots",
-                            verify)
 
-    snapshot_list = kube_snapshots.get(label_selector={"appstudio.openshift.io/application": application})
-    snap_regexp = r"-r([0-9]+)$"
-    last_release=0
-    for snap in snapshot_list:
-        print(snap['metadata']['name'])
-        matches = re.search(snap_regexp, snap['metadata']['name'])
-        if matches and matches.group(1) and int(matches.group(1)) > last_release:
-            last_release = int(matches.group(1))
-            print(int(matches.group(1)), last_release)
+def create_fbc(kube_components, template_list, fbc_file_dir, env, labels={}):
+    labels["stage"] = "bundle"
 
-    release_number = last_release +1
-    snapshot_name = f"kmm-{version}-{commit[:7]}-r{release_number}"
-    release_name = f"{releaseplan}-{commit[:7]}-r{release_number}"
+    component_list = kube_components.get(label_selector=labels)
 
-    kube_components = Konflux(config['api_url'],
-                        token,
-                        config['namespace'],
-                        "appstudio.redhat.com/v1alpha1",
-                        "components",
-                        verify)
-
-    component_list = kube_components.get(label_selector={"application": application})
-
-    new_snapshot = yaml.safe_load(f"""
-        apiVersion: appstudio.redhat.com/v1alpha1
-        kind: Snapshot
-        metadata:
-          name: {snapshot_name}
-          namespace: {config['namespace']}
-          labels: 
-            kmm: {version}
-            midstream-sha: {commit}
-            short: {commit[:7]}
-        spec:
-          application: {application}
-        """)
-
-    new_snapshot['spec']['components']=[]
+    #operator-bundle-2-5
+    #"name": "kernel-module-management-operator-bundle.v2.3.0",
+    #quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5@sha256:7e6981e97f753c198c47801714ee5d57175e648c53c3f97b6416e22cb574fd3e
+    #"registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:41f516aa4d8f96347dd3833448154219717c3c3355f68cad400a7f5b6065017a"
+    releases = get_versions()
+    images={}
     for c in component_list:
-        #print( c["spec"]["source"]["git"])
-        new_snapshot['spec']['components'].append(
+        component_name, version , sha = parse_image_name(c['status']['lastPromotedImage'])
+        name = f"kernel-module-management-{component_name}.v{releases[c['spec']['application']]}"
+
+        if env == "prod":
+            images[name] = f"registry.redhat.io/kmm/kernel-module-management-{component_name}@{sha}"
+        else:
+            images[name] = f"registry.stage.redhat.io/kmm/kernel-module-management-{component_name}@{sha}"
+
+    for t in template_list:
+        template = helpers.read_json_file(t)
+        for i in template["entries"]:
+            if i["schema"] == "olm.bundle" and images.get(i["name"]):
+                i["image"] = images.get(i["name"])
+
+        if fbc_file_dir:
+            filename = os.path.basename(t)
+            outfile = f"{fbc_file_dir}/{filename}"
+            print(f"{filename=} {outfile=}")
+            with open(outfile, 'w') as file:
+                json.dump(template, file, indent=4)
+        else:
+            print(json.dumps(template, indent=4))
+
+
+
+
+def create_snapshots(kube_components, kube_snapshots, namespace, release_number, commit, labels={}):
+    snapshot_extension = f"{commit[:7]}-r{release_number}"
+
+    labels["stage!"] = "fbc"
+
+    component_list = kube_components.get(label_selector=labels)
+
+    snapshot_images = {}
+    for c in component_list:
+        if not snapshot_images.get(c["spec"]["application"]):
+            snapshot_images[c["spec"]["application"]] = []
+
+        snapshot_images[c["spec"]["application"]].append(
             {"name": c['metadata']['name'],
              "containerImage": c['status']['lastPromotedImage'],
              "source": {
@@ -79,58 +86,66 @@ def snapshot_and_release(config, token, version, application, releaseplan, verif
                 }
             })
 
-    print(yaml.dump(new_snapshot))
 
-    if not test_mode:
-        resp = kube_snapshots.create(new_snapshot)
-        print(resp)
-
-
-
-    release = Konflux(config['api_url'],
-                        token,
-                        config['namespace'],
-                        "appstudio.redhat.com/v1alpha1",
-                        "releases",
-                        verify)
-
-    new_release = yaml.safe_load(f"""
-        apiVersion: appstudio.redhat.com/v1alpha1
-        kind: Release
-        metadata:
-          labels:
-            appstudio.openshift.io/application: {application}
-            kmm: {version}
-            midstream: {commit}
-            short: {commit[:7]}
-          name: {release_name}
-          namespace: {config['namespace']}
-        spec:
-          releasePlan: {releaseplan}
-          snapshot: {snapshot_name}
+    snapshots={}
+    for k,v in snapshot_images.items():
+        version = k[4:].strip()
+        new_snapshot = yaml.safe_load(f"""
+            apiVersion: appstudio.redhat.com/v1alpha1
+            kind: Snapshot
+            metadata:
+              name: {k}-{snapshot_extension}
+              namespace: {namespace}
+              labels: 
+                kmm: "{version}"
+                commit: "{commit}"
+                short: "{commit[:7]}"
+            spec:
+              application: {k}
         """)
-    print("---")
-    print(yaml.dump(new_release))
+        new_snapshot['spec']['components'] = v
+        snapshots[k] = new_snapshot['metadata']['name']
+        if test_mode:
+            print("---")
+            print(yaml.dump(new_snapshot))
+        else:
+            print(new_snapshot['metadata']['name'])
+            resp = kube_snapshots.create(new_snapshot)
+            print(resp)
 
-    if not test_mode:
-        kube_release = Konflux(config['api_url'],
-                            token,
-                            config['namespace'],
-                            "appstudio.redhat.com/v1alpha1",
-                            "releases",
-                            verify)
-        resp = kube_release.create(new_release)
-        print(resp)
-
+    return snapshots
 
 
-def get_component_from_branch(branch: str, prefix: str= r".*component-update"):
 
-    branch_regexp=r"konflux/component-updates/" + prefix + "-([a-z-]+-([0-9]-[0-9]))"
-    matches = re.match(branch_regexp, branch)
-    if matches is None:
-        return None, None
-    return matches.group(1),matches.group(2)
+def create_release(kube_releases, snapshots, namespace,  environment, release_number, commit):
+    release_name_extension = f"release-{environment}-{commit[:7]}-r{release_number}"
+
+    for k,v in snapshots.items():
+        version = k[4:]
+        new_release = yaml.safe_load(f"""
+            apiVersion: appstudio.redhat.com/v1alpha1
+            kind: Release
+            metadata:
+              labels:
+                appstudio.openshift.io/application: {k}
+                application: {k}
+                commit: "{commit}"
+                short: "{commit[:7]}"
+              name: {k}-{release_name_extension}
+              namespace: {namespace}
+            spec:
+              releasePlan: {k}-release-{environment}
+              snapshot: {v}
+            """)
+
+        if test_mode:
+            print("---")
+            print(yaml.dump(new_release))
+        else:
+            print(new_release['metadata']['name'])
+            resp = kube_releases.create(new_release)
+            print(resp)
+
 
 
 def load_config(path: str) -> Dict[str, Any]:
@@ -160,19 +175,62 @@ def resolve_tls_verify(config: Dict[str, Any]) -> Any:
     return verify
 
 
+def get_release_number(kube_releases):
+    release_list = kube_releases.get()
+    rel_regexp = r"-r([0-9]+)$"
+    last_release=0
+    for rel in release_list:
+        #print(rel['metadata']['name'])
+        matches = re.search(rel_regexp, rel['metadata']['name'])
+        if matches and matches.group(1) and int(matches.group(1)) > last_release:
+            last_release = int(matches.group(1))
+            #print(int(matches.group(1)), last_release)
+    return last_release+1
+
+
+
+def get_konflux(config, token, api, kind, verify):
+    return Konflux(config['api_url'],
+                        token,
+                        config['namespace'],
+                        api,
+                        kind,
+                        verify)
+
+
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-f', '--config', action='store', required=False, default="nudges.yaml", help='yaml config file ')
-    parser.add_argument('-b', '--branch', action='store', required=False, default=None, help='source branch')
+    parser.add_argument('-c', '--config', action='store', required=False, default="nudges.yaml", help='yaml config file (default: nudges.yaml) ')
     parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
+    parser.add_argument('-e', '--env', action='store', required=False, default="staging", help='environment to release to (prod|staging)')
+    parser.add_argument('-a', '--application', action='store', required=False, default="", help='limit to a single application')
+    parser.add_argument('-f', '--fbctemplate', action='store', required=False, default="templates/hub-catalog-template.json,templates/op-catalog-template.json", help='comma seperated list of templates to process')
+    parser.add_argument('-o', '--outdir', action='store', required=False, default=None, help='directory to write to')
     parser.add_argument('--test', action='store_true', default=False)
+    parser.add_argument('--release', action='store_true', default=False, help='Only run the release')
+    parser.add_argument('--fbc', action='store_true', default=False, help='Only run the fbc create')
 
     opt = parser.parse_args()
     test_mode = opt.test
     token = opt.token
+    if opt.env != "prod" and opt.env != "staging":
+        print("--env should be one of 'prod' or 'staging'")
+        sys.exit(0)
+    env = opt.env
+    template_list = opt.fbctemplate.split(",")
+    fbc_dir = opt.outdir
+
+    if not opt.release  and not opt.fbc:
+        opt.release = True
+        opt.fbc = True
+
+    labels={}
+    if opt.application:
+        labels['application'] = opt.application
+
 
     try:
         config = load_config(opt.config)
@@ -180,24 +238,38 @@ if __name__ == "__main__":
         print(f"Failed to load config: {e}", file=sys.stderr)
         sys.exit(2)
 
-    component, version = get_component_from_branch(opt.branch)
-
-    try:
-        if component not in config[f"release-{version}"][1]['operands'] \
-            or "release" not in config[f"release-{version}"][1]['operation']:
-                print(f"{component} not releaseable component")
-                exit(0)
-    except KeyError as e:
-        print(f"release-{version} not found in {opt.config} {e}")
-        exit(1)
 
 
+    #release_plan = f"release-staging"
     verify = resolve_tls_verify(config)
 
-    application = f"kmm-{version}"
-    releaseplan = f"{application}-release-staging"
+    kube_components = get_konflux(config,
+                        token,
+                        "appstudio.redhat.com/v1alpha1",
+                        "components",
+                        verify)
 
-    snapshot_and_release(config, token, version, application, releaseplan, verify)
+    kube_releases = get_konflux(config,
+                        token,
+                        "appstudio.redhat.com/v1alpha1",
+                        "releases",
+                        verify)
+
+    kube_snapshots = get_konflux(config,
+                        token,
+                        "appstudio.redhat.com/v1alpha1",
+                        "snapshots",
+                        verify)
+
+
+    release_number = get_release_number(kube_releases)
+    commit = git_commands.call_git(False, "rev-parse", "main").decode("utf-8").strip()
+
+    if opt.release:
+        snapshots = create_snapshots(kube_components, kube_snapshots, config['namespace'], release_number, commit, labels=labels)
+        create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
+
+    if opt.fbc:
+        create_fbc(kube_components, template_list, fbc_dir, env, labels=labels)
 
     exit(0)
-

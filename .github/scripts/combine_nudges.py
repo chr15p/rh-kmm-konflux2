@@ -29,7 +29,7 @@ def get_commit(msg: str) -> str:
     return matches.group(1)
 
 
-def merge_prs(branch, master_pr, nudged_prs):
+def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
     for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
             continue
@@ -43,8 +43,9 @@ def merge_prs(branch, master_pr, nudged_prs):
         out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
         print(out)
 
-    print("call_gh", "pr", "edit", str(master_pr), "--add-label", "ok-to-merge")
-    git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", "ok-to-merge")
+    if label_to_apply:
+        print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
+        git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", label_to_apply)
 
 
 
@@ -122,26 +123,31 @@ if __name__ == "__main__":
             continue
         if commit_check and commit != curr_commit:
             continue
+        if number > curr_number:
+            print(f"a newer PR exists for {curr_version} defer to that ({number} > {curr_number})")
+            print(f"{version=} {curr_version=} {commit=} {curr_commit=}")
+            sys.exit(0)
 
         nudged_components[component] = number
 
     print(nudged_components)
     ## do we have everything we need?
     not_nudged = []
+    label_to_apply = None
     #for c in CONFIG[f"release-{curr_version}"]["components"]:
     #    if not nudged_components.get(c):
     #        not_nudged.append(c)
     if CONFIG.get(f"release-{curr_version}"):
-        if curr_component in CONFIG[f"release-{curr_version}"].get("components", []):
-            for c in CONFIG[f"release-{curr_version}"]["components"]:
+        if curr_component in CONFIG[f"release-{curr_version}"].get("operands", []):
+            for c in CONFIG[f"release-{curr_version}"]["operands"]:
                 if not nudged_components.get(c):
                     not_nudged.append(c)
-            label_to_apply="ok-to-merge"
+            label_to_apply=CONFIG["operand-label"]
         elif curr_component in CONFIG[f"release-{curr_version}"].get("bundles", []):
             for c in CONFIG[f"release-{curr_version}"]["bundles"]:
                 if not nudged_components.get(c):
                     not_nudged.append(c)
-            label_to_apply="ok-to-release"
+            label_to_apply=CONFIG["bundle-label"]
 
     if not_nudged:
         print(f"not all components found for release-{curr_version}: {label_to_apply} (missing {' '.join(not_nudged)})")

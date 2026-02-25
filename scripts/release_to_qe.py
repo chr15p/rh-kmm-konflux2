@@ -42,7 +42,7 @@ parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespac
 parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file ')
 parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
 parser.add_argument('-d', '--directory', required=True, help='directory containing config filesi (e.g. release-2.5/)')
-parser.add_argument('-g', '--commit', default="HEAD", help='')
+parser.add_argument('-g', '--commit', default=None, help='')
 parser.add_argument('-o', '--output', default=None, help='file to write output to')
 opt = parser.parse_args()
 
@@ -59,9 +59,12 @@ relnum = rel.get_latest_rel()
 kmm = submodule_version(f"{opt.directory}/{build_settings['PRODUCT']}")
 
 #build = build_version(opt.commit)
-build = helpers.get_commit(".", opt.commit)
+if opt.commit:
+    build=opt.commit.split(",")
+else:
+    build = [helpers.get_commit(".", "HEAD")]
 
-output = {"version": build_settings.get("RELEASE", "unknown"), "release": relnum, "build_commit": build[:7], "kmm_commit": kmm,  "kmm": {}, "kmmhub": {}}
+output = {"version": build_settings.get("RELEASE", "unknown"), "release": relnum, "build_commit": build[0][:7], "kmm_commit": kmm,  "kmm": {}, "kmmhub": {}}
 fbc={}
 
 #components = helpers.Component(opt.kubeconfig, opt.namespace, match="spec.application=fbc-*")
@@ -70,7 +73,8 @@ components = helpers.Component(opt.kubeconfig, opt.namespace, label_selector="st
 image_shas = {}
 for comp in components.items():
     try:
-        if comp.status.lastBuiltCommit == build:
+        #if comp.status.lastBuiltCommit == build:
+        if comp.status.lastBuiltCommit in build:
             image_shas[comp.metadata.name] = comp.status.lastPromotedImage
     except AttributeError as e:
         print(f"failed to get comp.status.lastBuiltCommit for {comp.metadata.name}: {e}")

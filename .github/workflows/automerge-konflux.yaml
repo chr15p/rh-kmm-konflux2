@@ -2,7 +2,7 @@ name: Auto-merge konflux PRs
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
 
 jobs:
   merge:
