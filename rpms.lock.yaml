@@ -11,6 +11,13 @@ arches:
     name: cpp
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.aarch64.rpm
+    repoid: ubi-9-for-aarch64-appstream-rpms
+    size: 43262
+    checksum: sha256:7b20b3529629d4015c97fc66ee694f8e9c3104b512d4dd39efefe1c1d799d811
+    name: elfutils-libelf-devel
+    evr: 0.193-1.el9
+    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/gcc-11.5.0-11.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 31296441
@@ -18,41 +25,20 @@ arches:
     name: gcc
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.2.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.10.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 568363
-    checksum: sha256:5e3bbdb64dad55fdb07540756c333e0a73afe4ab493de199277a82138c224352
+    size: 574689
+    checksum: sha256:8c65fcccb3edde97d47a2a226cf768476ed4a12a31074a6112925f6569750b20
     name: glibc-devel
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/golang-1.25.5-2.el9_7.aarch64.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-611.35.1.el9_7.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 1324240
-    checksum: sha256:4421b206ab8feeee39a9e70b6bb470ce686df35fd3e5b7755acb0b2163bcfcb8
-    name: golang
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/golang-bin-1.25.5-2.el9_7.aarch64.rpm
-    repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 34381124
-    checksum: sha256:2eb8f7ec2a9e03eeea8ccc15813c901f0fdd14b13ab69dbd892718156350aa68
-    name: golang-bin
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/golang-race-1.25.5-2.el9_7.aarch64.rpm
-    repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 1770604
-    checksum: sha256:027e619053f984747d24e47024eacc536ec0567a3dee60904fe92b87c8115c48
-    name: golang-race
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/golang-src-1.25.5-2.el9_7.noarch.rpm
-    repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 12170725
-    checksum: sha256:e7528a3ca424056dc43729472f8efb6fc8c9b04cd4f86403873db2b0e360fb4f
-    name: golang-src
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
+    size: 2978789
+    checksum: sha256:32fa7425a81398e94d001ed6da353e643ce95574e2d031d60614c081f10bed4d
+    name: kernel-headers
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libasan-11.5.0-11.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 408716
@@ -571,13 +557,6 @@ arches:
     name: dbus-common
     evr: 1:1.12.20-8.el9
     sourcerpm: dbus-1.12.20-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/d/diffutils-3.7-12.el9.aarch64.rpm
-    repoid: ubi-9-for-aarch64-baseos-rpms
-    size: 405687
-    checksum: sha256:524412f7ce56095508190116cb8ae141737857e4447979330c3cf75ca7017e6b
-    name: diffutils
-    evr: 3.7-12.el9
-    sourcerpm: diffutils-3.7-12.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/e/elfutils-debuginfod-client-0.193-1.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 43664
@@ -872,13 +851,6 @@ arches:
     name: bison
     evr: 3.7.4-5.el9
     sourcerpm: bison-3.7.4-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.aarch64.rpm
-    repoid: rhel-9-for-aarch64-appstream-rpms
-    size: 43262
-    checksum: sha256:7b20b3529629d4015c97fc66ee694f8e9c3104b512d4dd39efefe1c1d799d811
-    name: elfutils-libelf-devel
-    evr: 0.193-1.el9
-    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/f/flex-2.6.4-9.el9.aarch64.rpm
     repoid: rhel-9-for-aarch64-appstream-rpms
     size: 317073
@@ -886,20 +858,13 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/k/kernel-devel-5.14.0-611.30.1.el9_7.aarch64.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/k/kernel-devel-5.14.0-611.35.1.el9_7.aarch64.rpm
     repoid: rhel-9-for-aarch64-appstream-rpms
-    size: 22037869
-    checksum: sha256:5839958d6ef0dde51a3a2e646f1d78180819e7c5562d97fabd949855f3e5a910
+    size: 22046805
+    checksum: sha256:6cd4b99a7e82828763fbddf7cb99adcdf41c6d36cddca59559667532382d998f
     name: kernel-devel
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-611.30.1.el9_7.aarch64.rpm
-    repoid: rhel-9-for-aarch64-appstream-rpms
-    size: 2976441
-    checksum: sha256:b5a0a8e436d742362c21503b98d3d3bf2d41cdb709fa7f6df9d0dceee64cb468
-    name: kernel-headers
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-aarch64-appstream-source-rpms
@@ -913,12 +878,6 @@ arches:
     checksum: sha256:8b8b77e25cb61215e8454e83be308325cbba3c1c4bc8e1af053c6f70c9702f80
     name: flex
     evr: 2.6.4-9.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/source/SRPMS/Packages/g/golang-1.25.5-2.el9_7.src.rpm
-    repoid: rhel-9-for-aarch64-appstream-source-rpms
-    size: 34343514
-    checksum: sha256:4b442fd2c0e8775549df7e75722c5ee1da03f3d6442b6e2a166eae175577f741
-    name: golang
-    evr: 1.25.5-2.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/source/SRPMS/Packages/l/libmpc-1.2.1-4.el9.src.rpm
     repoid: rhel-9-for-aarch64-appstream-source-rpms
     size: 846236
@@ -1165,12 +1124,6 @@ arches:
     checksum: sha256:aced3097fbb8a424ca1816b8cb3e79960a9ccf7ba139538282886e692c317b29
     name: dbus-broker
     evr: 28-7.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/d/diffutils-3.7-12.el9.src.rpm
-    repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 1477522
-    checksum: sha256:7a10e2d961f8d755f8ccf51a1fb7f68687671b82d9486e4b8d648561af1a185e
-    name: diffutils
-    evr: 3.7-12.el9
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/e/elfutils-0.193-1.el9.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 12000622
@@ -1195,12 +1148,12 @@ arches:
     checksum: sha256:4ab595dc52e7a66f9cb067e55081e9ba4e2cb577187cf1ac9a2e92e07c295560
     name: gcc
     evr: 11.5.0-11.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.2.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.10.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 20247873
-    checksum: sha256:a1638d70dfd1554dbcca0ef6187a3387bb36f6e2b8f484b553f52a4be15a2fd1
+    size: 20264991
+    checksum: sha256:d91fd4821e3e725d15f7f10d0157d6ea43554d492fce5cb2ea993d0a9f8394ad
     name: glibc
-    evr: 2.34-231.el9_7.2
+    evr: 2.34-231.el9_7.10
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 4138121
@@ -1219,12 +1172,12 @@ arches:
     checksum: sha256:f1ed92f747e6bce4ba204f9881f2f991dfbab212568f985135d43047c9fac4a8
     name: iproute
     evr: 6.14.0-2.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.30.1.el9_7.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.35.1.el9_7.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 150918772
-    checksum: sha256:ba74914132328e97609247e676c0923cefb453ebe7e47dd97604f26183cc4ffb
+    size: 150918407
+    checksum: sha256:c198d525c3da966652042090bc99f1ea2199a7e188ecea36e2f6149854302428
     name: kernel
-    evr: 5.14.0-611.30.1.el9_7
+    evr: 5.14.0-611.35.1.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/k/kmod-28-11.el9.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 579198
@@ -1385,6 +1338,13 @@ arches:
     name: cpp
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-appstream-rpms
+    size: 43286
+    checksum: sha256:d515c1d6cb3c55ceef56393b7929166bf5d9c2772cc39c725d2b13d3dd58fb17
+    name: elfutils-libelf-devel
+    evr: 0.193-1.el9
+    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/gcc-11.5.0-11.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 29067772
@@ -1392,41 +1352,20 @@ arches:
     name: gcc
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.2.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.10.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 582161
-    checksum: sha256:436abeff512c5c31558b6ee07804e7988f44f3a954ee98198746fae4f50a05d3
+    size: 588388
+    checksum: sha256:3e308099aef9d19160c4dc0652a0a377f6b9491d9bf8f9485efcd9c998ae0392
     name: glibc-devel
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/golang-1.25.5-2.el9_7.ppc64le.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-611.35.1.el9_7.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 1324410
-    checksum: sha256:5d71afb7a021ad73c6adae7e4666acaefee14a4a9279a214db80e2eccb22e9b2
-    name: golang
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/golang-bin-1.25.5-2.el9_7.ppc64le.rpm
-    repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 35096703
-    checksum: sha256:9c3518685c4e73d6b4031f304c276c5027e62fbc20f619b99142c445eb993b65
-    name: golang-bin
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/golang-race-1.25.5-2.el9_7.ppc64le.rpm
-    repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 1692952
-    checksum: sha256:f5a49f52762e67079d249a541509bc43f9daa91644c957a226ae29b470d64fac
-    name: golang-race
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/golang-src-1.25.5-2.el9_7.noarch.rpm
-    repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 12170725
-    checksum: sha256:e7528a3ca424056dc43729472f8efb6fc8c9b04cd4f86403873db2b0e360fb4f
-    name: golang-src
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
+    size: 3000449
+    checksum: sha256:f4ab26b797969037083a12722e385ca74ec3afd3d4b3ff2b0e95e26bcf7a3911
+    name: kernel-headers
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/l/libasan-11.5.0-11.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 440457
@@ -1945,13 +1884,6 @@ arches:
     name: dbus-common
     evr: 1:1.12.20-8.el9
     sourcerpm: dbus-1.12.20-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/d/diffutils-3.7-12.el9.ppc64le.rpm
-    repoid: ubi-9-for-ppc64le-baseos-rpms
-    size: 426776
-    checksum: sha256:1e58188524109f7f021d2a4a7b7ac5ab9ecab60dba1b1a0defc950a0f3b91f64
-    name: diffutils
-    evr: 3.7-12.el9
-    sourcerpm: diffutils-3.7-12.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/e/elfutils-debuginfod-client-0.193-1.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 47229
@@ -2253,13 +2185,6 @@ arches:
     name: bison
     evr: 3.7.4-5.el9
     sourcerpm: bison-3.7.4-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.ppc64le.rpm
-    repoid: rhel-9-for-ppc64le-appstream-rpms
-    size: 43286
-    checksum: sha256:d515c1d6cb3c55ceef56393b7929166bf5d9c2772cc39c725d2b13d3dd58fb17
-    name: elfutils-libelf-devel
-    evr: 0.193-1.el9
-    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/f/flex-2.6.4-9.el9.ppc64le.rpm
     repoid: rhel-9-for-ppc64le-appstream-rpms
     size: 323558
@@ -2267,20 +2192,13 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/k/kernel-devel-5.14.0-611.30.1.el9_7.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/k/kernel-devel-5.14.0-611.35.1.el9_7.ppc64le.rpm
     repoid: rhel-9-for-ppc64le-appstream-rpms
-    size: 21823689
-    checksum: sha256:34134d55d29a68d562f2b75ab68324446a533bcffc703c8a71c38ed0ef231eda
+    size: 21833173
+    checksum: sha256:f89b6ee97bf7dee850716374582d4686acc178a34f9fec3ed05b04c62fa2d1bc
     name: kernel-devel
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-611.30.1.el9_7.ppc64le.rpm
-    repoid: rhel-9-for-ppc64le-appstream-rpms
-    size: 2998193
-    checksum: sha256:993e1db1f37d239b7ef7a5a1ccbf61bae3574b66607f14ca49882515b9030329
-    name: kernel-headers
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-ppc64le-appstream-source-rpms
@@ -2294,12 +2212,6 @@ arches:
     checksum: sha256:8b8b77e25cb61215e8454e83be308325cbba3c1c4bc8e1af053c6f70c9702f80
     name: flex
     evr: 2.6.4-9.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/source/SRPMS/Packages/g/golang-1.25.5-2.el9_7.src.rpm
-    repoid: rhel-9-for-ppc64le-appstream-source-rpms
-    size: 34343514
-    checksum: sha256:4b442fd2c0e8775549df7e75722c5ee1da03f3d6442b6e2a166eae175577f741
-    name: golang
-    evr: 1.25.5-2.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/source/SRPMS/Packages/l/libmpc-1.2.1-4.el9.src.rpm
     repoid: rhel-9-for-ppc64le-appstream-source-rpms
     size: 846236
@@ -2546,12 +2458,6 @@ arches:
     checksum: sha256:aced3097fbb8a424ca1816b8cb3e79960a9ccf7ba139538282886e692c317b29
     name: dbus-broker
     evr: 28-7.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/d/diffutils-3.7-12.el9.src.rpm
-    repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 1477522
-    checksum: sha256:7a10e2d961f8d755f8ccf51a1fb7f68687671b82d9486e4b8d648561af1a185e
-    name: diffutils
-    evr: 3.7-12.el9
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/e/elfutils-0.193-1.el9.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 12000622
@@ -2576,12 +2482,12 @@ arches:
     checksum: sha256:4ab595dc52e7a66f9cb067e55081e9ba4e2cb577187cf1ac9a2e92e07c295560
     name: gcc
     evr: 11.5.0-11.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.2.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.10.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 20247873
-    checksum: sha256:a1638d70dfd1554dbcca0ef6187a3387bb36f6e2b8f484b553f52a4be15a2fd1
+    size: 20264991
+    checksum: sha256:d91fd4821e3e725d15f7f10d0157d6ea43554d492fce5cb2ea993d0a9f8394ad
     name: glibc
-    evr: 2.34-231.el9_7.2
+    evr: 2.34-231.el9_7.10
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 4138121
@@ -2600,12 +2506,12 @@ arches:
     checksum: sha256:f1ed92f747e6bce4ba204f9881f2f991dfbab212568f985135d43047c9fac4a8
     name: iproute
     evr: 6.14.0-2.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.30.1.el9_7.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.35.1.el9_7.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 150918772
-    checksum: sha256:ba74914132328e97609247e676c0923cefb453ebe7e47dd97604f26183cc4ffb
+    size: 150918407
+    checksum: sha256:c198d525c3da966652042090bc99f1ea2199a7e188ecea36e2f6149854302428
     name: kernel
-    evr: 5.14.0-611.30.1.el9_7
+    evr: 5.14.0-611.35.1.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/k/kmod-28-11.el9.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 579198
@@ -2772,6 +2678,13 @@ arches:
     name: cpp
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.s390x.rpm
+    repoid: ubi-9-for-s390x-appstream-rpms
+    size: 43270
+    checksum: sha256:29fb52617f30fb9ba42eb61f09e1e60556bf7e9b2ce5694049b47ffa0a457511
+    name: elfutils-libelf-devel
+    evr: 0.193-1.el9
+    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/gcc-11.5.0-11.el9.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 26832702
@@ -2779,48 +2692,27 @@ arches:
     name: gcc
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.2.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.10.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 48934
-    checksum: sha256:55d203ca8b87471267834f92f9c4b0cd99d64575b849458e865269909c359b33
+    size: 55293
+    checksum: sha256:04f840e95240908817b24e8e14471469fe4acdc36e21cf1f4bf3f93df5916f1b
     name: glibc-devel
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-headers-2.34-231.el9_7.2.s390x.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-headers-2.34-231.el9_7.10.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 549011
-    checksum: sha256:672400ee296df23694a58710a1895d8dcda1e04d9b6cc6f63094d1dbbb9ba970
+    size: 555359
+    checksum: sha256:8a0515facc94836c5695c9cf671d166594ff3369bc07def5425972f22ef75fcf
     name: glibc-headers
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/golang-1.25.5-2.el9_7.s390x.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-611.35.1.el9_7.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 1324427
-    checksum: sha256:4cec96210ddefe735ca55a0d838032ab3a0fc0394da235b8259f41e18f1c22c2
-    name: golang
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/golang-bin-1.25.5-2.el9_7.s390x.rpm
-    repoid: ubi-9-for-s390x-appstream-rpms
-    size: 36919881
-    checksum: sha256:8865d1f0c25535c4492b54dcfa0bec28d8dac6c7c084c704b959f422ff87771c
-    name: golang-bin
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/golang-race-1.25.5-2.el9_7.s390x.rpm
-    repoid: ubi-9-for-s390x-appstream-rpms
-    size: 1740107
-    checksum: sha256:d15f5e9862b43eee8baa1f630ed47d7132638bd713371b694131b8f8190ce982
-    name: golang-race
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/golang-src-1.25.5-2.el9_7.noarch.rpm
-    repoid: ubi-9-for-s390x-appstream-rpms
-    size: 12170725
-    checksum: sha256:e7528a3ca424056dc43729472f8efb6fc8c9b04cd4f86403873db2b0e360fb4f
-    name: golang-src
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
+    size: 3009013
+    checksum: sha256:30975ef422cb15e9fa6f43827025ab1fb73baec133f4a0be6f0c237e8b927ead
+    name: kernel-headers
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/l/libasan-11.5.0-11.el9.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 412655
@@ -3339,13 +3231,6 @@ arches:
     name: dbus-common
     evr: 1:1.12.20-8.el9
     sourcerpm: dbus-1.12.20-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/d/diffutils-3.7-12.el9.s390x.rpm
-    repoid: ubi-9-for-s390x-baseos-rpms
-    size: 410465
-    checksum: sha256:a8015025ca40048059576a71f398c47d4b563e6a91e1e27a453f9212312df259
-    name: diffutils
-    evr: 3.7-12.el9
-    sourcerpm: diffutils-3.7-12.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/e/elfutils-debuginfod-client-0.193-1.el9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 44248
@@ -3640,13 +3525,6 @@ arches:
     name: bison
     evr: 3.7.4-5.el9
     sourcerpm: bison-3.7.4-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.s390x.rpm
-    repoid: rhel-9-for-s390x-appstream-rpms
-    size: 43270
-    checksum: sha256:29fb52617f30fb9ba42eb61f09e1e60556bf7e9b2ce5694049b47ffa0a457511
-    name: elfutils-libelf-devel
-    evr: 0.193-1.el9
-    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/f/flex-2.6.4-9.el9.s390x.rpm
     repoid: rhel-9-for-s390x-appstream-rpms
     size: 322674
@@ -3654,20 +3532,13 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/k/kernel-devel-5.14.0-611.30.1.el9_7.s390x.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/k/kernel-devel-5.14.0-611.35.1.el9_7.s390x.rpm
     repoid: rhel-9-for-s390x-appstream-rpms
-    size: 20683725
-    checksum: sha256:b22d270e9333a68e29503c4929dca72f3913a1411d34e7bd7445cca893af3473
+    size: 20692797
+    checksum: sha256:e24aa713a2f3a6adab1609f1de3ec1faea797665f6e8b3d0954085bf38b9b77a
     name: kernel-devel
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-611.30.1.el9_7.s390x.rpm
-    repoid: rhel-9-for-s390x-appstream-rpms
-    size: 3006641
-    checksum: sha256:cb9f031150daf2677c8c1e8d6c8b406820036b89fa919b332b47201ce7a1df11
-    name: kernel-headers
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-s390x-appstream-source-rpms
@@ -3681,12 +3552,6 @@ arches:
     checksum: sha256:8b8b77e25cb61215e8454e83be308325cbba3c1c4bc8e1af053c6f70c9702f80
     name: flex
     evr: 2.6.4-9.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/source/SRPMS/Packages/g/golang-1.25.5-2.el9_7.src.rpm
-    repoid: rhel-9-for-s390x-appstream-source-rpms
-    size: 34343514
-    checksum: sha256:4b442fd2c0e8775549df7e75722c5ee1da03f3d6442b6e2a166eae175577f741
-    name: golang
-    evr: 1.25.5-2.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/source/SRPMS/Packages/l/libmpc-1.2.1-4.el9.src.rpm
     repoid: rhel-9-for-s390x-appstream-source-rpms
     size: 846236
@@ -3933,12 +3798,6 @@ arches:
     checksum: sha256:aced3097fbb8a424ca1816b8cb3e79960a9ccf7ba139538282886e692c317b29
     name: dbus-broker
     evr: 28-7.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/d/diffutils-3.7-12.el9.src.rpm
-    repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 1477522
-    checksum: sha256:7a10e2d961f8d755f8ccf51a1fb7f68687671b82d9486e4b8d648561af1a185e
-    name: diffutils
-    evr: 3.7-12.el9
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/e/elfutils-0.193-1.el9.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 12000622
@@ -3963,12 +3822,12 @@ arches:
     checksum: sha256:4ab595dc52e7a66f9cb067e55081e9ba4e2cb577187cf1ac9a2e92e07c295560
     name: gcc
     evr: 11.5.0-11.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.2.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.10.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 20247873
-    checksum: sha256:a1638d70dfd1554dbcca0ef6187a3387bb36f6e2b8f484b553f52a4be15a2fd1
+    size: 20264991
+    checksum: sha256:d91fd4821e3e725d15f7f10d0157d6ea43554d492fce5cb2ea993d0a9f8394ad
     name: glibc
-    evr: 2.34-231.el9_7.2
+    evr: 2.34-231.el9_7.10
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 4138121
@@ -3987,12 +3846,12 @@ arches:
     checksum: sha256:f1ed92f747e6bce4ba204f9881f2f991dfbab212568f985135d43047c9fac4a8
     name: iproute
     evr: 6.14.0-2.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.30.1.el9_7.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.35.1.el9_7.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 150918772
-    checksum: sha256:ba74914132328e97609247e676c0923cefb453ebe7e47dd97604f26183cc4ffb
+    size: 150918407
+    checksum: sha256:c198d525c3da966652042090bc99f1ea2199a7e188ecea36e2f6149854302428
     name: kernel
-    evr: 5.14.0-611.30.1.el9_7
+    evr: 5.14.0-611.35.1.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/k/kmod-28-11.el9.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 579198
@@ -4153,6 +4012,13 @@ arches:
     name: cpp
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.x86_64.rpm
+    repoid: ubi-9-for-x86_64-appstream-rpms
+    size: 43293
+    checksum: sha256:0e82fc415fd5389205a85c1314ebc73ad9ce38ea0ccd8a0d94887fa4740b6e71
+    name: elfutils-libelf-devel
+    evr: 0.193-1.el9
+    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/gcc-11.5.0-11.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 33986019
@@ -4160,48 +4026,27 @@ arches:
     name: gcc
     evr: 11.5.0-11.el9
     sourcerpm: gcc-11.5.0-11.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.2.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-devel-2.34-231.el9_7.10.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 37885
-    checksum: sha256:6468a64e723d9fff4921fe05b8b5117b19277999053b20d67416f727b2b8d3dd
+    size: 44222
+    checksum: sha256:4bf307483b5c6c359b7484804c453ab5c6b0fc65c7cd5368e2572077d804d559
     name: glibc-devel
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-headers-2.34-231.el9_7.2.x86_64.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-headers-2.34-231.el9_7.10.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 558293
-    checksum: sha256:f4405218c4527e240f0739ba1b63e8a653e74ef48e960c0e164da55eec8c51dc
+    size: 564682
+    checksum: sha256:dfabaa79899e36aa920d901851e5c2101d43b91d9f466dc97c35b4c14290d4e7
     name: glibc-headers
-    evr: 2.34-231.el9_7.2
-    sourcerpm: glibc-2.34-231.el9_7.2.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/golang-1.25.5-2.el9_7.x86_64.rpm
+    evr: 2.34-231.el9_7.10
+    sourcerpm: glibc-2.34-231.el9_7.10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-611.35.1.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 1324196
-    checksum: sha256:ebe422c5e088cda8515cdae4e4c611db6cd37352462ce4f865ab6846d7ba5a0d
-    name: golang
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/golang-bin-1.25.5-2.el9_7.x86_64.rpm
-    repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 38255304
-    checksum: sha256:ad2cff30b96e54019694106ea8831bba8c2b8c737906665e322582aa55ccdf44
-    name: golang-bin
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/golang-race-1.25.5-2.el9_7.x86_64.rpm
-    repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 1771873
-    checksum: sha256:b8c48ce1a6007e1c297495d8ae7d0be0e1121a6cf7b93f86c393623fc826416a
-    name: golang-race
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/golang-src-1.25.5-2.el9_7.noarch.rpm
-    repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 12170725
-    checksum: sha256:e7528a3ca424056dc43729472f8efb6fc8c9b04cd4f86403873db2b0e360fb4f
-    name: golang-src
-    evr: 1.25.5-2.el9_7
-    sourcerpm: golang-1.25.5-2.el9_7.src.rpm
+    size: 3017809
+    checksum: sha256:beca4f8a886a45f20f1ff796fe68b0c2b447d54cff861c3c658c8d497f1adcc5
+    name: kernel-headers
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libmpc-1.2.1-4.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 66075
@@ -4713,13 +4558,6 @@ arches:
     name: dbus-common
     evr: 1:1.12.20-8.el9
     sourcerpm: dbus-1.12.20-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/d/diffutils-3.7-12.el9.x86_64.rpm
-    repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 411559
-    checksum: sha256:2d4c4fdfc10215af3c957c24995b79a26e27e6d76de4ed1f5198d25bf7ef9671
-    name: diffutils
-    evr: 3.7-12.el9
-    sourcerpm: diffutils-3.7-12.el9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/e/elfutils-debuginfod-client-0.193-1.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 44629
@@ -5014,13 +4852,6 @@ arches:
     name: bison
     evr: 3.7.4-5.el9
     sourcerpm: bison-3.7.4-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/e/elfutils-libelf-devel-0.193-1.el9.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-rpms
-    size: 43293
-    checksum: sha256:0e82fc415fd5389205a85c1314ebc73ad9ce38ea0ccd8a0d94887fa4740b6e71
-    name: elfutils-libelf-devel
-    evr: 0.193-1.el9
-    sourcerpm: elfutils-0.193-1.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/f/flex-2.6.4-9.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 325312
@@ -5028,20 +4859,13 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/k/kernel-devel-5.14.0-611.30.1.el9_7.x86_64.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/k/kernel-devel-5.14.0-611.35.1.el9_7.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
-    size: 22902253
-    checksum: sha256:0b6fe2735022c38765634a45379f29ce6f11fab3356d980c213bdf7039c9e4e0
+    size: 22913565
+    checksum: sha256:db032c4fba2c8d0e48603a29eb2775e31bdb4cc867ea26c5e1cddec4bfd83754
     name: kernel-devel
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-611.30.1.el9_7.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-rpms
-    size: 3015485
-    checksum: sha256:185f864d28cc5f8cd37737935b1aeb491ad4aa0afde9c2a07d5442476c940a1b
-    name: kernel-headers
-    evr: 5.14.0-611.30.1.el9_7
-    sourcerpm: kernel-5.14.0-611.30.1.el9_7.src.rpm
+    evr: 5.14.0-611.35.1.el9_7
+    sourcerpm: kernel-5.14.0-611.35.1.el9_7.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-x86_64-appstream-source-rpms
@@ -5055,12 +4879,6 @@ arches:
     checksum: sha256:8b8b77e25cb61215e8454e83be308325cbba3c1c4bc8e1af053c6f70c9702f80
     name: flex
     evr: 2.6.4-9.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/source/SRPMS/Packages/g/golang-1.25.5-2.el9_7.src.rpm
-    repoid: rhel-9-for-x86_64-appstream-source-rpms
-    size: 34343514
-    checksum: sha256:4b442fd2c0e8775549df7e75722c5ee1da03f3d6442b6e2a166eae175577f741
-    name: golang
-    evr: 1.25.5-2.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/source/SRPMS/Packages/l/libmpc-1.2.1-4.el9.src.rpm
     repoid: rhel-9-for-x86_64-appstream-source-rpms
     size: 846236
@@ -5307,12 +5125,6 @@ arches:
     checksum: sha256:aced3097fbb8a424ca1816b8cb3e79960a9ccf7ba139538282886e692c317b29
     name: dbus-broker
     evr: 28-7.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/d/diffutils-3.7-12.el9.src.rpm
-    repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 1477522
-    checksum: sha256:7a10e2d961f8d755f8ccf51a1fb7f68687671b82d9486e4b8d648561af1a185e
-    name: diffutils
-    evr: 3.7-12.el9
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/e/elfutils-0.193-1.el9.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 12000622
@@ -5337,12 +5149,12 @@ arches:
     checksum: sha256:4ab595dc52e7a66f9cb067e55081e9ba4e2cb577187cf1ac9a2e92e07c295560
     name: gcc
     evr: 11.5.0-11.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.2.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/glibc-2.34-231.el9_7.10.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 20247873
-    checksum: sha256:a1638d70dfd1554dbcca0ef6187a3387bb36f6e2b8f484b553f52a4be15a2fd1
+    size: 20264991
+    checksum: sha256:d91fd4821e3e725d15f7f10d0157d6ea43554d492fce5cb2ea993d0a9f8394ad
     name: glibc
-    evr: 2.34-231.el9_7.2
+    evr: 2.34-231.el9_7.10
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 4138121
@@ -5361,12 +5173,12 @@ arches:
     checksum: sha256:f1ed92f747e6bce4ba204f9881f2f991dfbab212568f985135d43047c9fac4a8
     name: iproute
     evr: 6.14.0-2.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.30.1.el9_7.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/k/kernel-5.14.0-611.35.1.el9_7.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 150918772
-    checksum: sha256:ba74914132328e97609247e676c0923cefb453ebe7e47dd97604f26183cc4ffb
+    size: 150918407
+    checksum: sha256:c198d525c3da966652042090bc99f1ea2199a7e188ecea36e2f6149854302428
     name: kernel
-    evr: 5.14.0-611.30.1.el9_7
+    evr: 5.14.0-611.35.1.el9_7
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/k/kmod-28-11.el9.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 579198
