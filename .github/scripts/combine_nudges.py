@@ -45,7 +45,8 @@ def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
 
     if label_to_apply:
         print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
-        git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", label_to_apply)
+        out=git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", label_to_apply)
+        print(out)
 
 
 
@@ -154,7 +155,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     print(f"merge {nudged_components}")
-    merge_prs(curr_branch, curr_number, nudged_components)
-    print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
+    merge_prs(curr_branch, curr_number, nudged_components, label_to_apply)
+    #print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
 

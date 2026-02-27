@@ -5,12 +5,9 @@ packages:
   - gzip
   - iproute
   - util-linux
-  - golang
+  - python3-pyyaml
   - kmod
   - kernel-devel
-  - python3-pyyaml
-  - openssl-libs
-  - openssl
 contentOrigin:
   repofiles: 
   - ./ubi.repo
