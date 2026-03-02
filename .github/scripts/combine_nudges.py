@@ -109,10 +109,17 @@ if __name__ == "__main__":
     except json.decoder.JSONDecodeError as e:
         print(f"pr list error: {e}")
         sys.exit(1)
+    if pr_list == []:
+        sys.exit(0)
 
     curr_pr = get_pr(pr_list, curr_branch, curr_number)
-    curr_branch=curr_pr['headRefName']
-    curr_number=curr_pr['number']
+    print(curr_pr)
+    try:
+        curr_branch=curr_pr['headRefName']
+        curr_number=curr_pr['number']
+    except (TypeError, KeyError):
+        print("no relevant PRs found or unable to determine branch")
+        exit(0)
 
     nudged_components = {}
     curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)

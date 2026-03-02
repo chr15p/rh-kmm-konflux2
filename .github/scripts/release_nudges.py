@@ -13,52 +13,33 @@ import helpers
 from konflux_api import Konflux
 
 test_mode=False
+current_versions = {} #get_versions() 
 
-def get_versions() -> Dict(str,str):
-    return {"kmm-2-6": "2.6.0", "kmm-2-5": "2.5.2", "kmm-2-4": "2.4.3", "kmm-2-3": "2.3.2", "kmm-2-2": "2.2.2"}
+#def get_versions() -> Dict(str,str):
+#    return {"kmm-2-6": "2.6.0", "kmm-2-5": "2.5.2", "kmm-2-4": "2.4.3", "kmm-2-3": "2.3.2", "kmm-2-2": "2.2.2"}
 
-def parse_image_name(image: str) -> (str, str, str):
-    comp_regexp = r".*/([a-z\-]+)-([0-9]+-[0-9]+)@(.*)"
-    matches = re.search(comp_regexp, image)
-    return matches.group(1),matches.group(2),matches.group(3)
-
-
-def create_fbc(kube_components, template_list, fbc_file_dir, env, labels={}):
-    labels["stage"] = "bundle"
-
-    component_list = kube_components.get(label_selector=labels)
-
-    #operator-bundle-2-5
-    #"name": "kernel-module-management-operator-bundle.v2.3.0",
-    #quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/operator-bundle-2-5@sha256:7e6981e97f753c198c47801714ee5d57175e648c53c3f97b6416e22cb574fd3e
-    #"registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:41f516aa4d8f96347dd3833448154219717c3c3355f68cad400a7f5b6065017a"
-    releases = get_versions()
-    images={}
-    for c in component_list:
-        component_name, version , sha = parse_image_name(c['status']['lastPromotedImage'])
-        name = f"kernel-module-management-{component_name}.v{releases[c['spec']['application']]}"
-
-        if env == "prod":
-            images[name] = f"registry.redhat.io/kmm/kernel-module-management-{component_name}@{sha}"
-        else:
-            images[name] = f"registry.stage.redhat.io/kmm/kernel-module-management-{component_name}@{sha}"
-
-    for t in template_list:
-        template = helpers.read_json_file(t)
-        for i in template["entries"]:
-            if i["schema"] == "olm.bundle" and images.get(i["name"]):
-                i["image"] = images.get(i["name"])
-
-        if fbc_file_dir:
-            filename = os.path.basename(t)
-            outfile = f"{fbc_file_dir}/{filename}"
-            print(f"{filename=} {outfile=}")
-            with open(outfile, 'w') as file:
-                json.dump(template, file, indent=4)
-        else:
-            print(json.dumps(template, indent=4))
+def read_release(rel_dir):
+    filename=f"{rel_dir}/build_settings.conf"
+    data = {}
+    with open(filename, "r") as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith("RELEASE"):
+                key, value = line.split("=", 1)
+                return value
+    return None
 
 
+def get_versions(path=".") -> Dict(str,str):
+    all_versions = {}
+    for i in os.listdir(path):
+        if i[:8]=="release-":
+            version = f"kmm-{i[8:].replace(".","-")}"
+            release = read_release(i) 
+            all_versions[version] = release 
+
+    print(all_versions)
+    return all_versions
 
 
 def create_snapshots(kube_components, kube_snapshots, namespace, release_number, commit, labels={}):
@@ -67,7 +48,6 @@ def create_snapshots(kube_components, kube_snapshots, namespace, release_number,
     labels["stage!"] = "fbc"
 
     component_list = kube_components.get(label_selector=labels)
-
     snapshot_images = {}
     for c in component_list:
         if not snapshot_images.get(c["spec"]["application"]):
@@ -98,6 +78,7 @@ def create_snapshots(kube_components, kube_snapshots, namespace, release_number,
               namespace: {namespace}
               labels: 
                 kmm: "{version}"
+                version: "{current_versions[k]}"
                 commit: "{commit}"
                 short: "{commit[:7]}"
             spec:
@@ -129,6 +110,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
               labels:
                 appstudio.openshift.io/application: {k}
                 application: {k}
+                version: "{current_versions[k]}"
                 commit: "{commit}"
                 short: "{commit[:7]}"
               name: {k}-{release_name_extension}
@@ -242,6 +224,7 @@ if __name__ == "__main__":
 
     #release_plan = f"release-staging"
     verify = resolve_tls_verify(config)
+    current_versions = get_versions() 
 
     kube_components = get_konflux(config,
                         token,
@@ -268,8 +251,5 @@ if __name__ == "__main__":
     if opt.release:
         snapshots = create_snapshots(kube_components, kube_snapshots, config['namespace'], release_number, commit, labels=labels)
         create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
-
-    if opt.fbc:
-        create_fbc(kube_components, template_list, fbc_dir, env, labels=labels)
 
     exit(0)
