@@ -101,6 +101,14 @@ spec:
   - description: ''
     name: CHAINS-GIT_COMMIT
     value: $(tasks.clone-repository.results.commit)
+  - name: snyk-org-id
+    type: string
+    default: b6dda4fc-c9ea-48da-ac45-67f75f258e5a
+    description: Snyk organization ID
+  - name: snyk-proj-name
+    type: string
+    default: kernel-module-manager
+    description: Snyk project name
   tasks:
   - name: init
     taskRef:
@@ -344,6 +352,8 @@ spec:
       value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
     - name: TARGET_DIRS
       value: $(params.sast-target-dirs)
+    - name: ARGS
+      value: "--project-name=$(params.snyk-proj-name) --report --org=$(params.snyk-org-id)"
     runAfter:
     - build-image-index
     taskRef:
