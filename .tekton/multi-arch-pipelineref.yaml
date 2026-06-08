@@ -20,7 +20,7 @@ spec:
   - name: slack-webhook-notification
     params:
     - name: message
-      value: PipelineRun $(context.pipelineRun.name) status: $(tasks.status)
+      value: "PipelineRun $(context.pipelineRun.name) status: $(tasks.status)"
     - name: secret-name
       value: edge-kmm-konflux-webhook
     - name: key-name
@@ -32,7 +32,7 @@ spec:
       - name: name
         value: slack-webhook-notification
       - name: kind
-        value: Task
+        value: task
       resolver: bundles
 #    when:
 #      - input: $(tasks.status)
@@ -109,6 +109,14 @@ spec:
     default: 'true'
     description: Use the package registry proxy when prefetching dependencies
     type: string
+  - name: snyk-org-id
+    type: string
+    default: "b6dda4fc-c9ea-48da-ac45-67f75f258e5a"
+    description: Snyk organization ID
+  - name: snyk-proj-name
+    type: string
+    default: "kernel-module-manager"
+    description: Snyk project name
   results:
   - description: ''
     name: IMAGE_URL
@@ -122,14 +130,6 @@ spec:
   - description: ''
     name: CHAINS-GIT_COMMIT
     value: $(tasks.clone-repository.results.commit)
-  - name: snyk-org-id
-    type: string
-    default: b6dda4fc-c9ea-48da-ac45-67f75f258e5a
-    description: Snyk organization ID
-  - name: snyk-proj-name
-    type: string
-    default: kernel-module-manager
-    description: Snyk project name
   tasks:
   - name: init
     taskRef:
