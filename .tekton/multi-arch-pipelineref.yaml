@@ -17,6 +17,27 @@ spec:
       - name: kind
         value: task
       resolver: bundles
+  - name: slack-webhook-notification
+    params:
+    - name: message
+      value: PipelineRun $(context.pipelineRun.name) status: $(tasks.status)
+    - name: secret-name
+      value: edge-kmm-konflux-webhook
+    - name: key-name
+      value: edge-kmm-konflux
+    taskRef:
+      params:
+      - name: bundle
+        value: quay.io/konflux-ci/tekton-catalog/task-slack-webhook-notification:0.1
+      - name: name
+        value: slack-webhook-notification
+      - name: kind
+        value: Task
+      resolver: bundles
+#    when:
+#      - input: $(tasks.status)
+#        operator: in
+#        values: ["Failed"]
   params:
   - description: Source Repository URL
     name: git-url
