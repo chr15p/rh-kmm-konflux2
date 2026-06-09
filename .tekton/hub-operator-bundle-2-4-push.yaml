@@ -8,7 +8,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "old_versions" && 
           ( "release-2.4/pullspecs/hub-operator-2-4.yaml".pathChanged() ||
             "release-2.4/pullspecs/must-gather-2-4.yaml".pathChanged() ||
             "release-2.4/pullspecs/signing-2-4.yaml".pathChanged() ||
