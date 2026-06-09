@@ -28,7 +28,7 @@ spec:
     taskRef:
       params:
       - name: bundle
-        value: quay.io/konflux-ci/tekton-catalog/task-slack-webhook-notification:0.1
+        value: quay.io/konflux-ci/tekton-catalog/task-slack-webhook-notification:0.1@sha256:14766aebbf6f4739e1b7dde0406dcba2d1e300170d3b084f23df9fb074d87dc3
       - name: name
         value: slack-webhook-notification
       - name: kind
@@ -115,7 +115,7 @@ spec:
     description: Snyk organization ID
   - name: snyk-proj-name
     type: string
-    default: "kernel-module-manager"
+    default: "kernel-module-management"
     description: Snyk project name
   results:
   - description: ''
