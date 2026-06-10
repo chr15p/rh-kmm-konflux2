@@ -111,7 +111,7 @@ spec:
     type: string
   - name: snyk-org-id
     type: string
-    default: "b6dda4fc-c9ea-48da-ac45-67f75f258e5a"
+    default: "47a97c5a-f076-4f86-991b-b62d3dc3c527 "
     description: Snyk organization ID
   - name: snyk-proj-name
     type: string
