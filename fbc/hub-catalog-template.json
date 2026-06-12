@@ -346,6 +346,11 @@
                     "name": "kernel-module-management-hub.v2.6.0",
                     "replaces": "kernel-module-management-hub.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.6.1",
+                    "replaces": "kernel-module-management-hub.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "release-2.6",
@@ -422,6 +427,11 @@
                     "name": "kernel-module-management-hub.v2.6.0",
                     "replaces": "kernel-module-management-hub.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management-hub.v2.6.1",
+                    "replaces": "kernel-module-management-hub.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "stable",
@@ -490,13 +500,18 @@
         },
         {
             "schema": "olm.bundle",
-            "name": "kernel-module-management-hub-operator-bundle.v2.5.2 ",
+            "name": "kernel-module-management-hub-operator-bundle.v2.5.2",
             "image": "registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:6ba3082b3c0515d42becfb8bb6de9fc4de052138582ea2f2c98e80d0e88eebf8"
         },
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-hub-operator-bundle.v2.6.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:4006ee3246f2acd6203ab800e8f672bb9a576dd97899ee6cabce0029d6de40b1"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-hub-operator-bundle.v2.6.1",
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:1266806143eda43c38a5cae8dc7d030fd8688431ed9a09054d5dcac09da680d7"
         }
     ]
 }
