@@ -4,16 +4,19 @@ import argparse
 from string import Template
 import os
 import re
+import kmm_konflux.versions
+import kmm_konflux.config
 
-def read_key_value_file(filename="config.conf"):
-    data = {}
-    with open(filename, "r") as file:
-        for line in file:
-            line = line.strip()
-            if line and "=" in line:
-                key, value = line.split("=", 1)
-                data[key.strip()] = value.strip()
-    return data
+
+#def read_key_value_file(filename="config.conf"):
+#    data = {}
+#    with open(filename, "r") as file:
+#        for line in file:
+#            line = line.strip()
+#            if line and "=" in line:
+#                key, value = line.split("=", 1)
+#                data[key.strip()] = value.strip()
+#    return data
 
 def read_pullspec_file(filename, repo=None):
     with open(filename, "r") as file:
@@ -33,31 +36,33 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--csv', action='store', default="kernel-module-management/bundle/manifests/kernel-module-management.clusterserviceversion.yaml", help='csv template')
 parser.add_argument('--out', action='store', default="kernel-module-management.clusterserviceversion.yaml", help='csv ouput')
 parser.add_argument('--config', action='store', default="build_settings.conf", help='file containing version numbers')
-parser.add_argument('--pullspecs', action='store', default="pullspec_config.yaml", help='file icontaining location of pullspecs')
+parser.add_argument('--pullspecs', action='store', default="pullspec_config.yaml", help='file containing location of pullspecs')
 
 opt = parser.parse_args()
 
 CSV=opt.csv
 outputfile=opt.out
-config=read_key_value_file(opt.config)
+#config=read_key_value_file(opt.config)
+config = kmm_konflux.config.read_key_value_file(opt.config)
 
 
-REPLACE_VERSION=config.get('OLD_VERSION',"0.0.1")
+#REPLACE_VERSION=config.get('OLD_VERSION',"0.0.1")
 RELEASE_VERSION=config.get('RELEASE',"9.9.9")
+REPLACE_VERSION = kmm_konflux.versions.get_prev_version(RELEASE_VERSION)
 
 try:
     with open(opt.pullspecs, "r") as file:
-        pullspec_config=yaml.safe_load(file)
+        ps_config=yaml.safe_load(file)
 except yaml.YAMLError as exc:
     print(exc)
     exit(1)
 
 pullspecs={}
-for k,v in pullspec_config.items():
-    pullspecs[k] = read_pullspec_file(v['pullspecfile'], v.get('repo'))
+for k,v in ps_config.items():
+    if isinstance(v, dict) and  v.get("repo"):
+        key = f"{k.upper().replace('-','_')}_IMAGE"
+        pullspecs[key]= read_pullspec_file(f"./release-{config['VERSION']}/release-{config['RELEASE']}/{k}.yaml" , repo=v['repo'])
 
-
-print(pullspecs)
 annotations={
     "certified": "true",
     "containerImage": pullspecs['OPERATOR_IMAGE'],
