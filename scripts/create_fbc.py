@@ -31,8 +31,21 @@ def get_shas(path, bundle_config, prod, stage):
         if i[:8]=="release-":
             #xy_version = i[8:]
             for j in os.listdir(i):
-                if not os.path.isfile(f"{i}/{j}/{file_base}.yaml"):
+                for extension in ['yaml', 'yml', 'yaml.released']:
+                    #print(f"checking {i}/{j}/{file_base}.{extension}")
+                    if os.path.isfile(f"{i}/{j}/{file_base}.{extension}"):
+                        print(f"match {i}/{j}/{file_base}.{extension}")
+                        pullspec_file=f"{i}/{j}/{file_base}.{extension}"
+                        break 
+                else:
                     continue
+
+                #if os.path.isfile(f"{i}/{j}/{file_base}.yaml"):
+                #    pullspec_file=f"{i}/{j}/{file_base}.yaml"
+                #elif os.path.isfile(f"{i}/{j}/{file_base}.yml"):
+                #    pullspec_file=f"{i}/{j}/{file_base}.yml"
+                #else:
+                #    continue
 
                 version = j.split("-")[-1]
                 if version in prod:
@@ -42,7 +55,8 @@ def get_shas(path, bundle_config, prod, stage):
                 else:
                     continue
 
-                with open(f"{i}/{j}/{file_base}.yaml","r") as fh:
+                #with open(f"{i}/{j}/{file_base}.yaml","r") as fh:
+                with open(pullspec_file) as fh:
                     sha = fh.read().strip().split("@")[-1]
 
                 bundles[version] = {
