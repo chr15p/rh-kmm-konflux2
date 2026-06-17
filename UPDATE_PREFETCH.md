@@ -39,7 +39,10 @@ All these commands need to be run in a ubi container with access to the files in
 7. login to registry.redhat.io
 >    skopeo login registry.redhat.io
 
-7. Generate rpms.lock.yaml
->    rpm-lockfile-prototype -f Dockerfile.operator rpms.in.yaml
+7. set baseimage 
+>  BASEIMAGE=$(awk '/ubi-minimal/{print $2}' release-2.6/Dockerfile.operator)
+
+7. Generate rpms.lock.yaml for all rpms not in BASEIMAGE
+>    rpm-lockfile-prototype --image $BASEIMAGE rpms.in.yaml
 
 8. exit the container and commit `rpms.lock.yaml`
