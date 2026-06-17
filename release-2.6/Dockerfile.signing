@@ -2,7 +2,7 @@ ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
 
-FROM registry.redhat.io/ubi9/ubi:9.8-1780554162 as builder
+FROM registry.redhat.io/ubi9/ubi:9.8-1781496985 as builder
 ARG VERSION RELEASE DIRECTORY
 
 # install the package that will contain the sign utilities
