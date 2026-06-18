@@ -43,7 +43,7 @@ def build_version(commit):
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-c', '--config', action='store', required=False, default="pullspec_config.yaml", help='yaml config file (default: pullspec_config.yaml) ')
+parser.add_argument('-c', '--config', action='store', required=False, default="config/pullspec_config.yaml", help='yaml config file (default: pullspec_config.yaml) ')
 parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
 parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
 parser.add_argument('-d', '--directory', required=True, help='directory containing config filesi (e.g. release-2.5/)')

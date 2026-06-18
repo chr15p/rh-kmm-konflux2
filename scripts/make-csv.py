@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--csv', action='store', default="kernel-module-management/bundle/manifests/kernel-module-management.clusterserviceversion.yaml", help='csv template')
 parser.add_argument('--out', action='store', default="kernel-module-management.clusterserviceversion.yaml", help='csv ouput')
 parser.add_argument('--config', action='store', default="build_settings.conf", help='file containing version numbers')
-parser.add_argument('--pullspecs', action='store', default="pullspec_config.yaml", help='file containing location of pullspecs')
+parser.add_argument('--pullspecs', action='store', default="config/pullspec_config.yaml", help='file containing location of pullspecs')
 
 opt = parser.parse_args()
 

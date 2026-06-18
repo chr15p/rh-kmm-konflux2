@@ -150,7 +150,7 @@ def get_release_number(kube_releases, increment:bool = True):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', action='store', required=False, default="pullspec_config.yaml", help='yaml config file (default: pullspec_config.yaml) ')
+    parser.add_argument('-c', '--config', action='store', required=False, default="config/pullspec_config.yaml", help='yaml config file (default: pullspec_config.yaml) ')
     parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
     parser.add_argument('-e', '--env', action='store', required=False, default="staging", help='environment to release to (prod|staging)')
     parser.add_argument('-a', '--application', action='store', required=False, default="", help='limit to a single application')
