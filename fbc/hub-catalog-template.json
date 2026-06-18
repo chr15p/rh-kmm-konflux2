@@ -348,14 +348,6 @@
                     "skipRange": ">=0.0.0 <2.6.0"
                 },
                 {
-<<<<<<< HEAD
-=======
-                    "name": "kernel-module-management-hub.v2.6.0",
-                    "replaces": "kernel-module-management-hub.v2.5.2",
-                    "skipRange": ">=0.0.0 <2.6.0"
-                },
-                {
->>>>>>> 0e915b9 (add kmm2.6.1 to the catalogues)
                     "name": "kernel-module-management-hub.v2.6.1",
                     "replaces": "kernel-module-management-hub.v2.6.0",
                     "skipRange": ">=0.0.0 <2.6.1"
