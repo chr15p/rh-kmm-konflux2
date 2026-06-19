@@ -346,6 +346,11 @@
                     "name": "kernel-module-management.v2.6.0",
                     "replaces": "kernel-module-management.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.1",
+                    "replaces": "kernel-module-management.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "release-2.6",
@@ -422,6 +427,11 @@
                     "name": "kernel-module-management.v2.6.0",
                     "replaces": "kernel-module-management.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.1",
+                    "replaces": "kernel-module-management.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "stable",
@@ -497,6 +507,11 @@
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.6.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:48773e79b9ba722bc8e62ca36511d6f4e43ffad77e1d31954ed8bc7033d38de5"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.6.1",
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:5f8061759b4f4fbd28520aa2885eb55f4ef5876cc83605b61de1b45ac6c3b6a0"
         }
     ]
 }
