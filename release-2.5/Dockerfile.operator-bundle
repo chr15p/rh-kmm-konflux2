@@ -17,7 +17,7 @@ RUN dnf install -y python3-pyyaml
 
 RUN python3 scripts/make-csv.py --csv /bundle/manifests/kernel-module-management.clusterserviceversion.yaml \
         --config $DIRECTORY/build_settings.conf \
-        --pullspecs $DIRECTORY/pullspec_config.yaml \
+        --pullspecs config/pullspec_config.yaml \
         --out /bundle/manifests/kernel-module-management.${VERSION}.clusterserviceversion.yaml
 
 RUN rm /bundle/manifests/kernel-module-management.clusterserviceversion.yaml
@@ -93,4 +93,4 @@ COPY --from=builder /bundle/ /
 #COPY --from=builder /manifests /manifests/
 #COPY --from=builder /metadata /metadata/
 #COPY --from=builder /tests/scorecard /tests/scorecard/
-#bump6
+#bump2

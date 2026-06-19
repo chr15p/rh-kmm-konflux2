@@ -1,0 +1,10 @@
+releaseNotes:
+  type: RHSA
+  cves: 
+    - key: CVE-2024-1234 
+      component: my-component 
+    - key: CVE-2024-2345
+      component: my-component
+  references: 
+    - https://docs.redhat.com/some/example/release-notes
+    - https://access.redhat.com/security/vulnerabilities/RHSB-2099-999

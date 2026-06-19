@@ -9,11 +9,11 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
-          ( "release-2.6/pullspecs/hub-operator-2-6.yaml".pathChanged() ||
-            "release-2.6/pullspecs/must-gather-2-6.yaml".pathChanged() ||
-            "release-2.6/pullspecs/signing-2-6.yaml".pathChanged() ||
-            "release-2.6/pullspecs/webhook-2-6.yaml".pathChanged() ||
-            "release-2.6/pullspecs/worker-2-6.yaml".pathChanged() ||
+          ( "release-2.6/release-2.6*/hub-operator.yaml".pathChanged() ||
+            "release-2.6/release-2.6*/must-gather.yaml".pathChanged() ||
+            "release-2.6/release-2.6*/signing.yaml".pathChanged() ||
+            "release-2.6/release-2.6*/webhook.yaml".pathChanged() ||
+            "release-2.6/release-2.6*/worker.yaml".pathChanged() ||
             "release-2.6/Dockerfile.hub-operator-bundle".pathChanged() )
   creationTimestamp: null
   labels:

@@ -1,0 +1,38 @@
+releaseNotes:
+  type: RHBA
+  description: |
+       Operator used to deploy and manage the lifecycle for out-of-tree kernel modules.
+  synopsis: Kernel Module Management Operator
+  topic: Kernel Module Management Operator
+  issues:
+    fixed:
+      - id: MGMT-19647
+        source: issues.redhat.com
+      - id: OCPBUGS-74540
+        source: issues.redhat.com
+      - id: MGMT-23177
+        source: issues.redhat.com
+      - id: MGMT-22860
+        source: issues.redhat.com
+      - id: MGMT-22727
+        source: issues.redhat.com
+      - id: MGMT-20929
+        source: issues.redhat.com
+      - id: MGMT-23208
+        source: issues.redhat.com
+      - id: MGMT-22332
+        source: issues.redhat.com
+      - id: MGMT-22330
+        source: issues.redhat.com
+      - id: MGMT-19647
+        source: issues.redhat.com
+      - id: MGMT-22726
+        source: issues.redhat.com
+      - id: MGMT-23237
+        source: issues.redhat.com
+      - id: MGMT-23301
+        source: issues.redhat.com
+      - id: MGMT-23321
+        source: issues.redhat.com
+      - id: MGMT-23422
+        source: issues.redhat.com
