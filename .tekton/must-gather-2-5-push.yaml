@@ -10,7 +10,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && 
       (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
        ".tekton/*-2-5-push.yaml".pathChanged() ||
-       ("release-2.5/**".pathChanged() && !("release-2.5/pullspecs/**".pathChanged())))
+       ("release-2.5/**".pathChanged() && !("release-2.5/release-2.5*/**".pathChanged())))
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: kmm-2-5

@@ -10,7 +10,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "old_versions" && 
       (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
        ".tekton/*-2-4-push.yaml".pathChanged() ||
-       ("release-2.4/**".pathChanged() && !("release-2.4/pullspecs/**".pathChanged())))
+       ("release-2.4/**".pathChanged() && !("release-2.4/release-2.4*/**".pathChanged())))
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: kmm-2-4
