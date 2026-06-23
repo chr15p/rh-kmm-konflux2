@@ -46,7 +46,7 @@ jobs:
 
   RELEASE:
     needs: COMBINE
-    if: ${{ needs.COMBINE.outputs.label-applied == 'ok-to-merge' }}
+    #if: ${{ needs.COMBINE.outputs.label-applied == 'ok-to-merge' }}
     runs-on: ubuntu-latest
     steps:
       - name: test
