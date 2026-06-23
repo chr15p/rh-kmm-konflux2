@@ -9,7 +9,7 @@ data:
   #automergeType: "pr"
   #commitMessagePrefix: "custom namespace prefix message"
   #commitMessageSuffix: "custom namespace suffix message"
-  fileMatch: ".*.yaml"
+  fileMatch: ".*.yaml$"
   #ignoreTests: "true"
   #gitLabIgnoreApprovals: "true"
   #platformAutomerge: "true"
