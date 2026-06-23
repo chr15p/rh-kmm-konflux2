@@ -7,20 +7,43 @@ permissions:
   pull-requests: write
 
 jobs:
-  combine-nudges:
+#  SETUP:
+#    runs-on: ubuntu-latest
+#    #if: ${{ github.actor == 'red-hat-konflux[bot]' }}
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v7
+#        with:
+#          submodules: true
+#          ref: ${{ github.head_ref }}
+
+  COMBINE:
     runs-on: ubuntu-latest
-    #if: ${{ github.actor == 'red-hat-konflux[bot]' }}
+    outputs:
+      label-applied: ${{ steps.combine-nudge-prs.outputs.label }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          submodules: true
-          ref: ${{ github.head_ref }}
 
-      - name: merge PRs
+      - name: combine-nudge-prs
         run: python ./.github/scripts/combine_nudges.py --pr ${{ github.event.number }} --config .github/scripts/nudges.yaml
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+
+  MERGE:
+    needs: COMBINE
+    if: ${{ needs.COMBINE.outputs.label-applied == 'ok-to-merge' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: merge PRs
+        run: python .github/scripts/auto_merge.py --label "ok-to-merge"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 
 #      - name: release operands PRs
 #        run: python .github/scripts/release_nudges.py --branch ${{ github.head_ref }}  --token="${{secrets.OPENSHIFT_TOKEN}}" --config .github/scripts/nudges.yaml
