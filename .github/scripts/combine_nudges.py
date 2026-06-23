@@ -46,7 +46,8 @@ def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
     if label_to_apply:
         print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
         out=git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", label_to_apply)
-        print(out)
+        print(f"label_ouput={out}")
+        print(f"APPLIED={label_to_apply}")
 
 
 
@@ -138,7 +139,7 @@ if __name__ == "__main__":
 
         nudged_components[component] = number
 
-    print(nudged_components)
+    #print(nudged_components)
     ## do we have everything we need?
     not_nudged = []
     label_to_apply = None
