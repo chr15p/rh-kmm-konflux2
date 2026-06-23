@@ -20,7 +20,7 @@ jobs:
   COMBINE:
     runs-on: ubuntu-latest
     outputs:
-      label-applied: ${{ steps.combine-nudge-prs.outputs.label }}
+      label-applied: ${{ steps.combine-nudge-prs.outputs.APPLIED }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -44,7 +44,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-
+  RELEASE:
+    needs: COMBINE
+    if: ${{ needs.COMBINE.outputs.label-applied == 'ok-to-merge' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo ${{ needs.COMBINE.outputs.label-applied }}
 #      - name: release operands PRs
 #        run: python .github/scripts/release_nudges.py --branch ${{ github.head_ref }}  --token="${{secrets.OPENSHIFT_TOKEN}}" --config .github/scripts/nudges.yaml
 #        env:
