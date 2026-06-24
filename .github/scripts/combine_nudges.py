@@ -29,7 +29,7 @@ def get_commit(msg: str) -> str:
     return matches.group(1)
 
 
-def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
+def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None, version=None):
     for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
             continue
@@ -74,7 +74,7 @@ def read_config_yaml(filename):
         with open(filename,"r") as config_fh:
             master_components = yaml.safe_load(config_fh)
     except Exception as e:
-        print(f"unable to read config file \"{filename}\": {e}")
+        print(f"unable to read config file \"{filename}\": {e}", file=sys.stderr )
         sys.exit(1)
     return master_components
 
@@ -119,8 +119,8 @@ if __name__ == "__main__":
         curr_branch=curr_pr['headRefName']
         curr_number=curr_pr['number']
     except (TypeError, KeyError):
-        print("no relevant PRs found or unable to determine branch")
-        exit(0)
+        print("no relevant PRs found or unable to determine branch", file=sys.stderr )
+        exit(1)
 
     nudged_components = {}
     curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
@@ -133,8 +133,8 @@ if __name__ == "__main__":
         if commit_check and commit != curr_commit:
             continue
         if number > curr_number:
-            print(f"a newer PR exists for {curr_version} defer to that ({number} > {curr_number})")
-            print(f"{version=} {curr_version=} {commit=} {curr_commit=}")
+            print(f"a newer PR exists for {curr_version} defer to that ({number} > {curr_number})", file=sys.stderr )
+            print(f"{version=} {curr_version=} {commit=} {curr_commit=}", file=sys.stderr )
             sys.exit(0)
 
         nudged_components[component] = number
@@ -159,11 +159,11 @@ if __name__ == "__main__":
             label_to_apply=CONFIG["bundle-label"]
 
     if not_nudged:
-        print(f"not all components found for release-{curr_version}: {label_to_apply} (missing {' '.join(not_nudged)})")
+        print(f"not all components found for release-{curr_version}: {label_to_apply} (missing {' '.join(not_nudged)})", file=sys.stderr)
         sys.exit(0)
 
     print(f"merge={nudged_components}")
-    merge_prs(curr_branch, curr_number, nudged_components, label_to_apply)
+    merge_prs(curr_branch, curr_number, nudged_components, label_to_apply, version=curr_version)
     #print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
 

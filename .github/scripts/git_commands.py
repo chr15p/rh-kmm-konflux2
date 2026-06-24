@@ -15,7 +15,7 @@ def call_git(test_mode, *args, **kwargs):
     if test_mode:
         print(" ".join(params))
         return ""
-    print(" ".join(params))
+    #print(" ".join(params), file=sys.stderr )
     #subprocess.run(params, check=True)
     p = subprocess.Popen(params,
                      stdout=subprocess.PIPE,
@@ -35,7 +35,7 @@ def call_gh(test_mode, *args, **kwargs):
         else:
             params.append(str(i))
 
-    print(f"run {' '.join(params)}")
+    #print(f"run {' '.join(params)}", file=sys.stderr )
     if test_mode:
         return ""
     p = subprocess.Popen(params,
