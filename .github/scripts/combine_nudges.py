@@ -44,9 +44,9 @@ def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
         print(f"merge_pr_{pr_number}={out}")
 
     if label_to_apply:
-        print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
+        #print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
         out=git_commands.call_gh(TEST_MODE, "pr", "edit", str(master_pr),"--add-label", label_to_apply)
-        print(f"label_ouput={out}")
+        #print(f"label_ouput={out}")
         print(f"APPLIED={label_to_apply}")
 
 
@@ -114,7 +114,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     curr_pr = get_pr(pr_list, curr_branch, curr_number)
-    print(f"konflux_nudge_prs={curr_pr}")
+    #print(f"konflux_nudge_prs={curr_pr}")
     try:
         curr_branch=curr_pr['headRefName']
         curr_number=curr_pr['number']
