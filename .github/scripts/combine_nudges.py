@@ -34,14 +34,14 @@ def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
         if int(pr_number) == int(master_pr):
             continue
         out=git_commands.call_gh(TEST_MODE, "pr", "edit", pr_number, "--base", branch)
-        print(out)
+        print(f"edit_pr_{pr_number}={out}")
 
 
     for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
             continue
         out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
-        print(out)
+        print(f"merge_pr_{pr_number}={out}")
 
     if label_to_apply:
         print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     curr_pr = get_pr(pr_list, curr_branch, curr_number)
-    print(curr_pr)
+    print(f"konflux_nudge_prs={curr_pr}")
     try:
         curr_branch=curr_pr['headRefName']
         curr_number=curr_pr['number']
@@ -162,7 +162,7 @@ if __name__ == "__main__":
         print(f"not all components found for release-{curr_version}: {label_to_apply} (missing {' '.join(not_nudged)})")
         sys.exit(0)
 
-    print(f"merge {nudged_components}")
+    print(f"merge={nudged_components}")
     merge_prs(curr_branch, curr_number, nudged_components, label_to_apply)
     #print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
