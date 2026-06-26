@@ -346,6 +346,11 @@
                     "name": "kernel-module-management.v2.6.0",
                     "replaces": "kernel-module-management.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.1",
+                    "replaces": "kernel-module-management.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "release-2.6",
@@ -422,6 +427,11 @@
                     "name": "kernel-module-management.v2.6.0",
                     "replaces": "kernel-module-management.v2.5.2",
                     "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.1",
+                    "replaces": "kernel-module-management.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
                 }
             ],
             "name": "stable",
@@ -491,12 +501,17 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.5.2",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:3bd34d264e08afbcda9776400d411bc4350c2a456b679bd97a7f6f000ddc0729"
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:1dd0c8e6352ac888bc00c64a46fd470285f9472e90ae2d885f3c965fa9fe6570"
         },
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.6.0",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:48773e79b9ba722bc8e62ca36511d6f4e43ffad77e1d31954ed8bc7033d38de5"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.6.1",
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:ec936352d34321be0fdb36f77fec0ec96d9761ce351173cdbaaeb4568f7c0ab6"
         }
     ]
 }
