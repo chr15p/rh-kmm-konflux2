@@ -136,7 +136,7 @@ if __name__ == "__main__":
         curr_branch=curr_pr['headRefName']
         curr_number=curr_pr['number']
     except (TypeError, KeyError):
-        print("no relevant PRs found or unable to determine branch", file=sys.stderr )
+        print(f"no relevant PR ({curr_number}, { curr_branch}, {len(pr_list)}) found or unable to determine branch", file=sys.stderr )
         sys.exit(1)
 
     nudged_components = {}
