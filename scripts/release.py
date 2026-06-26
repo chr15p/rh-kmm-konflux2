@@ -4,8 +4,8 @@ import argparse
 import re
 from typing import Any, Dict
 #, List, Optional
+import json
 import yaml
-#import json
 
 from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
@@ -16,7 +16,12 @@ test_mode=False
 current_versions = {}
 
 
-def create_snapshots(kube_components, kube_snapshots, namespace, release_number, commit, labels={}) -> Dict(str,str):
+def create_snapshots(kube_components,
+                        kube_snapshots,
+                        namespace,
+                        release_number,
+                        commit,
+                        labels={}) -> Dict(str,str):
     """
         create a snapshot from the components with the labels
         returns:
@@ -27,7 +32,7 @@ def create_snapshots(kube_components, kube_snapshots, namespace, release_number,
     labels["stage!"] = "fbc"
 
     component_list = kube_components.get(label_selector=labels)
-    
+
     try:
         if component_list[0].get('items') == []:
             print(f"no components found labelled {labels}")
@@ -79,15 +84,17 @@ def create_snapshots(kube_components, kube_snapshots, namespace, release_number,
         else:
             print(new_snapshot['metadata']['name'])
             resp = kube_snapshots.create(new_snapshot)
-            print(resp)
+            print(f"snapshot={resp[0]['metadata']['name']}")
+            #print(resp)
 
-    #ie.g. {'kmm-2-4': 'kmm-2-4-unknown-r13'} 
+    #ie.g. {'kmm-2-4': 'kmm-2-4-unknown-r13'}
     return snapshots
 
 
 
 def create_release(kube_releases, snapshots, namespace,  environment, release_number, commit):
-    release_name_extension = f"release-{environment}-{commit[:7]}-r{release_number}"
+    #release_name_extension = f"{environment}-{current_versions[version][-1]}-
+    #                            {commit[:7]}-r{release_number}"
 
     for k,v in snapshots.items():
         # k = application
@@ -104,7 +111,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
                 version: "{current_versions[version][-1]}"
                 commit: "{commit}"
                 short: "{commit[:7]}"
-              name: {k}-{release_name_extension}
+              name: "{k}-{environment}-{current_versions[version][-1]}-{commit[:7]}-r{release_number}"
               namespace: {namespace}
             spec:
               releasePlan: {k}-release-{environment}
@@ -124,7 +131,8 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
         else:
             print(new_release['metadata']['name'])
             resp = kube_releases.create(new_release)
-            print(resp)
+            print(f"release={resp['metadata']['name']}")
+        #print(resp)
 
 
 
@@ -139,16 +147,15 @@ def load_config(path: str) -> Dict[str, Any]:
 
 
 
-def get_release_number(increment:bool = True):
-
-    release_list = kube_releases.get()
-    if release_list[0].get('items', []) == []:
+def get_release_number(kube_releases, increment:bool = True, labels:dict = {}):
+    release_list = kube_releases.get(label_selector=labels)
+    if len(release_list)==0:
+    #if release_list[0].get('items', []) == []:
         return 1
     rel_regexp = r"-r([0-9]+)$"
     last_release=0
-    print(release_list)
     for rel in release_list:
-        print(rel)
+        print(rel['metadata']['name'])
         matches = re.search(rel_regexp, rel['metadata']['name'])
         if matches and matches.group(1) and int(matches.group(1)) > last_release:
             last_release = int(matches.group(1))
@@ -156,24 +163,53 @@ def get_release_number(increment:bool = True):
     if increment:
         return last_release+1
     return last_release
-    
+
+
+def get_application(pr_number:int):
+    raw_pr = git_commands.call_gh(False, "pr", "view","--json","title,headRefName", pr_number)
+    try:
+        pr_list = json.loads(raw_pr)
+    except json.decoder.JSONDecodeError as e:
+        print(f"pr list error: {e}")
+        sys.exit(1)
+
+    branch_regexp=r"konflux/component-updates/.*-([0-9]-[0-9]+)"
+    matches = re.match(branch_regexp, pr_list["headRefName"])
+    if matches is None:
+        return None
+    return f"kmm-{matches.group(1)}"
 
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', action='store', required=False, default="config/pullspec_config.yaml", help='yaml config file (default: config/pullspec_config.yaml) ')
-    parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
-    parser.add_argument('-e', '--env', action='store', required=False, default="staging", help='environment to release to (prod|staging)')
-    parser.add_argument('-a', '--application', action='store', required=False, default="", help='limit to a single application')
-    parser.add_argument('-g', '--git', action='store', required=False, default="", help='git commit to label objects with')
-    parser.add_argument('-r', '--release', action='store', required=False, default=None, help='release number to apply (e.g. 10)')
+    parser.add_argument('-c', '--config', action='store', required=False,
+                        default="config/pullspec_config.yaml",
+                        help='yaml config file (default: config/pullspec_config.yaml) ')
+    parser.add_argument('-t', '--token', action='store', required=False,
+                        default=None,
+                        help='token to access k8s')
+    parser.add_argument('-e', '--env', action='store', required=False,
+                        default="staging",
+                        help='environment to release to (prod|staging)')
+    parser.add_argument('-a', '--application', action='store', required=False,
+                        default="",
+                        help='limit to a single application')
+    parser.add_argument('-p', '--pr', action='store', required=False,
+                        default="",
+                        help='release application from pr')
+    parser.add_argument('-g', '--git', action='store', required=False,
+                        default="",
+                        help='git commit to label objects with')
+    parser.add_argument('-r', '--release', action='store', required=False,
+                        default=None,
+                        help='release number to apply (e.g. 10)')
     parser.add_argument('--test', action='store_true', default=False)
 
     opt = parser.parse_args()
     test_mode = opt.test
     token = opt.token
-    if opt.env != "prod" and opt.env != "staging":
+    if opt.env not in ("prod", "staging"):
         print("--env should be one of 'prod' or 'staging'")
         sys.exit(0)
     env = opt.env
@@ -183,6 +219,8 @@ if __name__ == "__main__":
     labels={}
     if opt.application:
         labels['application'] = opt.application
+    elif opt.pr:
+        labels['application'] = get_application(int(opt.pr))
 
     try:
         #config = load_config(opt.config)
@@ -197,13 +235,6 @@ if __name__ == "__main__":
     verify = resolve_tls_verify(config)
 
     current_versions = kmm_konflux.versions.get_version_mappings(".", dirsep="-")
-    # now current_versions = {'2-5': ['2.5.0', '2.5.1', '2.5.2'], i
-    #                    '2-0': ['2.0.0', '2.0.1', '2.0.2'], 
-    #                    '2-2': ['2.2.0', '2.2.1', '2.2.2'], 
-    #                    '2-1': ['2.1.0', '2.1.1'], 
-    #                    '2-3': ['2.3.0', '2.3.1'], 
-    #                    '2-4': ['2.4.0', '2.4.1', '2.4.2'], 
-    #                    '2-6': ['2.6.0']}
 
     kube_components = Konflux(config['api_url'],
                         token,
@@ -227,7 +258,7 @@ if __name__ == "__main__":
                         verify)
 
     if not release_number:
-        release_number = get_release_number(kube_releases)
+        release_number = get_release_number(kube_releases, labels=labels)
 
     if not commit:
         commit = git_commands.call_git(False, "rev-parse", "main").decode("utf-8").strip()
@@ -236,9 +267,13 @@ if __name__ == "__main__":
             print("cannot determine commit (maybe try the --commit switch?)")
             sys.exit(1)
 
-    #breakpoint()
-    snapshots = create_snapshots(kube_components, kube_snapshots, config['namespace'], release_number, commit, labels=labels)
-    if snapshots != None:
+    snapshots = create_snapshots(kube_components,
+                                    kube_snapshots,
+                                    config['namespace'],
+                                    release_number,
+                                    commit,
+                                    labels=labels)
+    if snapshots is not None:
         create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
     else:
         print("no snapshots created")
