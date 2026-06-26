@@ -18,6 +18,7 @@ jobs:
 #          ref: ${{ github.head_ref }}
 
   COMBINE:
+    if: ${{ github.actor == 'red-hat-konflux[bot]' }}
     runs-on: ubuntu-latest
     outputs:
       labelapplied: ${{ steps.combine-nudge-prs.outputs.APPLIED }}
@@ -34,7 +35,7 @@ jobs:
 
   MERGE:
     needs: COMBINE
-    if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-merge' }}
+    if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-merge' || contains(github.event.pull_request.labels.*.name, "ok-to-merge") }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

@@ -66,7 +66,7 @@ def create_snapshots(kube_components,
             apiVersion: appstudio.redhat.com/v1alpha1
             kind: Snapshot
             metadata:
-              name: {k}-{snapshot_extension}
+              name: {k}-{current_versions[version][-1].replace(".","")}-{snapshot_extension}
               namespace: {namespace}
               labels: 
                 kmm: "{version}"
@@ -82,10 +82,16 @@ def create_snapshots(kube_components,
             print("---")
             print(yaml.dump(new_snapshot))
         else:
-            print(new_snapshot['metadata']['name'])
+            #print(new_snapshot['metadata']['name'])
             resp = kube_snapshots.create(new_snapshot)
-            print(f"snapshot={resp[0]['metadata']['name']}")
-            #print(resp)
+            if isinstance(resp, list):
+                print(f"snapshot={resp[0]['metadata']['name']}")
+            elif isinstance(resp, dict):
+                print(f"snapshot={resp['metadata']['name']}")
+            else:
+                print(f"create snapshot returnedi unusual result: {resp}")
+                sys.exit(1)
+        #print(resp)
 
     #ie.g. {'kmm-2-4': 'kmm-2-4-unknown-r13'}
     return snapshots
@@ -111,7 +117,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
                 version: "{current_versions[version][-1]}"
                 commit: "{commit}"
                 short: "{commit[:7]}"
-              name: "{k}-{environment}-{current_versions[version][-1]}-{commit[:7]}-r{release_number}"
+              name: "{k}-{environment}-{current_versions[version][-1].replace(".","")}-{commit[:7]}-r{release_number}"
               namespace: {namespace}
             spec:
               releasePlan: {k}-release-{environment}
@@ -130,8 +136,13 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
             print(yaml.dump(new_release))
         else:
             print(new_release['metadata']['name'])
-            resp = kube_releases.create(new_release)
-            print(f"release={resp['metadata']['name']}")
+            try:
+                resp = kube_releases.create(new_release)
+                print(f"release={resp['metadata']['name']}")
+            except Exception as e:
+                print(f"errror creating release: {e}")
+                print(new_release)
+                sys.exit(1)
         #print(resp)
 
 
