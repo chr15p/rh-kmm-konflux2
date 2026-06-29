@@ -35,7 +35,7 @@ jobs:
 
   MERGE:
     needs: COMBINE
-    if: ${{ (needs.COMBINE.outputs.labelapplied == 'ok-to-merge') || (contains(github.event.pull_request.labels.*.name, "ok-to-merge")) }}
+    if: ${{ (needs.COMBINE.outputs.labelapplied == 'ok-to-merge') || (contains(github.event.pull_request.labels.*.name, 'ok-to-merge')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
