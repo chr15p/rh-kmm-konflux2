@@ -124,7 +124,7 @@ if __name__ == "__main__":
             curr_branch=curr_pr['headRefName']
             curr_number=curr_pr['number']
             break
-        except (TypeError, KeyError, json.decoder.JSONDecodeError):
+        except (TypeError, KeyError, json.decoder.JSONDecodeError) as e:
             print(f"pr list error retry in {i}s: {e}")
             time.sleep(i)
     else:
