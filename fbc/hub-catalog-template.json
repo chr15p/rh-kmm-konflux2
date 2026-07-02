@@ -501,7 +501,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-hub-operator-bundle.v2.5.2",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:faa1280790e127a1518e2de08ae24fbd4ba9a8192a5de3e5076805ccd77f1faa"
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:faa1280790e127a1518e2de08ae24fbd4ba9a8192a5de3e5076805ccd77f1faa"
         },
         {
             "schema": "olm.bundle",
@@ -511,7 +511,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-hub-operator-bundle.v2.6.1",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:58767b9ab746303d9936d70269b8fc514e424766590980b9c51eed97d5f69358"
+            "image": "registry.redhat.io/kmm/kernel-module-management-hub-operator-bundle@sha256:58767b9ab746303d9936d70269b8fc514e424766590980b9c51eed97d5f69358"
         }
     ]
 }

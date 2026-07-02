@@ -501,7 +501,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.5.2",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:2d0646a9be00e02b5d74e53a4820e3c3f3acc62adf49ca8812e7a9cf369ff2fc"
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:2d0646a9be00e02b5d74e53a4820e3c3f3acc62adf49ca8812e7a9cf369ff2fc"
         },
         {
             "schema": "olm.bundle",
@@ -511,7 +511,7 @@
         {
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.6.1",
-            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:71b060a17cfd5bf50a1316542bb2d9d39ab031044b2280ba25f04bd41bbfd8b1"
+            "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:71b060a17cfd5bf50a1316542bb2d9d39ab031044b2280ba25f04bd41bbfd8b1"
         }
     ]
 }

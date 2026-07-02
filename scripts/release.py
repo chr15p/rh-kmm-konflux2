@@ -215,6 +215,9 @@ if __name__ == "__main__":
     parser.add_argument('-r', '--release', action='store', required=False,
                         default=None,
                         help='release number to apply (e.g. 10)')
+    parser.add_argument('-s', '--snapshot', action='store', required=False,
+                        default=None,
+                        help='snapshot to release (requires --application)')
     parser.add_argument('--test', action='store_true', default=False)
 
     opt = parser.parse_args()
@@ -226,6 +229,14 @@ if __name__ == "__main__":
     env = opt.env
     commit = opt.git
     release_number = opt.release
+
+    #breakpoint()
+    release_snapshot = {}
+    if opt.snapshot:
+        if not opt.application:
+            print("--snapshot requires --application")
+            sys.exit(1)
+        release_snapshot={opt.application: opt.snapshot}
 
     labels={}
     if opt.application:
@@ -278,12 +289,15 @@ if __name__ == "__main__":
             print("cannot determine commit (maybe try the --commit switch?)")
             sys.exit(1)
 
-    snapshots = create_snapshots(kube_components,
+    if not release_snapshot:
+        snapshots = create_snapshots(kube_components,
                                     kube_snapshots,
                                     config['namespace'],
                                     release_number,
                                     commit,
                                     labels=labels)
+    else: 
+        snapshots = release_snapshot
     if snapshots is not None:
         create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
     else:
