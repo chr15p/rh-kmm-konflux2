@@ -3,6 +3,19 @@ namespace: rh-kmm-tenant
 operand-label: ok-to-merge
 bundle-label: ok-to-release
 
+release:
+  bundles:
+  - operator-bundle
+  - hub-operator-bundle
+  operands:
+  - worker
+  - must-gather
+  - operator
+  - hub-operator
+  - signing
+  - webhook
+
+
 release-2-6:
   bundles:
   - operator-bundle-2-6
