@@ -158,17 +158,30 @@ if __name__ == "__main__":
     #for c in CONFIG[f"release-{curr_version}"]["components"]:
     #    if not nudged_components.get(c):
     #        not_nudged.append(c)
-    if CONFIG.get(f"release-{curr_version}"):
-        if curr_component in CONFIG[f"release-{curr_version}"].get("operands", []):
-            for c in CONFIG[f"release-{curr_version}"]["operands"]:
+    try: 
+        release_config = CONFIG[f"release-{curr_version}"]
+    except KeyError:
+        release_config = {"operands":[], "bundles": [] }
+        for i in CONFIG[f"release"]["operands"]:
+            release_config["operands"].append(f"{i}-{curr_version}")
+        for i in CONFIG[f"release"]["bundles"]:
+            release_config["bundles"].append(f"{i}-{curr_version}")
+        
+    breakpoint()
+    if release_config:
+        if curr_component in release_config.get("operands", []):
+            for c in release_config["operands"]:
                 if not nudged_components.get(c):
                     not_nudged.append(c)
             label_to_apply=CONFIG["operand-label"]
-        elif curr_component in CONFIG[f"release-{curr_version}"].get("bundles", []):
-            for c in CONFIG[f"release-{curr_version}"]["bundles"]:
+        elif curr_component in release_config.get("bundles", []):
+            for c in release_config["bundles"]:
                 if not nudged_components.get(c):
                     not_nudged.append(c)
             label_to_apply=CONFIG["bundle-label"]
+    else:
+        print(f"unable top configure releases, is the release key in {opt.config}?")
+        sys.exit(0)
 
     if not_nudged:
         print(f"not all components found for release-{curr_version}: {label_to_apply} \
@@ -176,6 +189,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     print(f"merge={nudged_components}")
+    exit(0)
     merge_prs(curr_branch, curr_number, nudged_components, label_to_apply)
     #print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")
