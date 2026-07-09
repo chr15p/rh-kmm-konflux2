@@ -432,6 +432,97 @@
                     "name": "kernel-module-management.v2.6.1",
                     "replaces": "kernel-module-management.v2.6.0",
                     "skipRange": ">=0.0.0 <2.6.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.7.0",
+                    "replaces": "kernel-module-management.v2.6.1",
+                    "skipRange": ">=0.0.0 <2.7.0"
+                }
+            ],
+            "name": "release-2.7",
+            "package": "kernel-module-management",
+            "schema": "olm.channel"
+        },
+        {
+            "entries": [
+                {
+                    "name": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.1",
+                    "replaces": "kernel-module-management.v2.0.0",
+                    "skipRange": ">=0.0.0 <2.0.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.0.2",
+                    "replaces": "kernel-module-management.v2.0.1",
+                    "skipRange": ">=0.0.0 <2.0.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.0",
+                    "replaces": "kernel-module-management.v2.0.2",
+                    "skipRange": ">=0.0.0 <2.1.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.1.1",
+                    "replaces": "kernel-module-management.v2.1.0",
+                    "skipRange": ">=0.0.0 <2.1.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.0",
+                    "replaces": "kernel-module-management.v2.1.1",
+                    "skipRange": ">=0.0.0 <2.2.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.2.1",
+                    "replaces": "kernel-module-management.v2.2.0",
+                    "skipRange": ">=0.0.0 <2.2.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.3.0",
+                    "replaces": "kernel-module-management.v2.2.1",
+                    "skipRange": ">=0.0.0 <2.3.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.0",
+                    "replaces": "kernel-module-management.v2.3.0",
+                    "skipRange": ">=0.0.0 <2.4.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.4.1",
+                    "replaces": "kernel-module-management.v2.4.0",
+                    "skipRange": ">=0.0.0 <2.4.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.0",
+                    "replaces": "kernel-module-management.v2.4.1",
+                    "skipRange": ">=0.0.0 <2.5.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.1",
+                    "replaces": "kernel-module-management.v2.5.0",
+                    "skipRange": ">=0.0.0 <2.5.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.5.2",
+                    "replaces": "kernel-module-management.v2.5.1",
+                    "skipRange": ">=0.0.0 <2.5.2"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.0",
+                    "replaces": "kernel-module-management.v2.5.2",
+                    "skipRange": ">=0.0.0 <2.6.0"
+                },
+                {
+                    "name": "kernel-module-management.v2.6.1",
+                    "replaces": "kernel-module-management.v2.6.0",
+                    "skipRange": ">=0.0.0 <2.6.1"
+                },
+                {
+                    "name": "kernel-module-management.v2.7.0",
+                    "replaces": "kernel-module-management.v2.6.1",
+                    "skipRange": ">=0.0.0 <2.7.0"
                 }
             ],
             "name": "stable",
@@ -512,6 +603,11 @@
             "schema": "olm.bundle",
             "name": "kernel-module-management-operator-bundle.v2.6.1",
             "image": "registry.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:71b060a17cfd5bf50a1316542bb2d9d39ab031044b2280ba25f04bd41bbfd8b1"
+        },
+        {
+            "schema": "olm.bundle",
+            "name": "kernel-module-management-operator-bundle.v2.7.0",
+            "image": "registry.stage.redhat.io/kmm/kernel-module-management-operator-bundle@sha256:82e1e8dbe20de7ee86d60ae2464fed4c3c5f777568d76c7d32d1a1fc6918efab"
         }
     ]
 }
