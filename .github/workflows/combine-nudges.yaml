@@ -53,12 +53,10 @@ jobs:
 
   RELEASE:
     needs: COMBINE
-    #if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
+    if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo ${{ needs.COMBINE.outputs.labelapplied }}
-#      - name: release operands PRs
-#        run: python .github/scripts/release_nudges.py --branch ${{ github.head_ref }}  --token="${{secrets.OPENSHIFT_TOKEN}}" --config .github/scripts/nudges.yaml
-#        env:
-#          OPENSHIFT_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        #run: echo ${{ needs.COMBINE.outputs.labelapplied }}
+        run: python scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
+
