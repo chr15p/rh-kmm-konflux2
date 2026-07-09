@@ -177,7 +177,7 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--env', action='store', required=False, default="prod", help='use different set of defaults releases (default: prod)')
     parser.add_argument('-x', '--extra', action='store', required=False, default=False, help='comma seperated list of staging versions to add to fbc')
     parser.add_argument('-d', '--outdir', action='store', required=False, default="fbc/", help='directory to write to (default: fbc/)')
-    parser.add_argument('-s', '--stdout', action='store_true', required=False, default=False, help='print to stdout')
+    parser.add_argument('-s', '--stdout', '--test', action='store_true', required=False, default=False, help='print to stdout')
     parser.add_argument('-i', '--indir', action='store', required=False, default=".", help='directory to read versions from (default: ".")')
     parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
     parser.add_argument('--release', action='store', required=False, default=None, help='name of release to build for')

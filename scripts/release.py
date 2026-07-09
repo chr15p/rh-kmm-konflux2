@@ -160,8 +160,7 @@ def load_config(path: str) -> Dict[str, Any]:
 
 def get_release_number(kube_releases, increment:bool = True, labels:dict = {}):
     release_list = kube_releases.get(label_selector=labels)
-    if len(release_list)==0:
-    #if release_list[0].get('items', []) == []:
+    if len(release_list)==0 or release_list[0].get('items', []) == []:
         return 1
     rel_regexp = r"-r([0-9]+)$"
     last_release=0
