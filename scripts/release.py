@@ -2,8 +2,6 @@
 import sys
 import argparse
 import re
-from typing import Any, Dict
-#, List, Optional
 import json
 import yaml
 
@@ -21,7 +19,7 @@ def create_snapshots(kube_components,
                         namespace,
                         release_number,
                         commit,
-                        labels={}) -> Dict(str,str):
+                        labels={}):
     """
         create a snapshot from the components with the labels
         returns:
@@ -117,6 +115,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
                 version: "{current_versions[version][-1]}"
                 commit: "{commit}"
                 short: "{commit[:7]}"
+                relnumber: "r{release_number}"
               name: "{k}-{environment}-{current_versions[version][-1].replace(".","")}-{commit[:7]}-r{release_number}"
               namespace: {namespace}
             spec:
@@ -147,7 +146,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
 
 
 
-def load_config(path: str) -> Dict[str, Any]:
+def load_config(path):
     with open(path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
@@ -165,7 +164,7 @@ def get_release_number(kube_releases, increment:bool = True, labels:dict = {}):
     rel_regexp = r"-r([0-9]+)$"
     last_release=0
     for rel in release_list:
-        print(rel['metadata']['name'])
+        #print(rel['metadata']['name'])
         matches = re.search(rel_regexp, rel['metadata']['name'])
         if matches and matches.group(1) and int(matches.group(1)) > last_release:
             last_release = int(matches.group(1))
