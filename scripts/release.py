@@ -186,13 +186,17 @@ def get_release_number(kube_releases, increment:bool = True, labels:dict = {}):
 
 
 def get_application(pr_number:int):
-    raw_pr = git_commands.call_gh(False, "pr", "view","--json","title,headRefName", pr_number)
+    try:
+        raw_pr = git_commands.call_gh(False, "pr", "view","--json","title,headRefName", pr_number)
+    except Exception as e:
+        print(f"raw pr list error: {e}")
+
     try:
         pr_list = json.loads(raw_pr)
     except json.decoder.JSONDecodeError as e:
         print("pr view --json title,headRefName {pr_number}")
         print(f"pr list error: {e}")
-        print(pr_list)
+        print(raw_pr)
         sys.exit(1)
 
     branch_regexp=r"konflux/component-updates/.*-([0-9]-[0-9]+)"
