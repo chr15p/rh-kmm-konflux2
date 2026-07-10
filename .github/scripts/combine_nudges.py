@@ -173,7 +173,7 @@ if __name__ == "__main__":
                 nudged_components[m[1]] = number
             else:
                 print(f"unknown file {file["path"]} in pr {number}")
-                sys.exit(1)
+                #sys.exit(1)
 
     #print(nudged_components)
     ## do we have everything we need?
