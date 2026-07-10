@@ -56,7 +56,10 @@ jobs:
     if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: test
         #run: echo ${{ needs.COMBINE.outputs.labelapplied }}
-        run: python scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
+        run: python ./scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
 
