@@ -192,7 +192,7 @@ def get_application(pr_number:int):
     except json.decoder.JSONDecodeError as e:
         print("pr view --json title,headRefName {pr_number}")
         print(f"pr list error: {e}")
-        print(pr_list)
+        print(raw_pr)
         sys.exit(1)
 
     branch_regexp=r"konflux/component-updates/.*-([0-9]-[0-9]+)"
