@@ -61,4 +61,6 @@ jobs:
 
       - name: release
         run: python ./scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
