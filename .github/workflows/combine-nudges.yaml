@@ -18,7 +18,7 @@ jobs:
 #          ref: ${{ github.head_ref }}
 
   COMBINE:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'konflux-nudge')
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'konflux-nudge') }}
     runs-on: ubuntu-latest
     outputs:
       labelapplied: ${{ steps.combine-nudge-prs.outputs.APPLIED }}
