@@ -58,7 +58,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
       - name: release
         run: python ./scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
 
