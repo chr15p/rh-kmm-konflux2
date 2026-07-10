@@ -12,7 +12,7 @@ import git_commands
 TEST_MODE = False
 def get_component_name(branch: str, prefix: str= r".*component-update") -> (str,str):
 
-    branch_regexp=r"konflux/component-updates/" + prefix + "-([a-z-]+-([0-9]-[0-9]))"
+    branch_regexp=r"konflux/component-updates/" + prefix + "-([a-zA-Z-]+)-([0-9]-[0-9])"
     matches = re.match(branch_regexp, branch)
     if matches is None:
         return None, None
@@ -28,13 +28,11 @@ def get_commit(msg: str) -> str:
     return matches.group(1)
 
 
-def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
+def merge_prs(branch, master_pr, nudged_prs, label=None):
     for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
             continue
         out=git_commands.call_gh(TEST_MODE, "pr", "edit", pr_number, "--base", branch)
-        #print(f"edit_pr_{pr_number}={out}")
-
 
     for pr_number in nudged_prs.values():
         if int(pr_number) == int(master_pr):
@@ -42,35 +40,31 @@ def merge_prs(branch, master_pr, nudged_prs, label_to_apply=None):
         out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
         #print(f"merge_pr_{pr_number}={out}")
 
-    if label_to_apply:
+    if label:
         #print("call_gh", "pr", "edit", str(master_pr), "--add-label", label_to_apply)
         out=git_commands.call_gh(TEST_MODE,
                                     "pr",
                                     "edit",
                                     str(master_pr),
                                     "--add-label",
-                                    label_to_apply)
-        #print(f"label_ouput={out}")
-        print(f"APPLIED={label_to_apply}")
+                                    label)
 
 
-
-def get_pr(pr_list, branch, number):
-
-    for pr in pr_list:
-        if (branch and branch == pr['headRefName']) or \
-            (number and int(number) == pr['number']):
+def get_pr(all_prs, wanted_branch, wanted_number):
+    for p in all_prs:
+        if (wanted_branch and wanted_branch == p['headRefName']) or \
+            (wanted_number and int(wanted_number) == p['number']):
             #print(pr)
-            return pr
+            return p
     return None
 
 
-def parse_pr(pr):
-    component, version = get_component_name(pr["headRefName"])
-    commit = get_commit(pr['commits'][-1]['messageBody'])
-    number = pr['number']
+def parse_pr(single_pr):
+    this_component, this_version = get_component_name(single_pr["headRefName"])
+    this_commit = get_commit(single_pr['commits'][-1]['messageBody'])
+    this_number = single_pr['number']
 
-    return component, version, commit, number
+    return this_component, this_version, this_commit, this_number
 
 
 def read_config_yaml(filename):
@@ -82,6 +76,11 @@ def read_config_yaml(filename):
         sys.exit(1)
     return master_components
 
+
+def get_component_type(config, component_name):
+    if component_name in config.get("operand", []):
+        return "operand"
+    return "bundle"
 
 
 if __name__ == "__main__":
@@ -109,6 +108,7 @@ if __name__ == "__main__":
 
     ## read config
     CONFIG = read_config_yaml(opt.config)
+    release_config = CONFIG["release"]
 
     #print(MASTER_COMPONENTS)
     ########
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     for i in [10,20, 40]:
         raw_prs = git_commands.call_gh(False,
                                         "pr", "list",
-                                        "--json","number,headRefName,commits",
+                                        "--json","number,headRefName,files,commits,labels",
                                         "--search", "label:konflux-nudge")
         try:
             pr_list = json.loads(raw_prs)
@@ -130,54 +130,60 @@ if __name__ == "__main__":
     else:
         #print(raw_prs)
         #print(pr_list)
-        print(f"no relevant PR ({curr_number}, { curr_branch}, {len(pr_list)}) found or unable to determine branch", file=sys.stderr )
+        print(f"no relevant PR ({curr_number}, { curr_branch}, {len(pr_list)}) \
+                                 found or unable to determine branch", file=sys.stderr )
         sys.exit(1)
 
     nudged_components = {}
     curr_component, curr_version, curr_commit, curr_number = parse_pr(curr_pr)
-    nudged_components[curr_component] = curr_number
+    CURR_COMPONENT_TYPE = get_component_type(release_config, curr_component)
+
+
+    #nudged_components[curr_component] = curr_number
     for pr in pr_list:
         component, version, commit, number = parse_pr(pr)
-        if version != curr_version or \
-            number == curr_number:
+        #print(component, version, commit, number)
+        #print(curr_version, curr_commit, curr_number)
+        ## if this pr is us, or its for a different kmm version skip
+        #if version != curr_version or \
+        #    number == curr_number:
+        if version != curr_version:
             continue
+        ## if this pr is for a different commit then us, skip
         if commit_check and commit != curr_commit:
             continue
+
+        #its our kmm, but its a bundle and we're interested in operands or vice verse
+        #print(curr_component,component)
+        #print(component_type, get_component_type(release_config, component))
+        if get_component_type(release_config, component) != CURR_COMPONENT_TYPE:
+            continue
+
+        #if this is for our kmm version but is newer pr than us, quit and wait for its workflow
         if number > curr_number:
             print(f"a newer PR exists for {curr_version} defer to that  \
                     ({number} > {curr_number})", file=sys.stderr )
             print(f"{version=} {curr_version=} {commit=} {curr_commit=}", file=sys.stderr )
             sys.exit(0)
 
-        nudged_components[component] = number
+        for file in pr["files"]:
+            #release-2.7/release-2.7.0/operator-bundle.yaml
+            m = re.search("/([a-zA-Z-]+).yaml", file["path"])
+            if m:
+                nudged_components[m[1]] = number
+            else:
+                print(f"unknown file {file["path"]} in pr {number}")
+                sys.exit(1)
 
     #print(nudged_components)
     ## do we have everything we need?
     not_nudged = []
     label_to_apply = None
-    #for c in CONFIG[f"release-{curr_version}"]["components"]:
-    #    if not nudged_components.get(c):
-    #        not_nudged.append(c)
-    try: 
-        release_config = CONFIG[f"release-{curr_version}"]
-    except KeyError:
-        release_config = {"operands":[], "bundles": [] }
-        for i in CONFIG[f"release"]["operands"]:
-            release_config["operands"].append(f"{i}-{curr_version}")
-        for i in CONFIG[f"release"]["bundles"]:
-            release_config["bundles"].append(f"{i}-{curr_version}")
-        
     if release_config:
-        if curr_component in release_config.get("operands", []):
-            for c in release_config["operands"]:
-                if not nudged_components.get(c):
-                    not_nudged.append(c)
-            label_to_apply=CONFIG["operand-label"]
-        elif curr_component in release_config.get("bundles", []):
-            for c in release_config["bundles"]:
-                if not nudged_components.get(c):
-                    not_nudged.append(c)
-            label_to_apply=CONFIG["bundle-label"]
+        for c in release_config[CURR_COMPONENT_TYPE]:
+            if not nudged_components.get(c):
+                not_nudged.append(c)
+        label_to_apply=CONFIG[f"{CURR_COMPONENT_TYPE}-label"]
     else:
         print(f"unable top configure releases, is the release key in {opt.config}?")
         sys.exit(0)
@@ -187,7 +193,8 @@ if __name__ == "__main__":
                                     (missing {' '.join(not_nudged)})", file=sys.stderr)
         sys.exit(0)
 
-    print(f"merge={nudged_components}")
+    #print(f"merge={nudged_components}")
     merge_prs(curr_branch, curr_number, nudged_components, label_to_apply)
+    print(f"APPLIED={label_to_apply}")
     #print("call_gh", "pr", "edit", curr_number, "--add-label", label_to_apply)
     #git_commands.call_gh(TEST_MODE, "pr", "edit", str(curr_number), "--add-label", "ok-to-merge")

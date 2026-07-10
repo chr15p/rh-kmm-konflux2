@@ -1,4 +1,5 @@
 import subprocess
+import re
 
 def call_git(test_mode, *args, **kwargs):
     """
@@ -15,7 +16,7 @@ def call_git(test_mode, *args, **kwargs):
     if test_mode:
         print(" ".join(params))
         return ""
-    #print(" ".join(params), file=sys.stderr )
+    #print(" ".join(params))
     #subprocess.run(params, check=True)
     p = subprocess.Popen(params,
                      stdout=subprocess.PIPE,
@@ -35,7 +36,7 @@ def call_gh(test_mode, *args, **kwargs):
         else:
             params.append(str(i))
 
-    #print(f"run {' '.join(params)}", file=sys.stderr )
+    #print(f"run {' '.join(params)}")
     if test_mode:
         return ""
     p = subprocess.Popen(params,
@@ -49,6 +50,20 @@ def get_git_commit(version):
     try:
         submodule = call_git(False, "submodule", "status", f"release-{version.replace("-",".")}/kernel-module-management")
         return submodule.decode("utf-8").split(" ")[1]
+    except Exception as e:
+        print(e)
+        return "unknown"
+
+
+def get_all_git_commits():
+    commits = {}
+    try:
+        submodule = call_git(False, "submodule", "status")
+        for i in submodule.decode("utf-8").split("\n"):
+            m=re.search("([0-9A-Fa-f]+) release-([0-9.]+)/", i)
+            if m:
+                commits[m[2].replace(".","-")]=m[1]
+        return commits
     except Exception as e:
         print(e)
         return "unknown"

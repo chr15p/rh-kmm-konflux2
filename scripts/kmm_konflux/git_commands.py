@@ -1,4 +1,5 @@
 import subprocess
+import re
 
 def call_git(test_mode, *args, **kwargs):
     """
@@ -49,6 +50,20 @@ def get_git_commit(version):
     try:
         submodule = call_git(False, "submodule", "status", f"release-{version.replace("-",".")}/kernel-module-management")
         return submodule.decode("utf-8").split(" ")[1]
+    except Exception as e:
+        print(e)
+        return "unknown"
+
+
+def get_all_git_commits():
+    commits = {}
+    try:
+        submodule = call_git(False, "submodule", "status")
+        for i in submodule.decode("utf-8").split("\n"):
+            m=re.search("([0-9A-Fa-f]+) release-([0-9.]+)/", i)
+            if m:
+                commits[m[2].replace(".","-")]=m[1]
+        return commits
     except Exception as e:
         print(e)
         return "unknown"

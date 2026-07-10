@@ -9,6 +9,7 @@ from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 import kmm_konflux.versions
 import kmm_konflux.config
+import kmm_konflux.git_commands
 
 test_mode=False
 current_versions = {}
@@ -17,8 +18,7 @@ current_versions = {}
 def create_snapshots(kube_components,
                         kube_snapshots,
                         namespace,
-                        release_number,
-                        commit,
+                        labels_to_apply,
                         labels={}):
     """
         create a snapshot from the components with the labels
@@ -39,7 +39,10 @@ def create_snapshots(kube_components,
         pass
 
     snapshot_images = {}
+    revision = None
     for c in component_list:
+        revision =  c["status"]["lastBuiltCommit"]
+
         if not snapshot_images.get(c["spec"]["application"]):
             snapshot_images[c["spec"]["application"]] = []
 
@@ -67,13 +70,11 @@ def create_snapshots(kube_components,
               name: {k}-{current_versions[version][-1].replace(".","")}-{snapshot_extension}
               namespace: {namespace}
               labels: 
-                kmm: "{version}"
-                version: "{current_versions[version][-1]}"
-                commit: "{commit}"
-                short: "{commit[:7]}"
             spec:
               application: {k}
         """)
+        new_snapshot["metadata"]["labels"]=labels_to_apply[version]
+
         new_snapshot['spec']['components'] = v
         snapshots[k] = new_snapshot['metadata']['name']
         if test_mode:
@@ -95,10 +96,24 @@ def create_snapshots(kube_components,
     return snapshots
 
 
+def get_default_labels(commit, release_number):
+    default_labels = {}
+    submodules = kmm_konflux.git_commands.get_all_git_commits()
+    for k,v in submodules.items():
+        default_labels[k] = {
+            "application": f"kmm-{k}",
+            "kmmcommit": v,
+            "kmmshort": v[:7],
+            "version": current_versions[k][-1],
+            "commit": commit,
+            "short": commit[:7],
+            "relnumber": f"r{release_number}",
+        }
 
-def create_release(kube_releases, snapshots, namespace,  environment, release_number, commit):
-    #release_name_extension = f"{environment}-{current_versions[version][-1]}-
-    #                            {commit[:7]}-r{release_number}"
+    return default_labels
+
+
+def create_release(kube_releases, snapshots, namespace,  environment, labels_to_apply):
 
     for k,v in snapshots.items():
         # k = application
@@ -111,17 +126,13 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
             metadata:
               labels:
                 appstudio.openshift.io/application: {k}
-                application: {k}
-                version: "{current_versions[version][-1]}"
-                commit: "{commit}"
-                short: "{commit[:7]}"
-                relnumber: "r{release_number}"
               name: "{k}-{environment}-{current_versions[version][-1].replace(".","")}-{commit[:7]}-r{release_number}"
               namespace: {namespace}
             spec:
               releasePlan: {k}-release-{environment}
               snapshot: {v}
             """)
+        new_release["metadata"]["labels"].update(labels_to_apply[version])
 
         try:
             data_file = f"release-{version.replace("-",".")}/release-{current_versions[version][-1]}/release_notes.yaml"
@@ -287,17 +298,18 @@ if __name__ == "__main__":
             print("cannot determine commit (maybe try the --commit switch?)")
             sys.exit(1)
 
+    default_labels = get_default_labels(commit, release_number)
     if not release_snapshot:
         snapshots = create_snapshots(kube_components,
                                     kube_snapshots,
                                     config['namespace'],
-                                    release_number,
-                                    commit,
+                                    default_labels,
                                     labels=labels)
-    else: 
+    else:
         snapshots = release_snapshot
     if snapshots is not None:
-        create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
+        #create_release(kube_releases, snapshots, config['namespace'], env, release_number, commit)
+        create_release(kube_releases, snapshots, config['namespace'], env, default_labels)
     else:
         print("no snapshots created")
 
