@@ -18,7 +18,7 @@ jobs:
 #          ref: ${{ github.head_ref }}
 
   COMBINE:
-    if: ${{ github.actor == 'red-hat-konflux[bot]' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'konflux-nudge')
     runs-on: ubuntu-latest
     outputs:
       labelapplied: ${{ steps.combine-nudge-prs.outputs.APPLIED }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: test
         run: ls -l ./scripts/
+
       - name: release
-        #run: echo ${{ needs.COMBINE.outputs.labelapplied }}
         run: python ./scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
 
