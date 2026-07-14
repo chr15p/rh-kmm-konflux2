@@ -44,6 +44,9 @@ spec:
     value: '{"type": "rpm", "path": "."}'
   - name: build-source-image
     value: 'true'
+  - name: build-args
+    value:
+    - TAGPREFIX=kmm- 
   - name: build-args-file
     value: "release-2.7/build_settings.conf"
   taskRunSpecs:
