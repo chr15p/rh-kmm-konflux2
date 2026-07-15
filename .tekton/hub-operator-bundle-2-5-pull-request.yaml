@@ -26,6 +26,8 @@ spec:
     value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/hub-operator-bundle-2-5:on-pr-{{revision}}
   - name: image-expires-after
     value: 5d
+  - name: kmm-path
+    value: release-2.5/kernel-module-management
   - name: dockerfile
     value: release-2.5/Dockerfile.hub-operator-bundle
   - name: path-context
@@ -38,6 +40,9 @@ spec:
     value: 'true'
   - name: build-index-image
     value: 'false'
+  - name: build-args
+    value:
+    - TAGPREFIX=pr
   - name: build-args-file
     value: 'release-2.5/build_settings.conf'
   pipelineRef:

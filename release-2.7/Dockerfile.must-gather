@@ -2,12 +2,13 @@ ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
 ARG TAGPREFIX=""
+ARG KMM_COMMIT
 
 FROM registry.redhat.io/openshift4/ose-cli-rhel9 as builder
 ARG VERSION RELEASE DIRECTORY
 
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784092902
-ARG VERSION RELEASE DIRECTORY TAGPREFIX
+ARG VERSION RELEASE DIRECTORY TAGPREFIX KMM_COMMIT
 
 RUN microdnf update -y \
     && microdnf install -y tar rsync findutils gzip iproute util-linux \
@@ -27,6 +28,7 @@ LABEL \
     url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
+    kmm="${KMM_COMMIT}" \
     name="kmm/kernel-module-management-must-gather-rhel9" \
     cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
     License="Apache License 2.0" \

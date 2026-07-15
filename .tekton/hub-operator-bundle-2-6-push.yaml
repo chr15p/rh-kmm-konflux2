@@ -30,6 +30,8 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-6/hub-operator-bundle-2-6:{{revision}}
+  - name: kmm-path
+    value: release-2.6/kernel-module-management
   - name: dockerfile
     value: release-2.6/Dockerfile.hub-operator-bundle
   - name: path-context
@@ -42,6 +44,8 @@ spec:
     value: 'true'
   - name: build-index-image
     value: 'false'
+  - name: build-args
+    value: []
   - name: build-args-file
     value: "release-2.6/build_settings.conf"
   taskRunSpecs:

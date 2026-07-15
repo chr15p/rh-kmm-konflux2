@@ -3,6 +3,7 @@ ARG RELEASE
 ARG DIRECTORY
 ARG SUBMODULE
 ARG TAGPREFIX=""
+ARG KMM_COMMIT
 
 FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1784190466 as builder
 ARG VERSION RELEASE DIRECTORY
@@ -12,9 +13,9 @@ WORKDIR /opt/app-root/src
 COPY ${DIRECTORY}/kernel-module-management .
 RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o worker ./cmd/worker
 
-#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
+
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784092902
-ARG VERSION RELEASE TAGPREFIX
+ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/worker"]
 
@@ -26,6 +27,7 @@ LABEL \
     url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
+    kmm="${KMM_COMMIT}" \
     name="kmm/kernel-module-management-worker-rhel9" \
     cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
     License="Apache License 2.0" \
