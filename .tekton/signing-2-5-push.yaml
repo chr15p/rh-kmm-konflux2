@@ -32,6 +32,8 @@ spec:
     - linux/arm64
     - linux/ppc64le
     - linux/s390x
+  - name: kmm-path
+    value: release-2.5/kernel-module-management
   - name: dockerfile
     value: release-2.5/Dockerfile.signing
   - name: path-context
@@ -42,6 +44,8 @@ spec:
     value: '{"type": "rpm", "path": "."}'
   - name: build-source-image
     value: 'true'
+  - name: build-args
+    value: []
   - name: build-args-file
     value: "release-2.5/build_settings.conf"
   taskRunSpecs:

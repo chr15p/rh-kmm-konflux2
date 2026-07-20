@@ -3,6 +3,7 @@ ARG RELEASE
 ARG DIRECTORY
 ARG SUBMODULE
 ARG TAGPREFIX=""
+ARG KMM_COMMIT
 
 #FROM registry.redhat.io/ubi9/ubi:9.8-1782365825 as builder
 #ARG VERSION RELEASE DIRECTORY
@@ -15,9 +16,8 @@ RUN microdnf update -y && \
     microdnf install -y kernel-devel && \
     microdnf clean all
 
-#FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784092902
-ARG VERSION RELEASE TAGPREFIX
+ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/sign-file"]
 
@@ -29,6 +29,7 @@ LABEL \
     url="https://github.com/konflux-ci/mintmaker" \
     version="${VERSION}" \
     release="${RELEASE}" \
+    kmm="${KMM_COMMIT}" \
     name="kmm/kernel-module-management-signing-rhel9" \
     cpe="cpe:/a:redhat:kernel_module_management:${VERSION}::el9" \
     License="Apache License 2.0" \

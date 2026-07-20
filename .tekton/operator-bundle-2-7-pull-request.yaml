@@ -28,6 +28,8 @@ spec:
     value: 5d
   - name: dockerfile
     value: release-2.7/Dockerfile.operator-bundle
+  - name: kmm-path
+    value: release-2.7/kernel-module-management
   - name: path-context
     value: .
   - name: hermetic
@@ -38,6 +40,9 @@ spec:
     value: 'true'
   - name: build-index-image
     value: 'false'
+  - name: build-args
+    value:
+    - TAGPREFIX=pr
   - name: build-args-file
     value: "release-2.7/build_settings.conf"
   pipelineRef:
