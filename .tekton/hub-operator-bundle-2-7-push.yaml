@@ -32,6 +32,8 @@ spec:
     value: quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-7/hub-operator-bundle-2-7:{{revision}}
   - name: dockerfile
     value: release-2.7/Dockerfile.hub-operator-bundle
+  - name: kmm-path
+    value: release-2.7/kernel-module-management
   - name: path-context
     value: .
   - name: hermetic
@@ -42,6 +44,8 @@ spec:
     value: 'true'
   - name: build-index-image
     value: 'false'
+  - name: build-args
+    value: []
   - name: build-args-file
     value: "release-2.7/build_settings.conf"
   taskRunSpecs:

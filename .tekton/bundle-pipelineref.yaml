@@ -53,6 +53,10 @@ spec:
     description: Path to the Dockerfile inside the context specified by parameter path-context
     name: dockerfile
     type: string
+  - default: release-2.7/kernel-module-management
+    description: path to the kernel-module-management submodule
+    name: kmm-path
+    type: string
   - default: 'false'
     description: Skip checks against built image
     name: skip-checks
@@ -183,6 +187,37 @@ spec:
       workspace: git-auth
     - name: netrc
       workspace: netrc
+
+
+###############################################################################
+  - name: run-get-kmm-commit
+    params:
+    - name: SCRIPT
+      value: ./scripts/get_kmm_commit.sh $(params.kmm-path) $(params.build-args-file)
+    - name: SCRIPT_RUNNER_IMAGE
+      value: registry.access.redhat.com/ubi9/toolbox:9.8-1782881766
+    - name: SOURCE_ARTIFACT
+      value: $(tasks.clone-repository.results.SOURCE_ARTIFACT)
+    - name: ociStorage
+      value: $(params.output-image).script
+    - name: ociArtifactExpiresAfter
+      value: $(params.image-expires-after)
+    - name: HERMETIC
+      value: $(params.hermetic)
+    runAfter:
+    - prefetch-dependencies
+    taskRef:
+      params:
+      - name: name
+        value: run-script-oci-ta
+      - name: bundle
+        value: quay.io/konflux-ci/tekton-catalog/task-run-script-oci-ta:0.1@sha256:7fbaddc523c3a9dab583b0ed8508fa413cf27c0e725de5e5c8207bb33a0f519a
+      - name: kind
+        value: task
+      resolver: bundles
+#############################################################################
+
+
   - name: build-container
     params:
     - name: IMAGE
@@ -207,7 +242,8 @@ spec:
     - name: PRIVILEGED_NESTED
       value: $(params.privileged-nested)
     - name: SOURCE_ARTIFACT
-      value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
+      #value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
+      value: $(tasks.run-get-kmm-commit.results.SCRIPT_ARTIFACT)
     - name: CACHI2_ARTIFACT
       value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
     - name: BUILDAH_FORMAT
@@ -216,8 +252,11 @@ spec:
       value: $(tasks.init.results.http-proxy)
     - name: NO_PROXY
       value: $(tasks.init.results.no-proxy)
+    - name: ADDITIONAL_BASE_IMAGES
+      value:
+        - $(tasks.run-get-kmm-commit.results.SCRIPT_RUNNER_IMAGE_REFERENCE)
     runAfter:
-    - prefetch-dependencies
+    - run-get-kmm-commit
     taskRef:
       params:
       - name: name

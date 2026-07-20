@@ -5,6 +5,8 @@ ARG VERSION
 ARG RELEASE
 ARG OLD_VERSION
 ARG DIRECTORY
+ARG TAGPREFIX=""
+ARG KMM_COMMIT
 
 COPY . .
 #COPY $DIRECTORY/kernel-module-management/bundle/manifests /manifests/
@@ -31,6 +33,8 @@ FROM scratch
 ARG VERSION
 ARG RELEASE
 ARG OLD_VERSION
+ARG TAGPREFIX=""
+ARG KMM_COMMIT
 
 # These are three labels needed to control how the pipeline should handle this container image
 
@@ -68,13 +72,14 @@ LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
 # labels for konflux 
-LABEL konflux.additional-tags="${RELEASE} ${VERSION}"
+LABEL konflux.additional-tags="${TAGPREFIX}${RELEASE} ${TAGPREFIX}${VERSION}"
 
 # Main labels
 LABEL \
         com.redhat.component="kernel-module-management-operator-bundle-container" \
         version="v${VERSION}" \
         release="v${RELEASE}" \
+        kmm="${KMM_COMMIT}" \
         url="https://github.com/rh-ecosystem-edge/kernel-module-management" \
         vendor="Red Hat, Inc." \
         distribution-scope="" \
@@ -85,7 +90,7 @@ LABEL \
         io.openshift.tags="Operating System" \
         io.k8s.description="Kernel Module Management - Operator Bundle" \
         summary="Kernel Module Management - Operator Bundle" \
-        maintainer="Red Hat Ecosystem - Partner Accelerat`ors Team <edge-kmm@redhat.com>" \
+        maintainer="Red Hat Ecosystem - Partner Accelerators Team <edge-kmm@redhat.com>" \
         description="the bundle for the KMM operator"
 
 # Copy files to locations specified by labels.
