@@ -118,6 +118,7 @@ spec:
       - name: kind
         value: task
       resolver: bundles
+
   - name: clone-repository
     params:
     - name: url
@@ -142,10 +143,39 @@ spec:
     workspaces:
     - name: basic-auth
       workspace: git-auth
+
+###############################################################################
+  - name: run-generate-fbc
+    params:
+    - name: SCRIPT
+      value: ./scripts/create_fbc.py
+    - name: SCRIPT_RUNNER_IMAGE
+      value: registry.access.redhat.com/ubi9/toolbox:9.8-1782881766
+    - name: SOURCE_ARTIFACT
+      value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
+    - name: ociStorage
+      value: $(params.output-image).script
+    - name: ociArtifactExpiresAfter
+      value: $(params.image-expires-after)
+    - name: HERMETIC
+      value: $(params.hermetic)
+    runAfter:
+    - fbc-inject-lifecycle
+    taskRef:
+      params:
+      - name: name
+        value: run-script-oci-ta
+      - name: bundle
+        value: quay.io/konflux-ci/tekton-catalog/task-run-script-oci-ta:0.1@sha256:7fbaddc523c3a9dab583b0ed8508fa413cf27c0e725de5e5c8207bb33a0f519a
+      - name: kind
+        value: task
+      resolver: bundles
+#############################################################################
+
   - name: run-opm-command
     params:
     - name: SOURCE_ARTIFACT
-      value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
+      value: $(tasks.run-generate-fbc.results.SCRIPT_ARTIFACT)
     - name: ociStorage
       value: $(params.output-image).opm
     - name: ociArtifactExpiresAfter
@@ -158,7 +188,7 @@ spec:
     - name: IDMS_PATH
       value: $(params.idms-path)
     runAfter:
-    - fbc-inject-lifecycle
+    - run-generate-fbc
     taskRef:
       params:
       - name: name
@@ -230,6 +260,9 @@ spec:
       value: 'true'
     - name: BUILDAH_FORMAT
       value: $(params.buildah-format)
+    - name: ADDITIONAL_BASE_IMAGES
+      value:
+        - $(tasks.run-generate-fbc.results.SCRIPT_RUNNER_IMAGE_REFERENCE)
     runAfter:
     - clone-repository
     taskRef:
@@ -383,7 +416,8 @@ spec:
       - name: name
         value: fbc-inject-lifecycle-oci-ta
       - name: bundle
-        value: quay.io/konflux-ci/tekton-catalog/task-fbc-inject-lifecycle-oci-ta:0.1@sha256:9b6d61e5e887a8f30940c1fed0e118b8974c382d0a6328db99705a44365f6b0b
+        #value: quay.io/konflux-ci/tekton-catalog/task-fbc-inject-lifecycle-oci-ta:0.1@sha256:9b6d61e5e887a8f30940c1fed0e118b8974c382d0a6328db99705a44365f6b0b
+        value: quay.io/konflux-ci/tekton-catalog/task-fbc-inject-lifecycle-oci-ta:0.1@sha256:1be92a668fd429a1273dfd2046631c51ee0954209d99631614474ad6a1d02626
     params:
     - name: DOCKERFILE
       value: $(params.dockerfile)
