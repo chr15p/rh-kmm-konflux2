@@ -7,7 +7,7 @@ ARG KMM_COMMIT
 FROM registry.redhat.io/openshift4/ose-cli-rhel9 as builder
 ARG VERSION RELEASE DIRECTORY
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784092902
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
 ARG VERSION RELEASE DIRECTORY TAGPREFIX KMM_COMMIT
 
 RUN microdnf update -y \
