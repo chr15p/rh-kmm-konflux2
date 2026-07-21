@@ -9,6 +9,7 @@ from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 import kmm_konflux.versions
 import kmm_konflux.config
+import kmm_konflux.yaml_config
 import kmm_konflux.git_commands
 
 test_mode=False
@@ -137,7 +138,7 @@ def create_release(kube_releases, snapshots, namespace,  environment, labels_to_
         try:
             data_file = f"release-{version.replace("-",".")}/release-{current_versions[version][-1]}/release_notes.yaml"
             #print(data_file)
-            new_release['spec']['data'] = kmm_konflux.config.load_config_dict(data_file)
+            new_release['spec']['data'] = kmm_konflux.yaml_config.load_config_dict(data_file)
         except FileNotFoundError:
             pass
 
@@ -210,8 +211,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', action='store', required=False,
-                        default="config/pullspec_config.yaml",
-                        help='yaml config file (default: config/pullspec_config.yaml) ')
+                        default="config/pullspec_config.json",
+                        help='json config file (default: config/pullspec_config.json) ')
     parser.add_argument('-t', '--token', action='store', required=False,
                         default=None,
                         help='token to access k8s')
@@ -263,7 +264,7 @@ if __name__ == "__main__":
         #config = load_config(opt.config)
         config = kmm_konflux.config.load_config_dict(opt.config)
     except ValueError as e:
-        print(f"Failed to load config: {e}", file=sys.stderr)
+        print(f"Failed to load config {opt.config}: {e}", file=sys.stderr)
         sys.exit(2)
     if not config.get("api_url"):
         print(f"Config file {opt.config} must contain non-empty 'api_url'")

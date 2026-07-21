@@ -60,4 +60,3 @@ spec:
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-5/worker-2-5
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-6/worker-2-6
     - quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-7/worker-2-7
-
