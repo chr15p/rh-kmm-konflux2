@@ -17,6 +17,12 @@ RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${C
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
+COPY --from=builder /opt/app-root/src/worker /usr/local/bin/worker
+RUN microdnf update -y \
+    && microdnf install -y kmod \
+    && microdnf clean all
+RUN mkdir -p /mnt/img /var/run/kmm/pull-secrets
+
 ENTRYPOINT ["/usr/local/bin/worker"]
 
 LABEL konflux.additional-tags="${TAGPREFIX}${RELEASE} ${TAGPREFIX}${VERSION}"
