@@ -14,7 +14,7 @@ COPY ${DIRECTORY}/kernel-module-management .
 RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o worker ./cmd/worker
 
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784092902
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/worker"]
