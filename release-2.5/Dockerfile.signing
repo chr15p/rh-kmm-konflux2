@@ -11,12 +11,12 @@ ARG KMM_COMMIT
 ## install the package that will contain the sign utilities
 #RUN dnf download kernel-devel && rpm -i --nodeps ./kernel-devel-*.rpm
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070 as builder
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784705586 as builder
 RUN microdnf update -y && \
     microdnf install -y kernel-devel && \
     microdnf clean all
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784705586
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/sign-file"]

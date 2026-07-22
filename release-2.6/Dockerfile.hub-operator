@@ -15,7 +15,7 @@ COPY ${DIRECTORY}/kernel-module-management .
 
 RUN go build -ldflags="-w -s -X main.Version=${RELEASE}  -X main.GitCommit=${KMM_COMMIT}" -o manager ./cmd/manager-hub/main.go
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784705586
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 COPY --from=builder /opt/app-root/src/manager /usr/local/bin/manager
