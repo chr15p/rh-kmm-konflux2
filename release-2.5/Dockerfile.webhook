@@ -12,7 +12,7 @@ WORKDIR /opt/app-root/src
 COPY ${DIRECTORY}/kernel-module-management .
 RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o webhook-server ./cmd/webhook-server
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784596070
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1784705586
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/webhook-server"]
