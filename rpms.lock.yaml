@@ -25,6 +25,13 @@ arches:
     name: gcc
     evr: 11.5.0-14.el9
     sourcerpm: gcc-11.5.0-14.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/g/glibc-devel-2.34-274.el9_8.aarch64.rpm
+    repoid: ubi-9-for-aarch64-appstream-rpms
+    size: 577056
+    checksum: sha256:09cdfbba4c2517445ee2512c1c5c965b7d7ebdcf05665627dee83e0d824a5cff
+    name: glibc-devel
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-687.29.1.el9_8.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 2857945
@@ -494,6 +501,13 @@ arches:
     name: zlib-devel
     evr: 1.2.11-40.el9
     sourcerpm: zlib-1.2.11-40.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/a/acl-2.4.0-1.el9_8.aarch64.rpm
+    repoid: ubi-9-for-aarch64-baseos-rpms
+    size: 84537
+    checksum: sha256:241864fdb68d73b5a63df6269ae0895aec7c08e723fb0506fe446c148c9dad3f
+    name: acl
+    evr: 2.4.0-1.el9_8
+    sourcerpm: acl-2.4.0-1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/b/binutils-2.35.2-72.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 5021411
@@ -844,13 +858,6 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/g/glibc-devel-2.34-272.el9_8.aarch64.rpm
-    repoid: rhel-9-for-aarch64-appstream-rpms
-    size: 577070
-    checksum: sha256:3d76e7f2892d66c767a065524df5592f8fa75f44fa5f2e371b2a366d63c18de4
-    name: glibc-devel
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/os/Packages/k/kernel-devel-5.14.0-687.29.1.el9_8.aarch64.rpm
     repoid: rhel-9-for-aarch64-appstream-rpms
     size: 22111989
@@ -858,13 +865,6 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.29.1.el9_8
     sourcerpm: kernel-5.14.0-687.29.1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/os/Packages/a/acl-2.3.1-4.el9.aarch64.rpm
-    repoid: rhel-9-for-aarch64-baseos-rpms
-    size: 77245
-    checksum: sha256:59d24711260ff0e69762fc4e728279b0e7b6ecfdb5a9b8ba01cd96682c679022
-    name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-aarch64-appstream-source-rpms
@@ -1094,12 +1094,12 @@ arches:
     checksum: sha256:71e7c3e0eb8d62e314cf45b89d5be318ddb507399a96018079dd5fffe2b18de9
     name: perl-podlators
     evr: 1:4.14-460.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/a/acl-2.3.1-4.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/a/acl-2.4.0-1.el9_8.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 535332
-    checksum: sha256:cb449bc6c85e0b50fa0bb98c969ff8481fee40517d8ebec5e28b72e5360fbe1e
+    size: 609918
+    checksum: sha256:b140deb68f46517b0093e18969d8fb42a17216064fb2ee5783e9316d786430db
     name: acl
-    evr: 2.3.1-4.el9
+    evr: 2.4.0-1.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/b/binutils-2.35.2-72.el9.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 22476311
@@ -1142,12 +1142,12 @@ arches:
     checksum: sha256:19dec462f2880508570ca42a82c2f76fbd95fcad8d3e3ff812e9ca50cdeb2d8f
     name: gcc
     evr: 11.5.0-14.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/glibc-2.34-272.el9_8.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/glibc-2.34-274.el9_8.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 20426505
-    checksum: sha256:74304489b43f5dcfc68a75554bc7a0b65e8f09aa4ab719161ade3fa46d56cbb8
+    size: 20439750
+    checksum: sha256:14d3035eb38ed4c0523fbc1273dc78e6a8ed1ee9db4545bec182fccf0dd53231
     name: glibc
-    evr: 2.34-272.el9_8
+    evr: 2.34-274.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 4138121
@@ -1346,6 +1346,13 @@ arches:
     name: gcc
     evr: 11.5.0-14.el9
     sourcerpm: gcc-11.5.0-14.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/g/glibc-devel-2.34-274.el9_8.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-appstream-rpms
+    size: 588049
+    checksum: sha256:7c77d3b7249c4b2cc2766e7fcbfade5574209de903cf89e5b15f662080cc1b0f
+    name: glibc-devel
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/l/libasan-11.5.0-14.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 440756
@@ -1808,6 +1815,13 @@ arches:
     name: zlib-devel
     evr: 1.2.11-40.el9
     sourcerpm: zlib-1.2.11-40.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/a/acl-2.4.0-1.el9_8.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-baseos-rpms
+    size: 87243
+    checksum: sha256:e8d68d043a1bc11407edf1ed9f482631bbd26720698617ec994208c9c0a056a5
+    name: acl
+    evr: 2.4.0-1.el9_8
+    sourcerpm: acl-2.4.0-1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/b/binutils-2.35.2-72.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 5218918
@@ -2165,13 +2179,6 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/g/glibc-devel-2.34-272.el9_8.ppc64le.rpm
-    repoid: rhel-9-for-ppc64le-appstream-rpms
-    size: 588129
-    checksum: sha256:19a625949ac3232453854b777adfcf18e1c895c48246b1026f28e7ca53c8104c
-    name: glibc-devel
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/os/Packages/k/kernel-devel-5.14.0-687.29.1.el9_8.ppc64le.rpm
     repoid: rhel-9-for-ppc64le-appstream-rpms
     size: 21918585
@@ -2186,13 +2193,6 @@ arches:
     name: kernel-headers
     evr: 5.14.0-687.29.1.el9_8
     sourcerpm: kernel-5.14.0-687.29.1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/os/Packages/a/acl-2.3.1-4.el9.ppc64le.rpm
-    repoid: rhel-9-for-ppc64le-baseos-rpms
-    size: 79564
-    checksum: sha256:5abf618a32e0cfd20a2402b5b383e0d8055dd61c958bd1df066f5ab868358b63
-    name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-ppc64le-appstream-source-rpms
@@ -2422,12 +2422,12 @@ arches:
     checksum: sha256:71e7c3e0eb8d62e314cf45b89d5be318ddb507399a96018079dd5fffe2b18de9
     name: perl-podlators
     evr: 1:4.14-460.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/a/acl-2.3.1-4.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/a/acl-2.4.0-1.el9_8.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 535332
-    checksum: sha256:cb449bc6c85e0b50fa0bb98c969ff8481fee40517d8ebec5e28b72e5360fbe1e
+    size: 609918
+    checksum: sha256:b140deb68f46517b0093e18969d8fb42a17216064fb2ee5783e9316d786430db
     name: acl
-    evr: 2.3.1-4.el9
+    evr: 2.4.0-1.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/b/binutils-2.35.2-72.el9.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 22476311
@@ -2470,12 +2470,12 @@ arches:
     checksum: sha256:19dec462f2880508570ca42a82c2f76fbd95fcad8d3e3ff812e9ca50cdeb2d8f
     name: gcc
     evr: 11.5.0-14.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/glibc-2.34-272.el9_8.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/glibc-2.34-274.el9_8.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 20426505
-    checksum: sha256:74304489b43f5dcfc68a75554bc7a0b65e8f09aa4ab719161ade3fa46d56cbb8
+    size: 20439750
+    checksum: sha256:14d3035eb38ed4c0523fbc1273dc78e6a8ed1ee9db4545bec182fccf0dd53231
     name: glibc
-    evr: 2.34-272.el9_8
+    evr: 2.34-274.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 4138121
@@ -2680,6 +2680,20 @@ arches:
     name: gcc
     evr: 11.5.0-14.el9
     sourcerpm: gcc-11.5.0-14.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-devel-2.34-274.el9_8.s390x.rpm
+    repoid: ubi-9-for-s390x-appstream-rpms
+    size: 54356
+    checksum: sha256:92d1952dd5684b0dd4681e760db097163b2a2a33bfe60a46129fca36a9d2b188
+    name: glibc-devel
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/g/glibc-headers-2.34-274.el9_8.s390x.rpm
+    repoid: ubi-9-for-s390x-appstream-rpms
+    size: 557869
+    checksum: sha256:145f2b84318895faf063f66d6c532083d5349d02b8b64b1725ec3cebfa6ce159
+    name: glibc-headers
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-687.29.1.el9_8.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 2887941
@@ -3149,6 +3163,13 @@ arches:
     name: zlib-devel
     evr: 1.2.11-40.el9
     sourcerpm: zlib-1.2.11-40.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/a/acl-2.4.0-1.el9_8.s390x.rpm
+    repoid: ubi-9-for-s390x-baseos-rpms
+    size: 84330
+    checksum: sha256:56703b3f1ea101d511db213be4e5bc5e60d640c9b5d2e815d883386fd1ed2f76
+    name: acl
+    evr: 2.4.0-1.el9_8
+    sourcerpm: acl-2.4.0-1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/b/binutils-2.35.2-72.el9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 4764430
@@ -3499,20 +3520,6 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/g/glibc-devel-2.34-272.el9_8.s390x.rpm
-    repoid: rhel-9-for-s390x-appstream-rpms
-    size: 54395
-    checksum: sha256:4e3bd0db3944362f074281a759bd03c7c4c34fea55f14997f7324dfdda56b748
-    name: glibc-devel
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/g/glibc-headers-2.34-272.el9_8.s390x.rpm
-    repoid: rhel-9-for-s390x-appstream-rpms
-    size: 557939
-    checksum: sha256:686861e9d31ed4174df67d6b4b1a2510491f244f6f23f3a21ff360a3f25d5a59
-    name: glibc-headers
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/os/Packages/k/kernel-devel-5.14.0-687.29.1.el9_8.s390x.rpm
     repoid: rhel-9-for-s390x-appstream-rpms
     size: 20601845
@@ -3520,13 +3527,6 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.29.1.el9_8
     sourcerpm: kernel-5.14.0-687.29.1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/os/Packages/a/acl-2.3.1-4.el9.s390x.rpm
-    repoid: rhel-9-for-s390x-baseos-rpms
-    size: 77024
-    checksum: sha256:88638fac051b5720b50d694b52172b0f8553376085e868030fb2032fa662b55b
-    name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-s390x-appstream-source-rpms
@@ -3756,12 +3756,12 @@ arches:
     checksum: sha256:71e7c3e0eb8d62e314cf45b89d5be318ddb507399a96018079dd5fffe2b18de9
     name: perl-podlators
     evr: 1:4.14-460.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/a/acl-2.3.1-4.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/a/acl-2.4.0-1.el9_8.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 535332
-    checksum: sha256:cb449bc6c85e0b50fa0bb98c969ff8481fee40517d8ebec5e28b72e5360fbe1e
+    size: 609918
+    checksum: sha256:b140deb68f46517b0093e18969d8fb42a17216064fb2ee5783e9316d786430db
     name: acl
-    evr: 2.3.1-4.el9
+    evr: 2.4.0-1.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/b/binutils-2.35.2-72.el9.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 22476311
@@ -3804,12 +3804,12 @@ arches:
     checksum: sha256:19dec462f2880508570ca42a82c2f76fbd95fcad8d3e3ff812e9ca50cdeb2d8f
     name: gcc
     evr: 11.5.0-14.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/glibc-2.34-272.el9_8.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/glibc-2.34-274.el9_8.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 20426505
-    checksum: sha256:74304489b43f5dcfc68a75554bc7a0b65e8f09aa4ab719161ade3fa46d56cbb8
+    size: 20439750
+    checksum: sha256:14d3035eb38ed4c0523fbc1273dc78e6a8ed1ee9db4545bec182fccf0dd53231
     name: glibc
-    evr: 2.34-272.el9_8
+    evr: 2.34-274.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 4138121
@@ -4008,6 +4008,20 @@ arches:
     name: gcc
     evr: 11.5.0-14.el9
     sourcerpm: gcc-11.5.0-14.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-devel-2.34-274.el9_8.x86_64.rpm
+    repoid: ubi-9-for-x86_64-appstream-rpms
+    size: 46571
+    checksum: sha256:e6176ffaf004619a3c4c6d69fc3499a90697cfea221c46e014d605e452bb859d
+    name: glibc-devel
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/g/glibc-headers-2.34-274.el9_8.x86_64.rpm
+    repoid: ubi-9-for-x86_64-appstream-rpms
+    size: 567160
+    checksum: sha256:98c8a2b2939f7decf299713dd4625c1ca1e8a3b536d6607db3cde04e32799bcd
+    name: glibc-headers
+    evr: 2.34-274.el9_8
+    sourcerpm: glibc-2.34-274.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-687.29.1.el9_8.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 2897201
@@ -4470,6 +4484,13 @@ arches:
     name: zlib-devel
     evr: 1.2.11-40.el9
     sourcerpm: zlib-1.2.11-40.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/a/acl-2.4.0-1.el9_8.x86_64.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 85269
+    checksum: sha256:611da2c85401a2f26dba165c0be27b2e62fa71ceb5c392c8f5a9d30c31238d5b
+    name: acl
+    evr: 2.4.0-1.el9_8
+    sourcerpm: acl-2.4.0-1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/b/binutils-2.35.2-72.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 4821853
@@ -4813,20 +4834,6 @@ arches:
     name: flex
     evr: 2.6.4-9.el9
     sourcerpm: flex-2.6.4-9.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/g/glibc-devel-2.34-272.el9_8.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-rpms
-    size: 46619
-    checksum: sha256:528edd253ccac17373c82bad04064a554ee18986a9362860be4d804ff1239825
-    name: glibc-devel
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/g/glibc-headers-2.34-272.el9_8.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-rpms
-    size: 567230
-    checksum: sha256:11533070a0fa0133c3184295df9666ddbf5352e1bb748a1e5d7c97da6853cff5
-    name: glibc-headers
-    evr: 2.34-272.el9_8
-    sourcerpm: glibc-2.34-272.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/Packages/k/kernel-devel-5.14.0-687.29.1.el9_8.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 22964853
@@ -4834,13 +4841,6 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.29.1.el9_8
     sourcerpm: kernel-5.14.0-687.29.1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/os/Packages/a/acl-2.3.1-4.el9.x86_64.rpm
-    repoid: rhel-9-for-x86_64-baseos-rpms
-    size: 77226
-    checksum: sha256:150d7232faa90f84a09268f8998ee32670eef59cba98612aeb996ab75c4dfcc4
-    name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-x86_64-appstream-source-rpms
@@ -5070,12 +5070,12 @@ arches:
     checksum: sha256:71e7c3e0eb8d62e314cf45b89d5be318ddb507399a96018079dd5fffe2b18de9
     name: perl-podlators
     evr: 1:4.14-460.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/a/acl-2.3.1-4.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/a/acl-2.4.0-1.el9_8.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 535332
-    checksum: sha256:cb449bc6c85e0b50fa0bb98c969ff8481fee40517d8ebec5e28b72e5360fbe1e
+    size: 609918
+    checksum: sha256:b140deb68f46517b0093e18969d8fb42a17216064fb2ee5783e9316d786430db
     name: acl
-    evr: 2.3.1-4.el9
+    evr: 2.4.0-1.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/b/binutils-2.35.2-72.el9.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 22476311
@@ -5118,12 +5118,12 @@ arches:
     checksum: sha256:19dec462f2880508570ca42a82c2f76fbd95fcad8d3e3ff812e9ca50cdeb2d8f
     name: gcc
     evr: 11.5.0-14.el9
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/glibc-2.34-272.el9_8.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/glibc-2.34-274.el9_8.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 20426505
-    checksum: sha256:74304489b43f5dcfc68a75554bc7a0b65e8f09aa4ab719161ade3fa46d56cbb8
+    size: 20439750
+    checksum: sha256:14d3035eb38ed4c0523fbc1273dc78e6a8ed1ee9db4545bec182fccf0dd53231
     name: glibc
-    evr: 2.34-272.el9_8
+    evr: 2.34-274.el9_8
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/g/groff-1.22.4-10.el9.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 4138121
