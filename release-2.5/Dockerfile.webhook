@@ -5,7 +5,7 @@ ARG SUBMODULE
 ARG TAGPREFIX=""
 ARG KMM_COMMIT
 
-FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1784638038 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1784751462 as builder
 ARG VERSION RELEASE DIRECTORY
 
 WORKDIR /opt/app-root/src
