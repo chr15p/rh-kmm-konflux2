@@ -1,4 +1,5 @@
-import yaml
+#import yaml
+import json
 
 def read_key_value_file(filename:str ="config.conf"):
     data = {}
@@ -11,14 +12,13 @@ def read_key_value_file(filename:str ="config.conf"):
     return data
 
 
-def load_config_dict(path: str):
+def load_config_dict(path: str="config/pullspec_config.json"):
     with open(path, "r", encoding="utf-8") as f:
-        try:
-            data = yaml.safe_load(f) or {}
-        except yaml.YAMLError as exc:
-            raise ValueError(f"invalid yaml {path}: {exc}")
+        data = json.load(f)
     if not isinstance(data, dict):
         raise ValueError(f"invalid config {path} root must be a mapping/object")
     return data
+
+
 
 

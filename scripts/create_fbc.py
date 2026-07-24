@@ -1,27 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import os
 import os.path
 import argparse
 import json
-import kmm_konflux.config
+import kmm_konflux.json_config
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 
-
-#def read_release(rel_dir):
-#    filename=f"{rel_dir}/build_settings.conf"
-#    data = {}
-#    with open(filename, "r") as file:
-#        for line in file:
-#            line = line.strip()
-#            if line.startswith("RELEASE"):
-#                key, value = line.split("=", 1)
-#                return value
-#    return None
+#def load_config_json(config_file):
+#    with open(config_file) as f:
+#        d = json.load(f)
+#    return d
 
 
-#def get_shas(path, file_base, package, env=None):
 def get_shas(path, bundle_config, prod, stage):
     file_base = bundle_config['sha_file']
     package = bundle_config['package']
@@ -29,33 +21,22 @@ def get_shas(path, bundle_config, prod, stage):
     bundles = {}
     for i in os.listdir(path):
         if i[:8]=="release-":
-            #xy_version = i[8:]
             for j in os.listdir(i):
                 for extension in ['yaml', 'yml', 'yaml.released']:
-                    #print(f"checking {i}/{j}/{file_base}.{extension}")
                     if os.path.isfile(f"{i}/{j}/{file_base}.{extension}"):
-                        print(f"match {i}/{j}/{file_base}.{extension}")
                         pullspec_file=f"{i}/{j}/{file_base}.{extension}"
                         break 
                 else:
                     continue
 
-                #if os.path.isfile(f"{i}/{j}/{file_base}.yaml"):
-                #    pullspec_file=f"{i}/{j}/{file_base}.yaml"
-                #elif os.path.isfile(f"{i}/{j}/{file_base}.yml"):
-                #    pullspec_file=f"{i}/{j}/{file_base}.yml"
-                #else:
-                #    continue
-
                 version = j.split("-")[-1]
                 if version in prod:
                     repo = bundle_config["repo"]
-                elif version in stage:
+                elif stage and version in stage:
                     repo = bundle_config["stage"]
                 else:
                     continue
 
-                #with open(f"{i}/{j}/{file_base}.yaml","r") as fh:
                 with open(pullspec_file) as fh:
                     sha = fh.read().strip().split("@")[-1]
 
@@ -76,8 +57,6 @@ def create_fbc_structure(bundle_shas, package):
 
     channels={}
 
-    #for i in range(0,len(versions)):
-    #    xy_version = ".".join(versions[i].split(".")[0:2])
     for i in versions:
         xy_version = ".".join(i.split(".")[0:2])
         #print(xy_version)
@@ -173,8 +152,8 @@ def get_shas_from_release(token: str, config: dict, to_build: dict, release_name
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', action='store', required=False, default="config/pullspec_config.yaml", help='yaml config file (default: pullspec_config.yaml) ')
-    parser.add_argument('-e', '--env', action='store', required=False, default="prod", help='use different set of defaults releases (default: prod)')
+    parser.add_argument('-c', '--config', action='store', required=False, default="config/pullspec_config.json", help='json config file (default: pullspec_config.json) ')
+    #parser.add_argument('-e', '--env', action='store', required=False, default="prod", help='use different set of defaults releases (default: prod)')
     parser.add_argument('-x', '--extra', action='store', required=False, default=False, help='comma seperated list of staging versions to add to fbc')
     parser.add_argument('-d', '--outdir', action='store', required=False, default="fbc/", help='directory to write to (default: fbc/)')
     parser.add_argument('-s', '--stdout', '--test', action='store_true', required=False, default=False, help='print to stdout')
@@ -186,7 +165,7 @@ if __name__ == "__main__":
 
     opt = parser.parse_args()
 
-    env = opt.env
+    #env = opt.env
     if not opt.op and not opt.hub:
         opt.op = True
         opt.hub = True
@@ -195,16 +174,19 @@ if __name__ == "__main__":
     token = opt.token
 
     try:
-        config = kmm_konflux.config.load_config_dict(opt.config)
+        #config = kmm_konflux.config.load_config_dict(opt.config)
+        config = kmm_konflux.json_config.load_config_json(opt.config)
     except ValueError as e:
         print(f"Failed to load config: {e}", file=sys.stderr)
         sys.exit(2)
 
-    prod_versions = config.get(env, [])
+    prod_versions = config.get("prod", [])
+    stage_versions = config.get("stage", [])
     if opt.extra:
-        stage_versions = opt.extra.split(",")
-    else:
-        stage_versions = []
+        stage_versions += opt.extra.split(",")
+    #else:
+    #    stage_versions = []
+
 
     to_build = []
     if opt.op:

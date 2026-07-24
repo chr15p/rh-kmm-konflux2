@@ -28,7 +28,7 @@ jobs:
 
       - name: combine-nudge-prs
         id: combine-nudge-prs
-        run: python ./.github/scripts/combine_nudges.py --pr ${{ github.event.number }} --config .github/scripts/nudges.yaml  >> $GITHUB_OUTPUT
+        run: python ./.github/scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -45,11 +45,6 @@ jobs:
         run: gh pr merge ${{ github.event.number }} --squash --delete-branch
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-#      - name: merge PRs
-#        run: python .github/scripts/auto_merge.py --label "ok-to-merge"
-#        env:
-#          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
   RELEASE:
     needs: COMBINE

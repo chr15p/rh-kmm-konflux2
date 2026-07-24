@@ -4,7 +4,7 @@ import re
 import argparse
 import json
 import time
-import yaml
+#import yaml
 #import subprocess
 
 import git_commands
@@ -70,7 +70,8 @@ def parse_pr(single_pr):
 def read_config_yaml(filename):
     try:
         with open(filename,"r") as config_fh:
-            master_components = yaml.safe_load(config_fh)
+            #master_components = yaml.safe_load(config_fh)
+            master_components = json.load(config_fh)
     except Exception as e:
         print(f"unable to read config file \"{filename}\": {e}", file=sys.stderr )
         sys.exit(1)
@@ -108,7 +109,9 @@ if __name__ == "__main__":
 
     ## read config
     CONFIG = read_config_yaml(opt.config)
-    release_config = CONFIG["release"]
+    release_config = {} 
+    release_config["bundle"] = CONFIG["bundle"]
+    release_config["operand"] = CONFIG["operand"]
 
     #print(MASTER_COMPONENTS)
     ########
