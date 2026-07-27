@@ -20,6 +20,9 @@ prod:
   - 2.6.0
   - 2.6.1
 
+stage:
+  - 2.7.0
+
 bundle:
   - operator-bundle
   - hub-operator-bundle
