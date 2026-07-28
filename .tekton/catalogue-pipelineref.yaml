@@ -83,6 +83,7 @@ spec:
     - linux/x86_64
     - linux/arm64
     - linux/ppc64le
+    - linux/s390x
     description: List of platforms to build the container images on. The available set of values is determined by the configuration of the multi-platform-controller.
     name: build-platforms
     type: array
@@ -446,6 +447,9 @@ spec:
       value: $(params.output-image).lifecycle
     - name: ociArtifactExpiresAfter
       value: $(params.image-expires-after)
+    - name: BUILD_ARGS
+      value:
+      - $(params.build-args[*])
     runAfter:
     - clone-repository
   workspaces:

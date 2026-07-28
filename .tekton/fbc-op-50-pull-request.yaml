@@ -33,7 +33,7 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: dockerfile
-    value: /fbc/Containerfile.catalogue
+    value: ./fbc/Containerfile.catalogue
   - name: opm-args
     value:
       - alpha
@@ -47,6 +47,8 @@ spec:
     value: 
     - OCP=4.23
     - FBC_CONFIG=fbc/configs
+  - name: path-context
+    value: .
   pipelineRef:
     name: catalogue-pipeline
   taskRunTemplate:

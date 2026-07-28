@@ -33,7 +33,7 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: dockerfile
-    value: /fbc/Containerfile.catalogue.hub-v414
+    value: ./fbc/Containerfile.catalogue.hub-v414
   - name: opm-args
     value:
       - alpha
