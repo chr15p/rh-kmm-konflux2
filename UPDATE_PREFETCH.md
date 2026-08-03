@@ -34,7 +34,7 @@ All these commands need to be run in a ubi container with access to the files in
 6. install rpm-lockfile-prototype and pre-reqs:
 >    dnf install -y pip skopeo
 >
->    pip install --user https://github.com/konflux-ci/rpm-lockfile-prototype/archive/refs/tags/v0.20.0.tar.gz
+>    pip install --user https://github.com/konflux-ci/rpm-lockfile-prototype/archive/refs/tags/v0.27.0.tar.gz
 
 7. login to registry.redhat.io
 >    skopeo login registry.redhat.io
