@@ -18,7 +18,7 @@ All these commands need to be run in a ubi container with access to the files in
 >    cd /source
 
 2. subscribe the container to Red Hat
->    subscription-manager register --activationkey=rh-kmm-konflux  --org=5318211
+>    subscription-manager register --activationkey=rh-kmm-konflux  --org=${ORG_ID}
 
 3. find the entitlement key files:
 >    [root@63e8cb226313 source]#  ls -l /etc/pki/entitlement
