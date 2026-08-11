@@ -5,7 +5,7 @@ import re
 from typing import Any, Dict
 #, List, Optional
 import yaml
-#import json
+import json
 
 from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
@@ -117,14 +117,29 @@ def create_release(kube_releases, snapshots, namespace,  environment, release_nu
 
 
 
-def load_config(path: str) -> Dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
-    if not isinstance(data, dict):
-        raise ValueError("Config root must be a mapping/object")
-    if "api_url" not in data or not data["api_url"]:
-        raise ValueError("Config must contain non-empty 'api_url'")
-    return data
+#def load_config(path: str) -> Dict[str, Any]:
+#    with open(path, "r", encoding="utf-8") as f:
+#        data = yaml.safe_load(f) or {}
+#    if not isinstance(data, dict):
+#        raise ValueError("Config root must be a mapping/object")
+#    if "api_url" not in data or not data["api_url"]:
+#        raise ValueError("Config must contain non-empty 'api_url'")
+#    return data
+
+def read_config_json(filename:str ="config/pullspec_config.json"):
+    """
+        read the data we need from config/pullspec_config.json
+        returns a dict[str,Any]
+    """
+    release_config = {}
+    try:
+        with open(filename,"r") as config_fh:
+            #master_components = yaml.safe_load(config_fh)
+            config_dict = json.load(config_fh)
+    except Exception as e:
+        print(f"unable to read config file \"{filename}\": {e}", file=sys.stderr )
+        sys.exit(1)
+    return config_dict
 
 
 
@@ -174,7 +189,8 @@ if __name__ == "__main__":
 
     try:
         #config = load_config(opt.config)
-        config = kmm_konflux.config.load_config_dict(opt.config)
+        #config = kmm_konflux.config.load_config_dict(opt.config)
+        config = read_config_json(opt.config)
     except ValueError as e:
         print(f"Failed to load config: {e}", file=sys.stderr)
         sys.exit(2)
@@ -209,7 +225,7 @@ if __name__ == "__main__":
         release_number = get_release_number(kube_releases)
 
     if not commit:
-        commit = git_commands.call_git(False, "rev-parse", "main").decode("utf-8").strip()
+        commit = git_commands.call_git(False, "rev-parse", "main").strip()
         if commit.startswith("fatal:"):
             commit="unknown"
 
