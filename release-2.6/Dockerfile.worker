@@ -5,7 +5,7 @@ ARG SUBMODULE
 ARG TAGPREFIX=""
 ARG KMM_COMMIT
 
-FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1785791459 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1786351949 as builder
 ARG VERSION RELEASE DIRECTORY
 
 WORKDIR /opt/app-root/src
@@ -14,7 +14,7 @@ COPY ${DIRECTORY}/kernel-module-management .
 RUN go build -ldflags="-w -s -X main.Version=${CI_VERSION} -X main.GitCommit=${CI_UPSTREAM_SHORT_COMMIT}" -o worker ./cmd/worker
 
 
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1785777232
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1786380870
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
 
 ENTRYPOINT ["/usr/local/bin/worker"]
