@@ -308,7 +308,6 @@ if __name__ == "__main__":
     CONFIG = read_config_json(opt.config)
 
     TEST_MODE = opt.test
-    TEST_MODE = True
 
     combiner = NudgeCombiner(int(opt.pr), CONFIG, labels="konflux-nudge")
     combiner.filter()
