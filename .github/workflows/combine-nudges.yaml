@@ -26,9 +26,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: list
+        run: pwd && ls -l  && ls -l scripts/
+
       - name: combine-nudge-prs
         id: combine-nudge-prs
-        run: python ./scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
+        run: python scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -55,7 +58,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: release
-        run: python ./scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
+        run: python scripts/release.py -t ${{secrets.KONFLUX_TOKEN}} --pr ${{ github.event.number }}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
