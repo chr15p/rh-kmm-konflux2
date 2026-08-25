@@ -21,7 +21,7 @@ def call_git(test_mode, *args, **kwargs):
     p = subprocess.Popen(params,
                      stdout=subprocess.PIPE,
                      stderr=subprocess.STDOUT)
-    return p.stdout.read()
+    return p.stdout.read().decode("utf-8")
 
 
 def call_gh(test_mode, *args, **kwargs):
@@ -38,6 +38,7 @@ def call_gh(test_mode, *args, **kwargs):
 
     #print(f"run {' '.join(params)}")
     if test_mode:
+        print(" ".join(params))
         return ""
     p = subprocess.Popen(params,
                      stdout=subprocess.PIPE,
@@ -59,7 +60,7 @@ def get_all_git_commits():
     commits = {}
     try:
         submodule = call_git(False, "submodule", "status")
-        for i in submodule.decode("utf-8").split("\n"):
+        for i in submodule.split("\n"):
             m=re.search("([0-9A-Fa-f]+) release-([0-9.]+)/", i)
             if m:
                 commits[m[2].replace(".","-")]=m[1]

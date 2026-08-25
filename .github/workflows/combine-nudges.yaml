@@ -28,7 +28,7 @@ jobs:
 
       - name: combine-nudge-prs
         id: combine-nudge-prs
-        run: python ./.github/scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
+        run: python ./scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 

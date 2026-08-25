@@ -51,9 +51,10 @@ class Konflux:
                 raise SystemExit(f"Forbidden (403). Token lacks permission to list {self.kind} in namespace '{self.namespace}'.")
             resp.raise_for_status()
             body = resp.json()
-            items = body.get("items", None)
-            if items:
-                all_items.extend(items)
+            # List responses always have "items" (possibly empty). Single-object
+            # GETs do not — append the body as one item in that case.
+            if "items" in body:
+                all_items.extend(body["items"])
             else:
                 all_items.append(body)
             cont = body.get("metadata", {}).get("continue")
