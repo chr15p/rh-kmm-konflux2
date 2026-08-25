@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: list
-        run: pwd && ls -l 
+        run: pwd && ls -l  && ls -l scripts/
 
       - name: combine-nudge-prs
         id: combine-nudge-prs
