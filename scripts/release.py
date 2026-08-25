@@ -9,7 +9,7 @@ from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 import kmm_konflux.versions
 import kmm_konflux.config
-import kmm_konflux.yaml_config
+#import kmm_konflux.yaml_config
 
 #test_mode=False
 current_versions = {}
