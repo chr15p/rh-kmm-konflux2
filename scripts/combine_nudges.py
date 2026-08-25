@@ -169,7 +169,7 @@ class NudgeCombiner:
                 pr_list = json.loads(raw_prs)
                 break
             except (TypeError, KeyError, json.decoder.JSONDecodeError) as e:
-                print(f"pr list error retry in {i}s: {e}")
+                print(f"pr list error retry in {i}s: {e}", file=sys.stderr)
                 time.sleep(i)
         else:
             print(f"no relevant PRs found for label {self.labels}", file=sys.stderr )
@@ -181,7 +181,7 @@ class NudgeCombiner:
             else:
                 self.pull_requests[ i.get('number')] = NudgePullRequest(i)
         if not self.curr_pull_request:
-            print(f"unable to find PR {self.curr_pr_number} in open PRs")
+            print(f"unable to find PR {self.curr_pr_number} in open PRs", file=sys.stderr)
             sys.exit(2)
 
     #def get_pr(self, number):
@@ -236,7 +236,7 @@ class NudgeCombiner:
                 if k in to_drop:
                     continue
                 if not filter_to_apply(v):
-                    print(f"dropping {k} due to {filter_to_apply.__name__}")
+                    print(f"dropping {k} due to {filter_to_apply.__name__}", file=sys.stder)
                     #        f"{v.get_version()} !=" \
                     #        f"{self.curr_pull_request.get_version()})")
                     to_drop.append(k)
@@ -260,10 +260,10 @@ class NudgeCombiner:
             if c not in component_names:
                 missing.append(c)
         if not missing:
-            print("all components ready to merge")
+            print("all components ready to merge", file=sys.stderr)
             return True
 
-        print(f"missing components: {missing}")
+        print(f"missing components: {missing}", file=sys.stderr)
         return False
 
 
@@ -291,6 +291,8 @@ class NudgeCombiner:
                                     self.curr_pr_number,
                                     "--add-label",
                                     self.config[f"{stage}-label"])
+        print(f"APPLIED={self.config[f"{stage}-label"]}")
+ 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
