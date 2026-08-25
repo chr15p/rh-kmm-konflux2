@@ -26,6 +26,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: list
+        run: pwd && ls -l 
+
       - name: combine-nudge-prs
         id: combine-nudge-prs
         run: python scripts/combine_nudges.py --pr ${{ github.event.number }} --config config/pullspec_config.json >> $GITHUB_OUTPUT
