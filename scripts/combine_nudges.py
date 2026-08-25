@@ -236,7 +236,7 @@ class NudgeCombiner:
                 if k in to_drop:
                     continue
                 if not filter_to_apply(v):
-                    print(f"dropping {k} due to {filter_to_apply.__name__}", file=sys.stder)
+                    print(f"dropping {k} due to {filter_to_apply.__name__}", file=sys.stderr)
                     #        f"{v.get_version()} !=" \
                     #        f"{self.curr_pull_request.get_version()})")
                     to_drop.append(k)
