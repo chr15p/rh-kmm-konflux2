@@ -49,4 +49,4 @@ jobs:
   RELEASE:
     needs: COMBINE
     if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
-    use: $/.github/workflows/release.yml
+    uses: $/.github/workflows/release.yml
