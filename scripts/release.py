@@ -329,8 +329,8 @@ class Release(KonfluxResource):
                 appstudio.openshift.io/application: {self.application}
                 application: {self.application}
                 version: "{pr.get_application_number()}"
-                commit: {pr.get_konflux_commit()}
-                short: {pr.get_konflux_commit(short=True)}
+                commit: "{pr.get_konflux_commit()}"
+                short: "{pr.get_konflux_commit(short=True)}"
                 relnumber: "{pr.get_release_number()}"
               name: {pr.get_application_name()}-{self.env}-{pr.get_release_number()}-{pr.get_konflux_commit(short=True)}-r{self.release}
               namespace: {namespace}
