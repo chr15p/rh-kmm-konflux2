@@ -267,13 +267,16 @@ class NudgeCombiner:
         return False
 
 
+    def get_label_to_apply(self):
+        stage = self.curr_pull_request.get_component_stage()
+        return self.config[f"{stage}-label"]
+
     def merge(self):
         """
             loop through the prs in self.pull_requests, change their target branch to be the 
             same as current_pr, then merge them into it
             this leaves us with one big PR which is labelled "ok-to-merge" or "ok-to-relase"
         """
-        stage = self.curr_pull_request.get_component_stage()
         branch = self.curr_pull_request.get_source_branch()
 
         #for pr_number in self.pull_requests.keys():
@@ -285,13 +288,14 @@ class NudgeCombiner:
         for pr_number in self.pull_requests:
             out=git_commands.call_gh(TEST_MODE, "pr", "merge", pr_number, "--squash")
 
+        label = self.get_label_to_apply()
         out=git_commands.call_gh(TEST_MODE,
                                     "pr",
                                     "edit",
                                     self.curr_pr_number,
                                     "--add-label",
-                                    self.config[f"{stage}-label"])
-        print(f"APPLIED={self.config[f"{stage}-label"]}")
+                                    label)
+        print(f"APPLIED={label}")
  
 
 if __name__ == "__main__":
@@ -310,6 +314,14 @@ if __name__ == "__main__":
     TEST_MODE = opt.test
 
     combiner = NudgeCombiner(int(opt.pr), CONFIG, labels="konflux-nudge")
+
+    ## if the PR is already correctly labelled just return that
+    ## this should facilitate rerunning
+    label_to_apply = combiner.get_label_to_apply()
+    if label_to_apply in combiner.curr_pull_request.get_labels():
+        print(f"APPLIED={label_to_apply}")
+        sys.exit(0)
+
     combiner.filter()
     #print(f"combiner:{combiner.pull_requests.keys()}")
 
