@@ -235,9 +235,9 @@ class KonfluxResource:
 
     def create(self, dry_run: bool = False) -> str:
         """Create via API (or print YAML). Returns the resource name."""
+        print("---")
+        print(self.to_yaml())
         if dry_run:
-            print("---")
-            print(self.to_yaml())
             return self.name
 
         resp = self.client.create(self.manifest)
