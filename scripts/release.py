@@ -27,6 +27,175 @@ def read_config_json(filename:str ="config/pullspec_config.json"):
         sys.exit(1)
     return config_dict
 
+class ReleaseContext:
+    def __init__(self,
+                    config: dict,
+                    token:str,
+                    pr_number=None,
+                    application:str = None,
+                    konflux_commit:str = None,
+                    relnumber=None):
+        if pr_number:
+            self.pr_number = pr_number
+            self._pr = self._get_pr()
+            self.application = self._pr_application_number(self._pr["headRefName"])
+            self.konflux_commit = self._pr_konflux_commit()
+            self.application_name = self._pr_application_name()
+        else:
+            self.pr_number = None
+            self.konflux_commit = konflux_commit
+            self.application = self._pr_application_number(application)
+            self.application_name = application
+        self.relnumber = relnumber
+        self.config = config
+        self.kmm_commit = None
+        self.token = token
+        self.components = self.get_components()
+
+    def get_components(self):
+        kube_components = Konflux(self.config['api_url'],
+                        self.token,
+                        self.config['namespace'],
+                        "appstudio.redhat.com/v1alpha1",
+                        "components",
+                        resolve_tls_verify(self.config))
+        component_list = kube_components.get(label_selector={"application": self.application_name})
+        try:
+            if component_list[0].get('items') == []:
+                print(f"no components found labelled \"application\": {self.application_name}")
+                return None
+        except (KeyError,IndexError):
+            pass
+        return component_list
+
+    def get_relnumber(self):
+        if self.relnumber:
+            return self.relnumber
+        kube_snapshots = Konflux(self.config['api_url'],
+                        self.token,
+                        self.config['namespace'],
+                        "appstudio.redhat.com/v1alpha1",
+                        "snapshots",
+                        resolve_tls_verify(self.config))
+        snap_list = kube_snapshots.get(label_selector={"application": self.application_name})
+        #snap_list = kube_snapshots.get(label_selector={"application": "kmm-2-7"})
+        try:
+            if snap_list[0].get('items') == []:
+                self.relnumber = 1
+        except (KeyError,IndexError):
+            self.relnumber = 1
+
+        relnumber = 0
+        for snap in snap_list:
+            branch_regexp=r"-r([0-9]+)$"
+            matches = re.search(branch_regexp, snap['metadata']['name'])
+            if matches is not None:
+                relnumber = max(relnumber, int(matches.group(1)))
+
+        self.relnumber = relnumber+1
+        return self.relnumber
+
+    def _get_pr(self):
+        try:
+            raw_pr = git_commands.call_gh(False,
+                                        "pr",
+                                        "view",
+                                        "--json","title,headRefName,body",
+                                        self.pr_number)
+        except Exception as e:
+            print(f"raw pr list error: {e}")
+
+        try:
+            return json.loads(raw_pr)
+        except json.decoder.JSONDecodeError as e:
+            print(f"pr view error {self.pr_number}: {e}")
+            print(raw_pr)
+            sys.exit(1)
+
+    def _pr_application_number(self, content:str):
+        #branch_regexp=r"konflux/component-updates/.*-([0-9]-[0-9])$"
+        branch_regexp=r"-([0-9-]+)$"
+        #matches = re.match(branch_regexp, self._pr["headRefName"])
+        matches = re.search(branch_regexp, content)
+        if matches is None:
+            return None
+        return matches.group(1)
+
+    def _pr_application_name(self):
+        return f"kmm-{self.get_application_number()}"
+
+    def _pr_konflux_commit(self) -> str:
+        commit_regexp = r"=(.*)\'"
+        matches = re.search(commit_regexp, self._pr['body'])
+        if matches is None:
+            return None
+        return matches.group(1)
+
+    def get_release_number(self):
+        try:
+            settings = kmm_konflux.config.read_key_value_file(
+                       f"release-{self.get_application_number().replace('-','.')}/build_settings.conf")
+            return settings['RELEASE'].replace(".","")
+        except (FileNotFoundError, KeyError):
+            if len(self.config['stage']):
+                return self.config['stage'][-1].replace(".","")
+            return self.config['prod'][-1].replace(".","")
+
+    def get_application_number(self):
+        return self.application
+
+    def get_application_name(self):
+        return self.application_name
+
+    def get_namespace(self):
+        return self.config['namespace']
+
+    def get_konflux_commit(self, short=False) -> str:
+        if short:
+            return self.konflux_commit[:7]
+        return self.konflux_commit
+
+    def get_kmm_commit(self, short=False): #konflux_commit, version):
+        """     
+            the konflux repo commit is embedded in the body text of a nudge PR, 
+            so parse that with a regexp
+            then use that to diff the release-2.X/kernel-module-management submodule mount point
+            either it returns nothing and we use the current submodule commit
+            or it returns a value (meaning the submodule has been updated since this PR was built)
+            in which case we parse it out of the diff response.
+            this works around an issue where if building multiple versions at the same time the 
+            konflux commit might change between PRs for the same kmm commit
+            (e.g you build 2-6 and 2-7, operator-2-7 fails so you merge the 2-6 operands and 
+            rebuild operator-2-7, now the konflux commit has changed so operator-2-7 would been seen
+             as a differnet build and not combine) 
+        """
+        if self.kmm_commit:
+            if short:
+                return self.kmm_commit[:7]
+            return self.kmm_commit
+
+        v = self.get_application_number().replace("-",".")
+        konflux_commit = self.get_konflux_commit()
+        #v = version.replace("-",".")
+        out=git_commands.call_git(False,
+                                    "diff",
+                                    f"{konflux_commit}..HEAD",
+                                    f"release-{v}/kernel-module-management")
+        if out.startswith("fatal:"):
+            return None
+        if not out:
+            out=git_commands.call_git(False,
+                                    "submodule",
+                                    "status",
+                                    f"release-{v}/kernel-module-management")
+            self.kmm_commit = out.split(" ")[1]
+        else:
+            self.kmm_commit = out.split(" ")[-1]
+
+        if short:
+            return self.kmm_commit[:7]
+        return self.kmm_commit
+
 
 class KonfluxResource:
     """Base for Snapshot / Release manifests."""
@@ -209,175 +378,6 @@ class Release(KonfluxResource):
         self.manifest['spec']['snapshot'] = self.snapshot_name
         super().create(dry_run)
 
-
-class ReleaseContext:
-    def __init__(self,
-                    config: dict,
-                    token:str,
-                    pr_number=None,
-                    application:str = None,
-                    konflux_commit:str = None,
-                    relnumber=None):
-        if pr_number:
-            self.pr_number = pr_number
-            self._pr = self._get_pr()
-            self.application = self._pr_application_number(self._pr["headRefName"])
-            self.konflux_commit = self._pr_konflux_commit()
-            self.application_name = self._pr_application_name()
-        else:
-            self.pr_number = None
-            self.konflux_commit = konflux_commit
-            self.application = self._pr_application_number(application)
-            self.application_name = application
-        self.relnumber = relnumber
-        self.config = config
-        self.kmm_commit = None
-        self.token = token
-        self.components = self.get_components()
-
-    def get_components(self):
-        kube_components = Konflux(self.config['api_url'],
-                        self.token,
-                        self.config['namespace'],
-                        "appstudio.redhat.com/v1alpha1",
-                        "components",
-                        resolve_tls_verify(self.config))
-        component_list = kube_components.get(label_selector={"application": self.application_name})
-        try:
-            if component_list[0].get('items') == []:
-                print(f"no components found labelled \"application\": {self.application_name}")
-                return None
-        except (KeyError,IndexError):
-            pass
-        return component_list
-
-    def get_relnumber(self):
-        if self.relnumber:
-            return self.relnumber
-        kube_snapshots = Konflux(self.config['api_url'],
-                        self.token,
-                        self.config['namespace'],
-                        "appstudio.redhat.com/v1alpha1",
-                        "snapshots",
-                        resolve_tls_verify(self.config))
-        snap_list = kube_snapshots.get(label_selector={"application": self.application_name})
-        #snap_list = kube_snapshots.get(label_selector={"application": "kmm-2-7"})
-        try:
-            if snap_list[0].get('items') == []:
-                self.relnumber = 1
-        except (KeyError,IndexError):
-            self.relnumber = 1
-
-        relnumber = 0
-        for snap in snap_list:
-            branch_regexp=r"-r([0-9]+)$"
-            matches = re.search(branch_regexp, snap['metadata']['name'])
-            if matches is not None:
-                relnumber = max(relnumber, int(matches.group(1)))
-
-        self.relnumber = relnumber+1
-        return self.relnumber
-
-    def _get_pr(self):
-        try:
-            raw_pr = git_commands.call_gh(False,
-                                        "pr",
-                                        "view",
-                                        "--json","title,headRefName,body",
-                                        self.pr_number)
-        except Exception as e:
-            print(f"raw pr list error: {e}")
-
-        try:
-            return json.loads(raw_pr)
-        except json.decoder.JSONDecodeError as e:
-            print(f"pr view error {self.pr_number}: {e}")
-            print(raw_pr)
-            sys.exit(1)
-
-    def _pr_application_number(self, content:str):
-        #branch_regexp=r"konflux/component-updates/.*-([0-9]-[0-9])$"
-        branch_regexp=r"-([0-9-]+)$"
-        #matches = re.match(branch_regexp, self._pr["headRefName"])
-        matches = re.search(branch_regexp, content)
-        if matches is None:
-            return None
-        return matches.group(1)
-
-    def _pr_application_name(self):
-        return f"kmm-{self.get_application_number()}"
-
-    def _pr_konflux_commit(self) -> str:
-        commit_regexp = r"=(.*)\'"
-        matches = re.search(commit_regexp, self._pr['body'])
-        if matches is None:
-            return None
-        return matches.group(1)
-
-    def get_release_number(self):
-        try:
-            settings = kmm_konflux.config.read_key_value_file(
-                       f"release-{self.get_application_number().replace('-','.')}/build_settings.conf")
-            return settings['RELEASE'].replace(".","")
-        except (FileNotFoundError, KeyError):
-            if len(self.config['stage']):
-                return self.config['stage'][-1].replace(".","")
-            return self.config['prod'][-1].replace(".","")
-
-    def get_application_number(self):
-        return self.application
-
-    def get_application_name(self):
-        return self.application_name
-
-    def get_namespace(self):
-        return self.config['namespace']
-
-    def get_konflux_commit(self, short=False) -> str:
-        if short:
-            return self.konflux_commit[:7]
-        return self.konflux_commit
-
-    def get_kmm_commit(self, short=False): #konflux_commit, version):
-        """     
-            the konflux repo commit is embedded in the body text of a nudge PR, 
-            so parse that with a regexp
-            then use that to diff the release-2.X/kernel-module-management submodule mount point
-            either it returns nothing and we use the current submodule commit
-            or it returns a value (meaning the submodule has been updated since this PR was built)
-            in which case we parse it out of the diff response.
-            this works around an issue where if building multiple versions at the same time the 
-            konflux commit might change between PRs for the same kmm commit
-            (e.g you build 2-6 and 2-7, operator-2-7 fails so you merge the 2-6 operands and 
-            rebuild operator-2-7, now the konflux commit has changed so operator-2-7 would been seen
-             as a differnet build and not combine) 
-        """
-        if self.kmm_commit:
-            if short:
-                return self.kmm_commit[:7]
-            return self.kmm_commit
-
-        v = self.get_application_number().replace("-",".")
-        konflux_commit = self.get_konflux_commit()
-        #v = version.replace("-",".")
-        out=git_commands.call_git(False,
-                                    "diff",
-                                    f"{konflux_commit}..HEAD",
-                                    f"release-{v}/kernel-module-management")
-        if out.startswith("fatal:"):
-            return None
-        if not out:
-            out=git_commands.call_git(False,
-                                    "submodule",
-                                    "status",
-                                    f"release-{v}/kernel-module-management")
-            self.kmm_commit = out.split(" ")[1]
-        else:
-            self.kmm_commit = out.split(" ")[-1]
-
-        if short:
-            return self.kmm_commit[:7]
-        return self.kmm_commit
 
 
 if __name__ == "__main__":
