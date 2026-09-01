@@ -50,3 +50,5 @@ jobs:
     needs: COMBINE
     if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
     uses: $/.github/workflows/release.yml
+    with:
+      pr: ${{ github.event.number }}
