@@ -188,7 +188,7 @@ class ReleaseContext:
                                     "submodule",
                                     "status",
                                     f"release-{v}/kernel-module-management")
-            self.kmm_commit = out.split(" ")[1]
+            self.kmm_commit = out[1:].split(" ")[0]
         else:
             self.kmm_commit = out.split(" ")[-1]
 
