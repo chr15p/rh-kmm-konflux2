@@ -378,6 +378,7 @@ class Release(KonfluxResource):
         self.manifest['spec']['snapshot'] = self.snapshot_name
         super().create(dry_run)
 
+        return self.manifest['metadata']['name']
 
 
 if __name__ == "__main__":
@@ -449,4 +450,6 @@ if __name__ == "__main__":
                 opt.env,
                 release=opt.release)
 
-    release.create(dry_run=opt.test)
+    name=release.create(dry_run=opt.test)
+    print(name)
+
