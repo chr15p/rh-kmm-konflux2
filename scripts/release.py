@@ -235,8 +235,8 @@ class KonfluxResource:
 
     def create(self, dry_run: bool = False) -> str:
         """Create via API (or print YAML). Returns the resource name."""
-        print("---")
-        print(self.to_yaml())
+        print("---", file=sys.stderr)
+        print(self.to_yaml(), file=sys.stderr)
         if dry_run:
             return self.name
 
@@ -247,7 +247,7 @@ class KonfluxResource:
             created = resp.get("metadata", {}).get("name", self.name)
         else:
             raise RuntimeError(f"create {self.manifest['kind']} returned unusual result: {resp}")
-        print(f"{self.manifest["kind"]}={created}")
+        print(f"{self.manifest["kind"].upper()}={created}")
         return created
 
 
@@ -440,7 +440,6 @@ if __name__ == "__main__":
                     pr_number=opt.pr,
                     application=opt.application,
                     konflux_commit=opt.commit)
-    #print(relpr.get_relnumber())
 
     release = Release(
                 namespace,

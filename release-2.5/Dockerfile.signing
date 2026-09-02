@@ -13,11 +13,14 @@ ARG KMM_COMMIT
 
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1788166357 as builder
 RUN microdnf update -y && \
-    microdnf install -y kernel-devel && \
+    microdnf install --setopt=install_weak_deps=0 -y kernel-devel && \
     microdnf clean all
 
 FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1788166357
 ARG VERSION RELEASE TAGPREFIX KMM_COMMIT
+
+COPY --from=builder /usr/src/kernels/*/scripts/sign-file /usr/local/bin/
+USER 65534:65534
 
 ENTRYPOINT ["/usr/local/bin/sign-file"]
 

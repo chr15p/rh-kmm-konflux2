@@ -212,10 +212,13 @@ class NudgeCombiner:
         return pr.get_component_stage() == self.curr_pull_request.get_component_stage()
 
     def _component_filter(self, pr: NudgePullRequest):
-        """ filter out any component not in the wanted listi for this stage type"""
+        """ filter out any component not in the wanted list for this stage type"""
         stage = self.curr_pull_request.get_component_stage()
         #return self.pull_requests[pr_number].get_component_name() in self.config[stage]
         return pr.get_component_name() in self.config[stage]
+
+    def _number_filter(self, pr: NudgePullRequest):
+        return self.curr_pull_request.get_number() > pr.get_number() 
 
     def filter(self, filters=None):
         """
@@ -229,6 +232,7 @@ class NudgeCombiner:
                         self._stage_filter,
                         self._commit_filter,
                         self._component_filter,
+                        self._number_filter,
                         ]
 
         for filter_to_apply in filters:
