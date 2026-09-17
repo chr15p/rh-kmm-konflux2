@@ -802,6 +802,30 @@ arches:
     name: rsync
     evr: 3.2.7-1.el9_8
     sourcerpm: rsync-3.2.7-1.el9_8.src.rpm
+<<<<<<< Updated upstream
+=======
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/s/systemd-252-67.el9_8.6.aarch64.rpm
+    repoid: ubi-9-for-aarch64-baseos-rpms
+    size: 4135917
+    checksum: sha256:758ae3df6d76cace670ce7af7caa557a7cf8807a2160ccb30c49f7d8ec018749
+    name: systemd
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/s/systemd-pam-252-67.el9_8.6.aarch64.rpm
+    repoid: ubi-9-for-aarch64-baseos-rpms
+    size: 247880
+    checksum: sha256:736a6bbb73b0ef682ddfe356bb49578c2a8f17c6685ca762fcc1636003a4f5f3
+    name: systemd-pam
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/s/systemd-rpm-macros-252-67.el9_8.6.noarch.rpm
+    repoid: ubi-9-for-aarch64-baseos-rpms
+    size: 40844
+    checksum: sha256:974a0352427799559a3e90dcdb38200d767631452cca7717c5b0fbe7760df313
+    name: systemd-rpm-macros
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+>>>>>>> Stashed changes
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/t/tar-1.34-13.el9_8.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 909271
@@ -844,6 +868,7 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.48.1.el9_8
     sourcerpm: kernel-5.14.0-687.48.1.el9_8.src.rpm
+<<<<<<< Updated upstream
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/os/Packages/s/systemd-252-67.el9_8.4.aarch64.rpm
     repoid: rhel-9-for-aarch64-baseos-rpms
     size: 4156431
@@ -865,6 +890,8 @@ arches:
     name: systemd-rpm-macros
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
+=======
+>>>>>>> Stashed changes
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-aarch64-appstream-source-rpms
@@ -1292,12 +1319,12 @@ arches:
     checksum: sha256:f0ea5966a6b8652c2116d84d6cde915ffec6455104c3aa12f2017dc28dc4c022
     name: rsync
     evr: 3.2.7-1.el9_8
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.4.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.6.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
-    size: 45009674
-    checksum: sha256:e44181d1de2a135a5507b956d18a9eb11951a35aaa9c15dbc0f144ed8313f732
+    size: 45003976
+    checksum: sha256:f535f4c20ed82f56cc7f4c86202e3cd582815f702bb0c24005a07a496ec94c97
     name: systemd
-    evr: 252-67.el9_8.4
+    evr: 252-67.el9_8.6
   - url: https://cdn.redhat.com/content/dist/rhel9/9/aarch64/baseos/source/SRPMS/Packages/t/tar-1.34-13.el9_8.src.rpm
     repoid: rhel-9-for-aarch64-baseos-source-rpms
     size: 2312101
@@ -2130,6 +2157,30 @@ arches:
     name: rsync
     evr: 3.2.7-1.el9_8
     sourcerpm: rsync-3.2.7-1.el9_8.src.rpm
+<<<<<<< Updated upstream
+=======
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/s/systemd-252-67.el9_8.6.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-baseos-rpms
+    size: 4416503
+    checksum: sha256:ce49b64e3fdba53c10a4127b91a9f80ceb9d18e6a1fe834a41e4d66cd1a20b90
+    name: systemd
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/s/systemd-pam-252-67.el9_8.6.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-baseos-rpms
+    size: 276291
+    checksum: sha256:bdc687a7e14c8df0cc6d5f1f3c1fd0ffa911e391ac83102f33c5ececf08dde08
+    name: systemd-pam
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/s/systemd-rpm-macros-252-67.el9_8.6.noarch.rpm
+    repoid: ubi-9-for-ppc64le-baseos-rpms
+    size: 40844
+    checksum: sha256:974a0352427799559a3e90dcdb38200d767631452cca7717c5b0fbe7760df313
+    name: systemd-rpm-macros
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+>>>>>>> Stashed changes
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/t/tar-1.34-13.el9_8.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 947907
@@ -2172,6 +2223,7 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.48.1.el9_8
     sourcerpm: kernel-5.14.0-687.48.1.el9_8.src.rpm
+<<<<<<< Updated upstream
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/os/Packages/s/systemd-252-67.el9_8.4.ppc64le.rpm
     repoid: rhel-9-for-ppc64le-baseos-rpms
     size: 4435450
@@ -2193,6 +2245,8 @@ arches:
     name: systemd-rpm-macros
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
+=======
+>>>>>>> Stashed changes
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-ppc64le-appstream-source-rpms
@@ -2626,12 +2680,12 @@ arches:
     checksum: sha256:f0ea5966a6b8652c2116d84d6cde915ffec6455104c3aa12f2017dc28dc4c022
     name: rsync
     evr: 3.2.7-1.el9_8
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.4.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.6.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
-    size: 45009674
-    checksum: sha256:e44181d1de2a135a5507b956d18a9eb11951a35aaa9c15dbc0f144ed8313f732
+    size: 45003976
+    checksum: sha256:f535f4c20ed82f56cc7f4c86202e3cd582815f702bb0c24005a07a496ec94c97
     name: systemd
-    evr: 252-67.el9_8.4
+    evr: 252-67.el9_8.6
   - url: https://cdn.redhat.com/content/dist/rhel9/9/ppc64le/baseos/source/SRPMS/Packages/t/tar-1.34-13.el9_8.src.rpm
     repoid: rhel-9-for-ppc64le-baseos-source-rpms
     size: 2312101
@@ -3464,6 +3518,30 @@ arches:
     name: rsync
     evr: 3.2.7-1.el9_8
     sourcerpm: rsync-3.2.7-1.el9_8.src.rpm
+<<<<<<< Updated upstream
+=======
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/s/systemd-252-67.el9_8.6.s390x.rpm
+    repoid: ubi-9-for-s390x-baseos-rpms
+    size: 4148771
+    checksum: sha256:f6522ccf722b7bbc014a3aa935d0a0410a096ab3d9bbcb9b345ed9b0f7f123b4
+    name: systemd
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/s/systemd-pam-252-67.el9_8.6.s390x.rpm
+    repoid: ubi-9-for-s390x-baseos-rpms
+    size: 247723
+    checksum: sha256:1043bd2359f6a9f64a90adf15bfe0718b36f2d752df3ead427983a52365e446d
+    name: systemd-pam
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/s/systemd-rpm-macros-252-67.el9_8.6.noarch.rpm
+    repoid: ubi-9-for-s390x-baseos-rpms
+    size: 40844
+    checksum: sha256:974a0352427799559a3e90dcdb38200d767631452cca7717c5b0fbe7760df313
+    name: systemd-rpm-macros
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+>>>>>>> Stashed changes
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/t/tar-1.34-13.el9_8.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 910326
@@ -3506,6 +3584,7 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.48.1.el9_8
     sourcerpm: kernel-5.14.0-687.48.1.el9_8.src.rpm
+<<<<<<< Updated upstream
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/os/Packages/s/systemd-252-67.el9_8.4.s390x.rpm
     repoid: rhel-9-for-s390x-baseos-rpms
     size: 4167506
@@ -3527,6 +3606,8 @@ arches:
     name: systemd-rpm-macros
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
+=======
+>>>>>>> Stashed changes
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-s390x-appstream-source-rpms
@@ -3954,12 +4035,12 @@ arches:
     checksum: sha256:f0ea5966a6b8652c2116d84d6cde915ffec6455104c3aa12f2017dc28dc4c022
     name: rsync
     evr: 3.2.7-1.el9_8
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.4.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.6.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
-    size: 45009674
-    checksum: sha256:e44181d1de2a135a5507b956d18a9eb11951a35aaa9c15dbc0f144ed8313f732
+    size: 45003976
+    checksum: sha256:f535f4c20ed82f56cc7f4c86202e3cd582815f702bb0c24005a07a496ec94c97
     name: systemd
-    evr: 252-67.el9_8.4
+    evr: 252-67.el9_8.6
   - url: https://cdn.redhat.com/content/dist/rhel9/9/s390x/baseos/source/SRPMS/Packages/t/tar-1.34-13.el9_8.src.rpm
     repoid: rhel-9-for-s390x-baseos-source-rpms
     size: 2312101
@@ -4778,6 +4859,30 @@ arches:
     name: rsync
     evr: 3.2.7-1.el9_8
     sourcerpm: rsync-3.2.7-1.el9_8.src.rpm
+<<<<<<< Updated upstream
+=======
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/s/systemd-252-67.el9_8.6.x86_64.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 4383786
+    checksum: sha256:025ffe42235a9d4d40138bab7511995392d2a50ba6912be97b47e634b15823b8
+    name: systemd
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/s/systemd-pam-252-67.el9_8.6.x86_64.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 258340
+    checksum: sha256:eb780b309cd671d4b3bec7d3b31bf148179e527d7222663544470310f4cb43ee
+    name: systemd-pam
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/s/systemd-rpm-macros-252-67.el9_8.6.noarch.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 40844
+    checksum: sha256:974a0352427799559a3e90dcdb38200d767631452cca7717c5b0fbe7760df313
+    name: systemd-rpm-macros
+    evr: 252-67.el9_8.6
+    sourcerpm: systemd-252-67.el9_8.6.src.rpm
+>>>>>>> Stashed changes
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/t/tar-1.34-13.el9_8.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 914200
@@ -4820,6 +4925,7 @@ arches:
     name: kernel-devel
     evr: 5.14.0-687.48.1.el9_8
     sourcerpm: kernel-5.14.0-687.48.1.el9_8.src.rpm
+<<<<<<< Updated upstream
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/os/Packages/s/systemd-252-67.el9_8.4.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-rpms
     size: 4401138
@@ -4841,6 +4947,8 @@ arches:
     name: systemd-rpm-macros
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
+=======
+>>>>>>> Stashed changes
   source:
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/source/SRPMS/Packages/b/bison-3.7.4-5.el9.src.rpm
     repoid: rhel-9-for-x86_64-appstream-source-rpms
@@ -5268,12 +5376,12 @@ arches:
     checksum: sha256:f0ea5966a6b8652c2116d84d6cde915ffec6455104c3aa12f2017dc28dc4c022
     name: rsync
     evr: 3.2.7-1.el9_8
-  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.4.src.rpm
+  - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/s/systemd-252-67.el9_8.6.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
-    size: 45009674
-    checksum: sha256:e44181d1de2a135a5507b956d18a9eb11951a35aaa9c15dbc0f144ed8313f732
+    size: 45003976
+    checksum: sha256:f535f4c20ed82f56cc7f4c86202e3cd582815f702bb0c24005a07a496ec94c97
     name: systemd
-    evr: 252-67.el9_8.4
+    evr: 252-67.el9_8.6
   - url: https://cdn.redhat.com/content/dist/rhel9/9/x86_64/baseos/source/SRPMS/Packages/t/tar-1.34-13.el9_8.src.rpm
     repoid: rhel-9-for-x86_64-baseos-source-rpms
     size: 2312101
