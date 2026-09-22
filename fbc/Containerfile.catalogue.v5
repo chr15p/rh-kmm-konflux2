@@ -1,7 +1,8 @@
 ARG OCP=5.0
 ARG FBC_CONFIG=fbc/configs
 
-FROM registry.redhat.io/redhat/redhat-operator-index:v${OCP}
+#FROM registry.redhat.io/redhat/redhat-operator-index:v${OCP}
+FROM registry.redhat.io/openshift5/ose-operator-registry-rhel9:v${OCP}
 ARG FBC_CONFIG
 
 ENTRYPOINT ["/bin/opm"]
