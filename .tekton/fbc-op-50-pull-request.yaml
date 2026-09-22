@@ -45,7 +45,7 @@ spec:
     value: fbc/configs/kernel-module-management/catalog.json
   - name: build-args
     value: 
-    - OCP=4.23
+    - OCP=5.0
     - FBC_CONFIG=fbc/configs
   - name: path-context
     value: .
