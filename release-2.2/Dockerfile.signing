@@ -2,14 +2,14 @@ ARG VERSION
 ARG RELEASE
 ARG DIRECTORY
 
-FROM registry.redhat.io/ubi9/ubi:9.8-1789646010 as builder
+FROM registry.redhat.io/ubi9/ubi:9.8-1790067847 as builder
 ARG VERSION RELEASE DIRECTORY
 
 # install the package that will contain the sign utilities
 RUN dnf download kernel-devel && rpm -i --nodeps ./kernel-devel-*.rpm
 
 #FROM registry.redhat.io/rhel9-4-els/rhel-minimal:9.4
-FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1789639776
+FROM registry.redhat.io/ubi9/ubi-minimal:9.8-1790074235
 ARG VERSION RELEASE
 
 COPY --from=builder /usr/src/kernels/*/scripts/sign-file /usr/local/bin/
