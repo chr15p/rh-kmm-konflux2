@@ -1,0 +1,205 @@
+
+digraph "kmm build and release" {
+    
+	subgraph cluster_01 { 
+		label = <<b>Legend</b>>;
+		key [shape=oval label="PR"]
+    	key2 [shape=box3d label="build"]
+     	}
+    
+	//splines="ortho"
+	//concentrate=true
+	rankdir=TB
+    /*
+	node[shape=box3d color=orange] "fbc-op-414" "fbc-op-415" "fbc-op-416" "fbc-op-417" "fbc-op-418" "fbc-op-419" "fbc-op-420" "fbc-op-421"
+	node[shape=box3d color=orange] "fbc-hub-414" "fbc-hub-415" "fbc-hub-416" "fbc-hub-417" "fbc-hub-418" "fbc-hub-419" "fbc-hub-420" "fbc-hub-421"
+    */
+	node[shape=oval color=red] "external PR"
+	node[shape=oval color=red] "operator\nnudge PR" "signing\nnudge PR" "webhook\nnudge PR" "must-gather\nnudge PR" "worker\nnudge PR"  "hub-operator\nnudge PR"
+	node[shape=oval color=red] "operator-bundle\nnudge PR" "hub-operator-bundle\nnudge PR"
+    {
+    rank=same
+    //node[shape=plain color=black label="scripts/combine_nudges.py"] merge_one
+	node[shape=oval color=red] "combined\noperand nudge PR"
+    }
+    {
+    rank=same
+    //node[shape=plain color=black label="scripts/combine_nudges.py"] merge_two
+	node[shape=oval color=red] "combined\nbundle nudge PR"
+    }
+	node[shape=box3d color=orange] "operator-bundle" "hub-operator-bundle"
+	node[shape=box3d color=green] "operator" "signing" "webhook" "must-gather" "worker"  "hub-operator"
+	node[shape=cds color=blue] "Operands\nrelease"
+    {
+        edge[color=black splines=straight]
+        "external PR"->"operator"
+        "external PR"->"signing"
+        "external PR"->"webhook" [label="on merge"]
+        "external PR"->"must-gather"
+        "external PR"->"worker"
+        "external PR"->"hub-operator" 
+    }
+	{
+		edge [color=black, concentrate=true, dir=end]
+		"operator"->"operator\nnudge PR"
+		"signing"->"signing\nnudge PR"
+		"webhook"->"webhook\nnudge PR"
+		"must-gather"->"must-gather\nnudge PR"
+		"worker"->"worker\nnudge PR"
+		"hub-operator"->"hub-operator\nnudge PR"
+	}
+	{
+		edge [color=black, concentrate=true, dir=end]
+		"operator\nnudge PR"->"combined\noperand nudge PR"
+		"signing\nnudge PR"->"combined\noperand nudge PR"
+		"webhook\nnudge PR"->"combined\noperand nudge PR" [label="combine_nudges.py"]
+		"must-gather\nnudge PR"->"combined\noperand nudge PR"
+		"worker\nnudge PR"->"combined\noperand nudge PR"
+		"hub-operator\nnudge PR"->"combined\noperand nudge PR"
+	}
+	{
+		edge [color=black, concentrate=true, dir=end]
+		"combined\noperand nudge PR"->"operator-bundle" [label="   on merge"]
+		"combined\noperand nudge PR"->"hub-operator-bundle"
+    }
+	{
+		edge [color=black, concentrate=true, dir=end]
+	    "operator-bundle"->"operator-bundle\nnudge PR"
+		"hub-operator-bundle"->"hub-operator-bundle\nnudge PR"
+    }
+	{
+		edge [color=black, concentrate=true, dir=end]
+	    "operator-bundle\nnudge PR"->"combined\nbundle nudge PR" [label="combine_nudges.py"]
+		"hub-operator-bundle\nnudge PR"->"combined\nbundle nudge PR"
+    }
+
+    
+	{
+		edge [color=black, concentrate=true, dir=end]
+        "combined\nbundle nudge PR"->"Operands\nrelease" [label=" release.py"]
+	}
+
+/*
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+    }
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+    }
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+    }
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+    }
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+    }
+	{
+		node[shape = point, height=0, width=0]  "aob"  "ahb"
+		edge [color=green, concentrate=true, dir=none]
+		{ rank = same; "aob"  "ahb"}
+		"aob"->"ahb"
+		"operator\nnudge PR"->"aob"
+		"signing\nnudge PR"->"aob"
+		"webhook\nnudge PR"->"aob"
+		"must-gather\nnudge PR"->"ahb"
+		"worker\nnudge PR"->"ahb"
+		"hub-operator\nnudge PR"->"ahb"
+		"ahb"->"hub-operator-bundle" [dir=end]
+		"aob"->"operator-bundle"[dir=end]
+	}
+*/
+/*
+	{
+		node[shape = point, height=0, width=0]  "a1" "b1" "c1" "d1" "e1" "f1" "g1" "h1"
+		edge [color=orange, concentrate=true, dir=none]
+		{ rank = same; "a1" "b1" "c1" "d1" "e1" "f1" "g1" "h1"; }
+		"a1"->"b1"->"c1"->"d1"->"e1"->"f1"->"g1"->"h1"
+		"a1" -> "fbc-op-414"[dir=end]
+		"b1" -> "fbc-op-415"[dir=end]
+		"c1" -> "fbc-op-416"[dir=end]
+		"d1" -> "fbc-op-417"[dir=end]
+		"e1" -> "fbc-op-418"[dir=end]
+		"f1" -> "fbc-op-419"[dir=end]
+		"g1" -> "fbc-op-420"[dir=end]
+		"h1" -> "fbc-op-421"[dir=end]
+		"Operands release"-> "h1"[dir=none]
+	}
+	{
+		node[shape = point, height=0, width=0]  "ah1" "bh1" "ch1" "dh1" "eh1" "fh1" "gh1" "hh1"
+		edge [color=orange, concentrate=true, dir=none]
+		{ rank = same; "ah1" "bh1" "ch1" "dh1" "eh1" "fh1" "gh1" "hh1"; }
+		"ah1"->"bh1"->"ch1"->"dh1"->"eh1"->"fh1"->"gh1"->"hh1"
+		"ah1" -> "fbc-hub-414"[dir=end]
+		"bh1" -> "fbc-hub-415"[dir=end]
+		"ch1" -> "fbc-hub-416"[dir=end]
+		"dh1" -> "fbc-hub-417"[dir=end]
+		"eh1" -> "fbc-hub-418"[dir=end]
+		"fh1" -> "fbc-hub-419"[dir=end]
+		"gh1" -> "fbc-hub-420"[dir=end]
+		"hh1" -> "fbc-hub-421"[dir=end]
+		"Operands release"-> "hh1"[dir=none]
+	}
+	{
+		node[shape = oval]
+		edge [color=blue, concentrate=true, dir=end]
+
+		"fbc-op-414" -> "fbc-op-414-prod-r1-1"
+		"fbc-op-415" -> "fbc-op-415-prod-r1-1"
+		"fbc-op-416" -> "fbc-op-416-prod-r1-1"
+		"fbc-op-417" -> "fbc-op-417-prod-r1-1"
+		"fbc-op-418" -> "fbc-op-418-prod-r1-1"
+		"fbc-op-419" -> "fbc-op-419-prod-r1-1"
+		"fbc-op-420" -> "fbc-op-420-prod-r1-1"
+		"fbc-op-421" -> "fbc-op-421-prod-r1-1"
+	}
+	{
+		node[shape = oval]
+		edge [color=blue, concentrate=true, dir=end]
+		"fbc-hub-414" -> "fbc-hub-414-prod-r1-1"
+		"fbc-hub-415" -> "fbc-hub-415-prod-r1-1"
+		"fbc-hub-416" -> "fbc-hub-416-prod-r1-1"
+		"fbc-hub-417" -> "fbc-hub-417-prod-r1-1"
+		"fbc-hub-418" -> "fbc-hub-418-prod-r1-1"
+		"fbc-hub-419" -> "fbc-hub-419-prod-r1-1"
+		"fbc-hub-420" -> "fbc-hub-420-prod-r1-1"
+		"fbc-hub-421" -> "fbc-hub-421-prod-r1-1"
+	}
+	{
+		node[shape=circle] "KMM"
+		node[shape = point, height=0, width=0]  "k1" "k2" "k3" "k4" "k5" "k6" "k7" "k8" "k9" "k10" "k11" "k12" "k13" "k14" "k15" "k16"
+		edge [color=orange, concentrate=true, dir=none]
+		{ rank = same; "k1" "k2" "k3" "k4" "k5" "k6" "k7" "k8" "k9" "k10" "k11" "k12" "k13" "k14" "k15" "k16"; }
+		k8->k7->k6->k5->k4->k3->k2->k1
+		k16->k15->k14->k13->k12->k11->k10->k9->k8
+		"fbc-hub-414-prod-r1-1" -> k8
+		"fbc-hub-415-prod-r1-1" -> k7
+		"fbc-hub-416-prod-r1-1" -> k6
+		"fbc-hub-417-prod-r1-1" -> k5
+		"fbc-hub-418-prod-r1-1" -> k4
+		"fbc-hub-419-prod-r1-1" -> k3
+		"fbc-hub-420-prod-r1-1" -> k2
+		"fbc-hub-421-prod-r1-1" -> k1
+		"fbc-op-414-prod-r1-1" -> k16
+		"fbc-op-415-prod-r1-1" -> k15
+		"fbc-op-416-prod-r1-1" -> k14
+		"fbc-op-417-prod-r1-1" -> k13
+		"fbc-op-418-prod-r1-1" -> k12
+		"fbc-op-419-prod-r1-1" -> k11
+		"fbc-op-420-prod-r1-1" -> k10
+		"fbc-op-421-prod-r1-1" -> k9
+		"k9" -> "KMM" [dir=end]
+	}
+*/
+}
