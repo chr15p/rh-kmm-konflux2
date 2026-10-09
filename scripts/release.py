@@ -9,9 +9,8 @@ from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 import kmm_konflux.versions
 import kmm_konflux.config
-#import kmm_konflux.yaml_config
+import requests.exceptions
 
-#test_mode=False
 current_versions = {}
 
 def read_config_json(filename:str ="config/pullspec_config.json"):
@@ -69,6 +68,10 @@ class ReleaseContext:
         return component_list
 
     def get_relnumber(self):
+        """ get the rc number ( eg r31) used to make the release name unique
+            this is calculated from the previous snapshot name plus 1
+            it is in no way related to the kmm x.y.z version number (e.g. 2.7.1)
+        """
         if self.relnumber:
             return self.relnumber
         kube_snapshots = Konflux(self.config['api_url'],
@@ -131,15 +134,20 @@ class ReleaseContext:
             return None
         return matches.group(1)
 
-    def get_release_number(self):
+    def get_release_number(self, raw=False):
+        """ get the kmm z stream number either as 2.5.3 (raw) or 253 (cooked)"""
         try:
             settings = kmm_konflux.config.read_key_value_file(
                        f"release-{self.get_application_number().replace('-','.')}/build_settings.conf")
-            return settings['RELEASE'].replace(".","")
+            rel = settings['RELEASE']
         except (FileNotFoundError, KeyError):
             if len(self.config['stage']):
-                return self.config['stage'][-1].replace(".","")
-            return self.config['prod'][-1].replace(".","")
+                rel = self.config['stage'][-1]
+            else:
+                rel = self.config['prod'][-1]
+        if raw:
+            return rel
+        return rel.replace(".","")
 
     def get_application_number(self):
         return self.application
@@ -264,18 +272,21 @@ class Snapshot(KonfluxResource):
                         resolve_tls_verify(config))
 
         self.components = []
-        self.manifest = yaml.safe_load(f"""
-            apiVersion: appstudio.redhat.com/v1alpha1
-            kind: Snapshot
-            metadata:
-              name: {name}
-              namespace: {namespace}
-              labels: 
-                application: {self.application}
-            spec:
-              application: {self.application}
-              components: []
-        """)
+        try:
+             self.manifest = self.client.get(name=name)[0]
+        except requests.exceptions.HTTPError:
+            self.manifest = yaml.safe_load(f"""
+                apiVersion: appstudio.redhat.com/v1alpha1
+                kind: Snapshot
+                metadata:
+                  name: {name}
+                  namespace: {namespace}
+                  labels: 
+                    application: {self.application}
+                spec:
+                  application: {self.application}
+                  components: []
+            """)
 
     def add_component(self, component: dict):
         self.manifest['spec']['components'].append({
@@ -291,6 +302,11 @@ class Snapshot(KonfluxResource):
                    }
                 })
 
+    def get_images(self):
+        all_images=[]
+        for component in self.manifest['spec']['components']:
+            all_images.append( component["containerImage"])
+        return all_images
 
 class Release(KonfluxResource):
     def __init__(self,
@@ -306,8 +322,15 @@ class Release(KonfluxResource):
         self.config = config
         self.token = token
         self.components = []
-        self.snapshot_name = snapshot_name
-        self.snapshot = None
+        #self.snapshot_name = snapshot_name
+        if snapshot_name:
+            self.snapshot = Snapshot(snapshot_name,
+                                    self.config['namespace'],
+                                    self.application,
+                                    self.config,
+                                    self.token)
+        else:
+            self.snapshot = None
         self.env = environment
         if release:
             self.release = release
@@ -336,8 +359,9 @@ class Release(KonfluxResource):
               namespace: {namespace}
             spec:
               releasePlan: {pr.get_application_name()}-release-{self.env}
-              snapshot: {snapshot_name}
+              snapshot: ""
             """)
+              ##snapshot: {snapshot_name}
         if pr.get_kmm_commit():
             self.manifest['metadata']['labels']['kmmcommit'] = pr.get_kmm_commit()
             self.manifest['metadata']['labels']['kmmshort'] = pr.get_kmm_commit(short=True)
@@ -346,7 +370,8 @@ class Release(KonfluxResource):
         self.components.append(component)
 
     def create_snapshot(self, dry_run):
-        if not self.snapshot_name:
+        if not self.snapshot:
+        #if not self.snapshot_name:
             self.snapshot = Snapshot(self.name,
                                     self.namespace,
                                     self.application,
@@ -359,8 +384,8 @@ class Release(KonfluxResource):
             for c in self.pr.components:
                 self.snapshot.add_component(c)
             #self.snapshot_name = self.snapshot.create(dry_run=dry_run)
-            self.snapshot_name=self.snapshot.name
-        return self.snapshot_name
+            #self.snapshot_name=self.snapshot.name
+        return self.snapshot
 
 #    def add_release_notes(self, filename=None):
 #        if not filename:
@@ -372,13 +397,19 @@ class Release(KonfluxResource):
 #            pass
 
     def create(self, dry_run: bool = False) -> str:
-        if not self.snapshot_name:
-            self.create_snapshot(dry_run)
-        self.snapshot_name = self.snapshot.create(dry_run)
-        self.manifest['spec']['snapshot'] = self.snapshot_name
+        #if not self.snapshot_name:
+        #    self.snapshot_name = self.create_snapshot(dry_run)
+        self.snapshot = self.create_snapshot(dry_run)
+        #self.snapshot_name = self.snapshot.create(dry_run)
+        self.manifest['spec']['snapshot'] = self.snapshot.name
         super().create(dry_run)
 
-        return self.manifest['metadata']['name']
+        #return self.manifest['metadata']['name']
+        return {"application": self.pr.get_release_number(raw=True),
+                "release": self.manifest['metadata']['name'],
+                "snapshot": self.snapshot.name,
+                "images": self.snapshot.get_images()
+                }
 
 
 if __name__ == "__main__":
@@ -432,7 +463,16 @@ if __name__ == "__main__":
         print(f"Config file {opt.config} must contain non-empty 'api_url'")
         sys.exit(2)
 
+
+
     namespace = opt.namespace or config["namespace"]
+
+    client = Konflux(config['api_url'],
+                        token,
+                        config['namespace'],
+                        "appstudio.redhat.com/v1alpha1",
+                        "snapshots",
+                        resolve_tls_verify(config))
 
     relpr = ReleaseContext(
                     config,
@@ -447,8 +487,15 @@ if __name__ == "__main__":
                 config,
                 token,
                 opt.env,
-                release=opt.release)
+                release=opt.release,
+                snapshot_name=opt.snapshot)
 
     name=release.create(dry_run=opt.test)
+    if not opt.test:
+        with open(f"release-{relpr.application.replace("-",".")}/release-{name['application']}.json", "w+") as f:
+            json.dump(name, f, indent=2, sort_keys=True)
+            print(f"wrote to: release-{relpr.application.replace('-','.')}/release-{name['application']}.json")
+
+    #print(json.dumps(name, indent=2, sort_keys=True))
     print(name)
 
