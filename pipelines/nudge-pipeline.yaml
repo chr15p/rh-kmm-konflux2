@@ -1,0 +1,69 @@
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: update-bundle
+spec:
+  description: This tasks gets all the required data of an FBC build and commits it to a payload repository to be used in a GitOps environment.
+  params:
+  - name: snapshot
+    type: string
+  tasks:
+  - name: update-bundle
+    params:
+      - name: SNAPSHOT
+        value: "$(params.snapshot)"
+    taskRef:
+      resolver: bundles
+      params:
+      - name: name
+        value: run-script-oci-ta
+      - name: kind
+        value: task
+      - name: bundle
+        value: quay.io/konflux-ci/tekton-catalog/task-run-opm-command-oci-ta:0.1@sha256:155d18958065b9f6fd7a0d333a6d098db78145d4fa9ddb8f18abcd0e4eb73bc8
+        script: |
+          #!/usr/bin/env bash
+          SNAPSHOT_NAME=$(params.SNAPSHOT)
+          SNAPSHOT_ID=$(echo $SNAPSHOT_NAME | awk -F'/' '{print $2}')
+          if [[ -z "$SNAPSHOT_ID" ]]; then
+              echo "ERROR: Could not extract SNAPSHOT_ID from: $(params.SNAPSHOT)"
+              FINAL_EXIT_CODE=1
+              exit 1
+          fi
+          SNAPSHOT_DATA=$(kubectl get snapshot $SNAPSHOT_ID -ojson)
+
+          NAMESPACE=$(jq -r '.metadata.namespace' <<< "$SNAPSHOT_DATA")
+          APPLICATION=$(jq -r '.spec.application' <<< "$SNAPSHOT_DATA")
+          IMAGES=$(jq '.spec.components.[].containerImage | gsub("[\\n]"; ",")' <<< "$SNAPSHOT_DATA")
+          IMAGES=$(echo $IMAGES | sed 's| |,\n|g' )
+
+          RELEASE_FILE=$(echo $APPLICATION | awk -F- '{print "release-"$2"."$3}')
+
+          if [ ! -d "$RELEASE_FILE" ]; then
+              mkdir $RELEASE_FILE 
+          fi
+          OUTPUT="{\"snapshot\": \"$SNAPSHOT_NAME\", \"application\": \"$APPLICATION\", \"images\": [ $IMAGES ] }"
+          echo $OUTPUT | jq > $RELEASE_FILE/lastrelease.json
+
+          ## Validate GITHUB_TOKEN
+          if [[ -z "${GITHUB_TOKEN:-}" ]]; then
+              echo "ERROR: GITHUB_TOKEN environment variable is not set"
+              FINAL_EXIT_CODE=1
+              exit 1
+          fi
+
+          REPO_URL="https://github.com/chr15p/rh-kmm-konflux2.git"
+          REPO_URL_WITH_AUTH=$(echo "$REPO_URL" | sed "s|https://|https://oauth2:${GITHUB_TOKEN}@|")
+
+          git remote set-url origin "$REPO_URL_WITH_AUTH"
+          git config user.name "release-pipeline"
+          git config user.email "no-reply@redhat.com"
+          git add $RELEASE_FILE/lastrelease.json
+          git commit -m "update last release infomation for $SNAPSHOT_NAME"
+
+  workspaces:
+  - name: git-auth
+    optional: true
+  - name: netrc
+    optional: true
