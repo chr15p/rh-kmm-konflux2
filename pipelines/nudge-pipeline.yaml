@@ -64,6 +64,33 @@ spec:
           git add $RELEASE_DIR/lastrelease.json
           git commit -m "update last release infomation for $SNAPSHOT_NAME"
           git push -u origin "$RELEASE_DIR/lastrelease"
+          NUM=$(curl -X GET -L \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "X-GitHub-Api-Version: 2026-03-10" \
+                https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls?head=chr15p:$RELEASE_DIR/lastrelease |  jq '.[].number')
+
+          if [ -z "$NUM" ]; then
+            curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "X-GitHub-Api-Version: 2026-03-10" \
+              https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls \
+              -d "{\"title\": \"$RELEASE_DIR/lastrelease.json updated\", \
+                  \"body\":\"$RELEASE_DIR/lastrelease.json updated\n$IMAGES\", \
+                  \"head\":\"$RELEASE_DIR/lastrelease\",\"base\":\"main\"}"
+          else
+            curl -L \
+              -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "X-GitHub-Api-Version: 2026-03-10" \
+              https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls/$NUM \
+              -d "{\"title\": \"$RELEASE_DIR/lastrelease.json updated\", \
+                  \"body\":\"$RELEASE_DIR/lastrelease.json updated on $(date):\n$IMAGES\", \
+                  \"head\":\"$RELEASE_DIR/lastrelease\",\"base\":\"main\"}"
+          fi
 
   workspaces:
   - name: git-auth
