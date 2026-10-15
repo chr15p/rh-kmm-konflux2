@@ -38,6 +38,7 @@ spec:
           APPLICATION=$(jq -r '.spec.application' <<< "$SNAPSHOT_DATA")
           IMAGES=$(jq '.spec.components.[].containerImage | gsub("[\\n]"; ",")' <<< "$SNAPSHOT_DATA")
           IMAGES=$(echo $IMAGES | sed 's| |,\n|g' )
+          IMAGESSTRING=$(echo $IMAGES | sed 's|"||g' )
 
           RELEASE_DIR=$(echo $APPLICATION | awk -F- '{print "release-"$2"."$3}')
 
@@ -78,7 +79,7 @@ spec:
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls \
               -d "{\"title\": \"$RELEASE_DIR/lastrelease.json updated\", \
-                  \"body\":\"$RELEASE_DIR/lastrelease.json updated\n$IMAGES\", \
+                  \"body\":\"$RELEASE_DIR/lastrelease.json updated\n${IMAGESSTRING}\", \
                   \"head\":\"$RELEASE_DIR/lastrelease\",\"base\":\"main\"}"
           else
             curl -L \
