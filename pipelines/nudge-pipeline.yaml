@@ -41,9 +41,8 @@ spec:
           IMAGESSTRING=$(echo $IMAGES | sed 's|"||g' )
 
           RELEASE_DIR=$(echo $APPLICATION | awk -F- '{print "release-"$2"."$3}')
+          BRANCH="$RELEASE_DIR/latestrelease"
 
-          OUTPUT="{\"snapshot\": \"$SNAPSHOT_NAME\", \"application\": \"$APPLICATION\", \"images\": [ $IMAGES ] }"
-          echo $OUTPUT | jq > lastrelease.json
 
           ## Validate GITHUB_TOKEN
           if [[ -z "${GITHUB_TOKEN:-}" ]]; then
@@ -57,19 +56,32 @@ spec:
 
           git clone $REPO_URL_WITH_AUTH 
           cd rh-kmm-konflux2
-          git checkout -b "$RELEASE_DIR/lastrelease"
-          cp ../lastrelease.json $RELEASE_DIR/
+          git checkout -b $BRANCH
           #git remote set-url origin "$REPO_URL_WITH_AUTH"
           git config user.name "release-pipeline"
           git config user.email "no-reply@redhat.com"
-          git add $RELEASE_DIR/lastrelease.json
+
+
+          RELEASE=$(awk -F= '/RELEASE/{print $2}' $RELEASE_DIR/build_settings.conf)
+          FILENAME=$RELEASE_DIR/release-$RELEASE.json
+          if [ ! -d "images/" ]; then
+            mkdir images/
+          fi
+
+          OUTPUT="{\"snapshot\": \"$SNAPSHOT_NAME\", \"application\": \"$APPLICATION\", \"RELEASE\": \"$RELEASE\", \"images\": [ $IMAGES ] }"
+          #echo $OUTPUT | jq > $RELEASE_DIR/lastrelease.json
+          echo $OUTPUT | jq > $FILENAME
+
+          git add $FILENAME
+
           git commit -m "update last release infomation for $SNAPSHOT_NAME"
-          git push -u origin "$RELEASE_DIR/lastrelease"
+          git push -u origin "$RELEASE_DIR/latestrelease"
+
           NUM=$(curl -X GET -L \
                 -H "Accept: application/vnd.github+json" \
                 -H "Authorization: Bearer $GITHUB_TOKEN" \
                 -H "X-GitHub-Api-Version: 2026-03-10" \
-                https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls?head=chr15p:$RELEASE_DIR/lastrelease |  jq '.[].number')
+                https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls?head=chr15p:$BRANCH |  jq '.[].number')
 
           if [ -z "$NUM" ]; then
             curl -L \
@@ -78,9 +90,9 @@ spec:
               -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls \
-              -d "{\"title\": \"$RELEASE_DIR/lastrelease.json updated\", \
-                  \"body\":\"$RELEASE_DIR/lastrelease.json updated\n${IMAGESSTRING}\", \
-                  \"head\":\"$RELEASE_DIR/lastrelease\",\"base\":\"main\"}"
+              -d "{\"title\": \"$FILENAME updated for $RELEASE\", \
+                  \"body\":\"$FILENAME updated\n${IMAGESSTRING}\", \
+                  \"head\":\"$BRANCH\",\"base\":\"main\"}"
           else
             curl -L \
               -X PATCH \
@@ -88,9 +100,9 @@ spec:
               -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls/$NUM \
-              -d "{\"title\": \"$RELEASE_DIR/lastrelease.json updated\", \
-                  \"body\":\"$RELEASE_DIR/lastrelease.json updated on $(date):\n$IMAGES\", \
-                  \"head\":\"$RELEASE_DIR/lastrelease\",\"base\":\"main\"}"
+              -d "{\"title\": \"$FILENAME updated for $RELEASE\", \
+                  \"body\":\"$FILENAME updated on $(date):\n$IMAGES\", \
+                  \"head\":\"$BRANCH\",\"base\":\"main\"}"
           fi
 
   workspaces:
