@@ -55,13 +55,15 @@ spec:
           REPO_URL_WITH_AUTH=$(echo "$REPO_URL" | sed "s|https://|https://oauth2:${GITHUB_TOKEN}@|")
 
           git clone $REPO_URL_WITH_AUTH 
-          cp lastrelease.json rh-kmm-konflux2/$RELEASE_DIR
           cd rh-kmm-konflux2
+          git checkout -b "$RELEASE_DIR/lastrelease"
+          cp ../lastrelease.json $RELEASE_DIR/
           #git remote set-url origin "$REPO_URL_WITH_AUTH"
           git config user.name "release-pipeline"
           git config user.email "no-reply@redhat.com"
           git add $RELEASE_DIR/lastrelease.json
           git commit -m "update last release infomation for $SNAPSHOT_NAME"
+          git push -u origin "$RELEASE_DIR/lastrelease"
 
   workspaces:
   - name: git-auth
