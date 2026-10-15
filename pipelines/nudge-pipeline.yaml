@@ -101,7 +101,7 @@ spec:
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls/$NUM \
               -d "{\"title\": \"$FILENAME updated for $RELEASE\", \
-                  \"body\":\"$FILENAME updated on $(date):\n$IMAGES\", \
+                  \"body\":\"$FILENAME updated on $(date):\n$IMAGESSTRING\", \
                   \"head\":\"$BRANCH\",\"base\":\"main\"}"
           fi
 

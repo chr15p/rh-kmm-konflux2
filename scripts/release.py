@@ -383,7 +383,7 @@ class Release(KonfluxResource):
             self.snapshot.add_labels(self.get_labels())
             for c in self.pr.components:
                 self.snapshot.add_component(c)
-            #self.snapshot_name = self.snapshot.create(dry_run=dry_run)
+            self.snapshot_name = self.snapshot.create(dry_run=dry_run)
             #self.snapshot_name=self.snapshot.name
         return self.snapshot
 
@@ -462,8 +462,6 @@ if __name__ == "__main__":
     if not config.get("api_url"):
         print(f"Config file {opt.config} must contain non-empty 'api_url'")
         sys.exit(2)
-
-
 
     namespace = opt.namespace or config["namespace"]
 
