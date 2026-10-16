@@ -57,7 +57,7 @@ spec:
           git clone $REPO_URL_WITH_AUTH 
           cd rh-kmm-konflux2
           git checkout -b $BRANCH
-          #git remote set-url origin "$REPO_URL_WITH_AUTH"
+          git pull
           git config user.name "release-pipeline"
           git config user.email "no-reply@redhat.com"
 
