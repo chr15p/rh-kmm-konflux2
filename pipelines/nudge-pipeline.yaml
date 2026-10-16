@@ -61,9 +61,8 @@ spec:
           git config user.name "release-pipeline"
           git config user.email "no-reply@redhat.com"
 
-
           RELEASE=$(awk -F= '/RELEASE/{print $2}' $RELEASE_DIR/build_settings.conf)
-          FILENAME=$RELEASE_DIR/release-$RELEASE.json
+          FILENAME=$RELEASE_DIR/images-$RELEASE.json
           if [ ! -d "images/" ]; then
             mkdir images/
           fi
