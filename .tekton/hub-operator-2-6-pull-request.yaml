@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: 'true'
     pipelinesascode.tekton.dev/max-keep-runs: '3'
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" &&
-      target_branch == "main" &&
+      target_branch == "old_versions" &&
       "release-2.6/**".pathChanged() &&
       !("release-2.6/release-2.6*/**".pathChanged()) &&
       !("release-2.6/images**".pathChanged())
