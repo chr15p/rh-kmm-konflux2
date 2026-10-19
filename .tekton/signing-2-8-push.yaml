@@ -10,8 +10,9 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
        ".tekton/*-2-8-push.yaml".pathChanged() ||
-       !("release-2.8/release-2.8*/**".pathChanged()) &&
-       !("release-2.8/images**".pathChanged()))
+       ("release-2.8/**".pathChanged() &&
+        !("release-2.8/release-2.8*/**".pathChanged()) &&
+        !("release-2.8/images**".pathChanged())))
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: kmm-2-8
