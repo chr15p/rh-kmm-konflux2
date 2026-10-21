@@ -12,7 +12,7 @@ metadata:
       target_branch == "main" &&
       "release-2.8/**".pathChanged() &&
       !("release-2.8/release-2.8*/**".pathChanged()) &&
-      !("release-2.8/images**".pathChanged())
+      !("release-2.8/images*".pathChanged())
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: kmm-2-8

@@ -9,6 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "old_versions" && 
+          !("do-not-build" in body.pull_request.labels.map(l, l.name)) &&
           ( "release-2.4/release-2.4*/hub-operator.yaml".pathChanged() ||
             "release-2.4/release-2.4*/must-gather.yaml".pathChanged() ||
             "release-2.4/release-2.4*/signing.yaml".pathChanged() ||

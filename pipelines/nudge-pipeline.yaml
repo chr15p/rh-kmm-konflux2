@@ -76,7 +76,7 @@ spec:
             mkdir images/
           fi
 
-          OUTPUT="{\"snapshot\": \"$SNAPSHOT_NAME\", \"application\": \"$APPLICATION\", \"RELEASE\": \"$RELEASE\", \"images\": [ $IMAGES ] }"
+          OUTPUT="{\"snapshot\": \"$SNAPSHOT_NAME\", \"application\": \"$APPLICATION\", \"release\": \"$RELEASE\", \"images\": [ $IMAGES ] }"
           #echo $OUTPUT | jq > $RELEASE_DIR/lastrelease.json
           echo $OUTPUT | jq > $FILENAME
 
