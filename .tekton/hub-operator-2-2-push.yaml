@@ -8,7 +8,6 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: 'false'
     pipelinesascode.tekton.dev/max-keep-runs: '3'
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "old_versions" &&
-      !("do-not-build" in body.pull_request.labels.map(l, l.name)) &&
       (".tekton/multi-arch-pipelineref.yaml".pathChanged() ||
        ".tekton/*-2-2-push.yaml".pathChanged() ||
        ("release-2.2/**".pathChanged() && !("release-2.2/release-2.2***".pathChanged())))
