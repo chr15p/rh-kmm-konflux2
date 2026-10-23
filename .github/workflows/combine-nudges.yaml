@@ -46,10 +46,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-#  RELEASE:
-#    needs: COMBINE
-#    if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
-#    uses: $/.github/workflows/release.yml
-#    with:
-#      pr: ${{ github.event.number }}
-#    secrets: inherit
+  RELEASE:
+    needs: COMBINE
+    if: ${{ needs.COMBINE.outputs.labelapplied == 'ok-to-release' }}
+    uses: $/.github/workflows/release.yml
+    with:
+      pr: ${{ github.event.number }}
+    secrets: inherit
