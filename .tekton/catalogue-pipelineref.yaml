@@ -151,7 +151,8 @@ spec:
     - name: SCRIPT_RUNNER_IMAGE
       value: registry.access.redhat.com/ubi9/toolbox:9.8-1782881766
     - name: SOURCE_ARTIFACT
-      value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
+      #value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
+      value: $(tasks.clone-repository.results.SOURCE_ARTIFACT)
     - name: ociStorage
       value: $(params.output-image).script
     - name: ociArtifactExpiresAfter
@@ -159,7 +160,8 @@ spec:
     - name: HERMETIC
       value: $(params.hermetic)
     runAfter:
-    - fbc-inject-lifecycle
+    - clone-repository
+    #- fbc-inject-lifecycle
     taskRef:
       params:
       - name: name
@@ -175,6 +177,7 @@ spec:
     params:
     - name: SOURCE_ARTIFACT
       value: $(tasks.run-generate-fbc.results.SCRIPT_ARTIFACT)
+      #value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
     - name: ociStorage
       value: $(params.output-image).opm
     - name: ociArtifactExpiresAfter
@@ -188,6 +191,7 @@ spec:
       value: $(params.idms-path)
     runAfter:
     - run-generate-fbc
+    #- fbc-inject-lifecycle
     taskRef:
       params:
       - name: name
@@ -202,7 +206,8 @@ spec:
     - name: input
       value: $(params.prefetch-input)
     - name: SOURCE_ARTIFACT
-      value: $(tasks.run-opm-command.results.SOURCE_ARTIFACT)
+      value: $(tasks.fbc-inject-lifecycle.results.SOURCE_ARTIFACT)
+      #value: $(tasks.run-opm-command.results.SOURCE_ARTIFACT)
     - name: ociStorage
       value: $(params.output-image).prefetch
     - name: ociArtifactExpiresAfter
@@ -210,7 +215,8 @@ spec:
     - name: enable-package-registry-proxy
       value: $(params.enable-package-registry-proxy)
     runAfter:
-    - run-opm-command
+    - fbc-inject-lifecycle
+    #- run-opm-command
     taskRef:
       params:
       - name: name
@@ -431,7 +437,8 @@ spec:
     - name: CONTEXT
       value: $(params.path-context)
     - name: SOURCE_ARTIFACT
-      value: $(tasks.clone-repository.results.SOURCE_ARTIFACT)
+      value: $(tasks.run-opm-command.results.SOURCE_ARTIFACT)
+      #value: $(tasks.run-generate-fbc.results.SCRIPT_ARTIFACT)
     - name: ociStorage
       value: $(params.output-image).lifecycle
     - name: ociArtifactExpiresAfter
@@ -440,7 +447,9 @@ spec:
       value:
       - $(params.build-args[*])
     runAfter:
-    - clone-repository
+    - run-opm-command
+    #- run-generate-fbc
+    #- clone-repository
   workspaces:
   - name: git-auth
     optional: true
