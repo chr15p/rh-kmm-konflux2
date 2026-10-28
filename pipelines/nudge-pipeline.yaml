@@ -36,6 +36,8 @@ spec:
 
           NAMESPACE=$(jq -r '.metadata.namespace' <<< "$SNAPSHOT_DATA")
           APPLICATION=$(jq -r '.spec.application' <<< "$SNAPSHOT_DATA")
+          COMMIT=$(jq -r '.metadata.labels.commit' <<< "$SNAPSHOT_DATA")
+
           IMAGES=$(jq '.spec.components.[].containerImage | gsub("[\\n]"; ",")' <<< "$SNAPSHOT_DATA")
           IMAGES=$(echo $IMAGES | sed 's| |,\n|g' )
           IMAGESSTRING=$(echo $IMAGES | sed 's|"||g' )
@@ -100,7 +102,7 @@ spec:
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls \
               -d "{\"title\": \"$FILENAME updated for $RELEASE\", \
-                  \"body\":\"$FILENAME updated\n${IMAGESSTRING}\", \
+                  \"body\":\"$FILENAME updated for \'commit=$COMMIT\'\n${IMAGESSTRING}\", \
                   \"head\":\"$BRANCH\",\"base\":\"main\"}"
           else
             curl -L \
@@ -110,7 +112,7 @@ spec:
               -H "X-GitHub-Api-Version: 2026-03-10" \
               https://api.github.com/repos/chr15p/rh-kmm-konflux2/pulls/$NUM \
               -d "{\"title\": \"$FILENAME updated for $RELEASE\", \
-                  \"body\":\"$FILENAME updated on $(date):\n$IMAGESSTRING\", \
+                  \"body\":\"$FILENAME updated on $(date) for \'commit=$COMMIT\':\n$IMAGESSTRING\", \
                   \"head\":\"$BRANCH\",\"base\":\"main\"}"
           fi
 

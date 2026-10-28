@@ -3,6 +3,12 @@
   "namespace": "rh-kmm-tenant",
   "operand-label": "ok-to-merge",
   "bundle-label": "ok-to-release",
+  "qe_repo": "gitlab.cee.redhat.com/cvultur/kmm-konflux.git",
+  "qe_control_files": { 
+    "2.5": "releases-2-5.json",
+    "2.7": "releases-2.7.json",
+    "2.8": "releases-2.8.json"
+  },
   "prod": [
     "2.0.0",
     "2.0.1",
