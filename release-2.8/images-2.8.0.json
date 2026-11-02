@@ -1,15 +1,15 @@
 {
-  "snapshot": "rh-kmm-tenant/kmm-2-8-staging-280-0b3ef43-r8",
+  "snapshot": "rh-kmm-tenant/kmm-2-8-staging-280-035f066-r10",
   "application": "kmm-2-8",
   "release": "2.8.0",
   "images": [
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/hub-operator-2-8@sha256:d88cb474af4c2b61af0ebed9bccd48b988deb1f4e6616dc4238413d0204d2169",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/hub-operator-bundle-2-8@sha256:eee515813b9ae0ebc923e882d4fda900169ef9322505cb4dddd5ded6ed84c7fc",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/must-gather-2-8@sha256:f5dfbf30883bbb2925e1ee6eaf3d9c8e653ae6151dfd41d412d989dd2abd4417",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/operator-2-8@sha256:8d3047fb2a035ca0302233ba5012971bc00713bca4f6baea18f4574a652f44de",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/operator-bundle-2-8@sha256:8c7e5aee42fc2f666e209fd038f8eafe28a55c6783d249abb73a30d35c086946",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/signing-2-8@sha256:1514cd443ba47e6eb1972bafd529c32cfe8900516eb4ad3aa62ca07b705a286c",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/webhook-2-8@sha256:bcf01e719f07e5fd15985ddbefd6aa35e47935bbd7f34cb5b0f1765465add412",
-    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/worker-2-8@sha256:9497ce06ea668b011f4764e3390c0f7d828c4c4eadba196021a881328a75edd9"
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/hub-operator-2-8@sha256:b94b1eac85f60cce2ee652adcc40e5a707c0603d051716cdf053d058a6228ca8",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/hub-operator-bundle-2-8@sha256:c1b8d7c46dcbea7c8eff9a159a4730d04fdaa4b411e30b0a9a8d3a45689ac90e",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/must-gather-2-8@sha256:04162e685725a4fa30efef9622b0d424bda18e8859d539d4880484236974e449",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/operator-2-8@sha256:7145a9fa60dff7a0e5dd2ebeeea58cb7d1fcf65682a041cca6ea87bd8f6f3c10",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/operator-bundle-2-8@sha256:83bb9c889f337daab0ad9f556b4275397786e818928964fc571c198ebda527a5",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/signing-2-8@sha256:d7a87765eb9d3af1fe7b3ad60c9a1d041129615056c523af94db4ba53e42c004",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/webhook-2-8@sha256:0c05497508a5aa462d50a12caec5119c9ce7a133dbe2d74fe67b752cba51c954",
+    "quay.io/redhat-user-workloads/rh-kmm-tenant/kmm-2-8/worker-2-8@sha256:b324ca562d48989d9844fcbf00d3f026cd5fa9f33180f4ae13f64cc71516d5d8"
   ]
 }
