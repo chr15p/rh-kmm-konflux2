@@ -159,6 +159,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--stdout', '--test', action='store_true', required=False, default=False, help='print to stdout')
     parser.add_argument('-i', '--indir', action='store', required=False, default=".", help='directory to read versions from (default: ".")')
     parser.add_argument('-t', '--token', action='store', required=False, default=None, help='token to access k8s')
+    parser.add_argument('--prod', action='store_true', required=False, default=False, help='only add prod releases to FBC (ignore staging)')
     parser.add_argument('--release', action='store', required=False, default=None, help='name of release to build for')
     parser.add_argument('--op', action='store_true', required=False, default=None, help='build fbc for operator')
     parser.add_argument('--hub', action='store_true', required=False, default=None, help='build fbc for hub-operator')
@@ -181,7 +182,11 @@ if __name__ == "__main__":
         sys.exit(2)
 
     prod_versions = config.get("prod", [])
-    stage_versions = config.get("stage", [])
+    if not opt.prod:
+        stage_versions = config.get("stage", [])
+    else:
+        stage_versions = []
+
     if opt.extra:
         stage_versions += opt.extra.split(",")
     #else:

@@ -147,7 +147,7 @@ spec:
   - name: run-generate-fbc
     params:
     - name: SCRIPT
-      value: ./scripts/create_fbc.py
+      value: ./scripts/create_fbc.py --prod
     - name: SCRIPT_RUNNER_IMAGE
       value: registry.access.redhat.com/ubi9/toolbox:9.8-1782881766
     - name: SOURCE_ARTIFACT
