@@ -1,29 +1,67 @@
 #!/usr/bin/python
 
-import sys
+import os
 import json
+import re
 import argparse
+import subprocess
 import datetime
 
 import kmm_konflux.config
+from kmm_konflux import git_commands
 from kmm_konflux.konflux_api import Konflux, resolve_tls_verify
 
-#def get_release_number(kube_releases, increment:bool = True, labels:dict = {}):
-#    release_list = kube_releases.get(label_selector=labels)
-#    if len(release_list)==1 and release_list[0].get('items', []) == []:
-#        return 1
-#    rel_regexp = r"-r([0-9]+)$"
-#    last_release=0
-#    for rel in release_list:
-#        print(rel['metadata']['name'])
-#        matches = re.search(rel_regexp, rel['metadata']['name'])
-#        if matches and matches.group(1) and int(matches.group(1)) > last_release:
-#            last_release = int(matches.group(1))
-#            #print(int(matches.group(1)), last_release)
-#    if increment:
-#        return last_release+1
-#    return last_release
-#
+def get_kmm_commit(application, konflux_commit, short=False):
+    """
+        the konflux repo commit is embedded in the body text of a nudge PR,
+        so parse that with a regexp
+        then use that to diff the release-2.X/kernel-module-management submodule mount point
+        either it returns nothing and we use the current submodule commit
+        or it returns a value (meaning the submodule has been updated since this PR was built)
+        in which case we parse it out of the diff response.
+        this works around an issue where if building multiple versions at the same time the
+        konflux commit might change between PRs for the same kmm commit
+        (e.g you build 2-6 and 2-7, operator-2-7 fails so you merge the 2-6 operands and
+        rebuild operator-2-7, now the konflux commit has changed so operator-2-7 would been seen
+         as a differnet build and not combine)
+    """
+    out=git_commands.call_git(False,
+                                "diff",
+                                f"{konflux_commit}..HEAD",
+                                f"release-{application}/kernel-module-management")
+    if out.startswith("fatal:"):
+        return None
+    if not out:
+        out=git_commands.call_git(False,
+                                "submodule",
+                                "status",
+                                f"release-{application}/kernel-module-management")
+        kmm_commit = out[1:].split(" ")[0]
+    else:
+        kmm_commit = out.split(" ")[-1]
+
+    if short:
+        return kmm_commit[:7]
+    return kmm_commit.strip()
+
+
+def submodule_version(submodule=None):
+    if submodule:
+        params=["git", "submodule", "status", submodule]
+    else:
+        params=["git", "submodule"]
+    p = subprocess.Popen(params, stdout=subprocess.PIPE)
+
+    output = p.stdout.read().decode("utf-8")
+    try:
+        return output.split(" ")[1][:7]
+    except IndexError:
+        return "unknown"
+
+    for key,val in ver.items():
+        out[key] = f"{key}.{val}"
+    return out
+
 
 def git_rev_parse():
     with open(".git/HEAD","r") as head:
@@ -31,6 +69,7 @@ def git_rev_parse():
     with open(f".git/{reffile}","r") as ref:
         commit = ref.read().strip()
     return commit
+
 
 def latest_versions(currconfig: dict):
     versions = currconfig["prod"] + config["stage"]
@@ -50,6 +89,14 @@ def latest_versions(currconfig: dict):
 
 
 parser = argparse.ArgumentParser()
+
+#parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespace to query')
+#parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file ')
+#parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
+#parser.add_argument('-d', '--directory', required=True, help='directory containing config filesi (e.g. release-2.5/)')
+#parser.add_argument('-g', '--commit', default="HEAD", help='')
+#parser.add_argument('-o', '--output', default=None, help='file to write output to')
+#opt = parser.parse_args()
 parser.add_argument('-c', '--config', action='store', required=False,
                     default="config/pullspec_config.json",
                     help='json config file (default: config/pullspec_config.json) ')
@@ -64,6 +111,29 @@ parser.add_argument('--test', '--debug', default=False, action='store_true',
                         help='file to write output to')
 opt = parser.parse_args()
 
+
+#outputfile = opt.output
+
+#build_settings = kmm_konflux.config.read_key_value_file(f"{opt.directory}/build_settings.conf")
+#build_settings = helpers.read_key_value_file(f"{opt.directory}/build_settings.conf")
+
+#version = build_settings["VERSION"].replace(".","-")
+#rel = helpers.Release(opt.kubeconfig, opt.namespace, label_selector=f"appstudio.openshift.io/application=kmm-{version}")
+#relnum = rel.get_latest_rel()
+#relnum = rel.get_latest_rel_number()
+#relnum = rel.get_latest_rel()
+
+#kmm = submodule_version(f"{opt.directory}/{build_settings['PRODUCT']}")
+
+#build = build_version(opt.commit)
+#build = helpers.get_commit(".", opt.commit)
+#build = opt.commit
+
+#output = {"version": build_settings.get("RELEASE", "unknown"), "release": relnum, "build_commit": build[:7], "kmm_commit": kmm,  "kmm": {}, "kmmhub": {}}
+#fbc={}
+
+#components = helpers.Component(opt.kubeconfig, opt.namespace, match="spec.application=fbc-*")
+#components = helpers.Component(opt.kubeconfig, opt.namespace, label_selector="stage=fbc")
 debug = opt.test
 token = opt.token
 
@@ -89,13 +159,16 @@ kube_components = Konflux(config['api_url'],
                         "components",
                         verify)
 
+
 supported_versions = latest_versions(config)
 
 output = {
 #        "release": release_list[0]["metadata"]["labels"].get("relnumber", "unknown"),
 #        "kmm_commit": release_list[0]["metadata"]["labels"].get("kmmshort","unknown"),
         "version": None,
+        "latest_versions": [],
         "build_commit": None ,
+        "kmm_commit": None ,
         "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "kmm": {}, 
         "kmmhub": {}
@@ -109,6 +182,15 @@ elif opt.autogit:
 
 components = kube_components.get(label_selector={"stage":"fbc"})
 image_shas = {}
+#for comp in components.items():
+#for comp in components:
+#    #    print(f"{comp.status.lastBuiltCommit}=={build}")
+#    try:
+#        if comp.status.lastBuiltCommit == build:
+#            image_shas[comp.metadata.name] = comp.status.lastPromotedImage
+#    except AttributeError as e:
+#        print(f"failed to get comp.status.lastBuiltCommit for {comp.metadata.name}: {e}")
+#        #exit(0)
 for comp in components:
     try:
         if not output["build_commit"]:
@@ -125,6 +207,7 @@ for comp in components:
     except AttributeError as e:
         print(f"failed to get comp.status.lastBuiltCommit for {comp["metadata"]["name"]}: {e}")
 
+
 for k,v in image_shas.items():
     if "hub" in k:
         ocp = k.replace("fbc-hub-","ocp")
@@ -133,8 +216,10 @@ for k,v in image_shas.items():
         ocp = k.replace("fbc-op-","ocp")
         output['kmm'][ocp]=v
 
-for version in supported_versions: #.keys():
-    output["version"] = version
+for version,z_stream in supported_versions.items(): #.keys():
+    output["kmm_commit"] = get_kmm_commit(version, output["build_commit"] , short=False)
+    output["version"] = z_stream
+    output["latest_versions"] = list(supported_versions.values())
     outputfile = config['qe_control_files'][version]
     if not debug:
         with open(outputfile, 'w') as file:
@@ -143,4 +228,11 @@ for version in supported_versions: #.keys():
         print(outputfile)
         print(json.dumps(output, indent=4))
 
-sys.exit(0)
+#if outputfile:
+#    with open(outputfile, 'w') as file:
+#        json.dump(output, file, indent=4)
+#else:
+#    print(json.dumps(output, indent=4))
+
+
+exit(0)
