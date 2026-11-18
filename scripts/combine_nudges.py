@@ -220,7 +220,7 @@ class NudgeCombiner:
     def _number_filter(self, pr: NudgePullRequest):
         return self.curr_pull_request.get_number() > pr.get_number() 
 
-    def filter(self, filters=None):
+    def filter(self, filters=None, nocommit=False):
         """
             loop through all the prs aplly a series of filters to compare them to the current_pr
             and remove any that dont return True
@@ -228,7 +228,14 @@ class NudgeCombiner:
         """
         to_drop=[]
         if not filters:
-            filters = [self._versions_filter,
+            if nocommit:
+                filters = [self._versions_filter,
+                        self._stage_filter,
+                        self._component_filter,
+                        self._number_filter,
+                        ]
+            else:
+                filters = [self._versions_filter,
                         self._stage_filter,
                         self._commit_filter,
                         self._component_filter,
@@ -310,6 +317,8 @@ if __name__ == "__main__":
                         help='json config file (default: config/pullspec_config.json')
     parser.add_argument('-p', '--pr', action='store', required=True,
                         default=None, help='pr number')
+    parser.add_argument('--nocommit', action='store_true', required=True,
+                        default=False, help='do not check git commits when comparing')
     parser.add_argument('--test', action='store_true', default=False)
 
     opt = parser.parse_args()
@@ -326,7 +335,7 @@ if __name__ == "__main__":
         print(f"APPLIED={label_to_apply}")
         sys.exit(0)
 
-    combiner.filter()
+    combiner.filter(nocommit = opt.nocommit)
     #print(f"combiner:{combiner.pull_requests.keys()}")
 
     if combiner.ready_to_merge():
