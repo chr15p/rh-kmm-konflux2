@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-import os
+import sys
 import json
-import re
 import argparse
 import subprocess
 import datetime
@@ -50,28 +49,30 @@ def submodule_version(submodule=None):
         params=["git", "submodule", "status", submodule]
     else:
         params=["git", "submodule"]
-    p = subprocess.Popen(params, stdout=subprocess.PIPE)
 
-    output = p.stdout.read().decode("utf-8")
+    #p = subprocess.Popen(params, stdout=subprocess.PIPE)
+    with subprocess.Popen(params, stdout=subprocess.PIPE) as p:
+        cmd_output = p.stdout.read().decode("utf-8")
     try:
-        return output.split(" ")[1][:7]
+        return cmd_output.split(" ")[1][:7]
     except IndexError:
         return "unknown"
 
-    for key,val in ver.items():
-        out[key] = f"{key}.{val}"
-    return out
-
 
 def git_rev_parse():
-    with open(".git/HEAD","r") as head:
+    with open(".git/HEAD","r", encoding="utf-8") as head:
         reffile = head.read().strip().split(" ")[1]
-    with open(f".git/{reffile}","r") as ref:
+    with open(f".git/{reffile}","r", encoding="utf-8") as ref:
         commit = ref.read().strip()
     return commit
 
 
-def latest_versions(currconfig: dict):
+def latest_versions(currconfig: dict) -> dict:
+    """
+        go though the versions listed in pullspec_config.json and
+        return a dict of the latest x.y -> x.y.z version mappings for versions that have
+        qe_control_files, e.g "2.5"->"2.5.4", "2.7"->"2.7.2", "2.8"->"2,8,0"
+    """
     versions = currconfig["prod"] + config["stage"]
     ver={}
     out = {}
@@ -88,151 +89,112 @@ def latest_versions(currconfig: dict):
     return out
 
 
-parser = argparse.ArgumentParser()
-
-#parser.add_argument('-n', '--namespace', default="rh-kmm-tenant", help='namespace to query')
-#parser.add_argument('-k', '--kubeconfig', action='store', required=False, help='kubeconfig file ')
-#parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
-#parser.add_argument('-d', '--directory', required=True, help='directory containing config filesi (e.g. release-2.5/)')
-#parser.add_argument('-g', '--commit', default="HEAD", help='')
-#parser.add_argument('-o', '--output', default=None, help='file to write output to')
-#opt = parser.parse_args()
-parser.add_argument('-c', '--config', action='store', required=False,
-                    default="config/pullspec_config.json",
-                    help='json config file (default: config/pullspec_config.json) ')
-parser.add_argument('-t', '--token', action='store', required=False,
-                    default=None,
-                    help='token to access k8s')
-
-parser.add_argument('-g', '--git', default=None, help='git commit for releases')
-parser.add_argument('-a', '--autogit', action='store_true', default=False, help='calculate git commit for HEAD')
-parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
-parser.add_argument('--test', '--debug', default=False, action='store_true',
-                        help='file to write output to')
-opt = parser.parse_args()
-
-
-#outputfile = opt.output
-
-#build_settings = kmm_konflux.config.read_key_value_file(f"{opt.directory}/build_settings.conf")
-#build_settings = helpers.read_key_value_file(f"{opt.directory}/build_settings.conf")
-
-#version = build_settings["VERSION"].replace(".","-")
-#rel = helpers.Release(opt.kubeconfig, opt.namespace, label_selector=f"appstudio.openshift.io/application=kmm-{version}")
-#relnum = rel.get_latest_rel()
-#relnum = rel.get_latest_rel_number()
-#relnum = rel.get_latest_rel()
-
-#kmm = submodule_version(f"{opt.directory}/{build_settings['PRODUCT']}")
-
-#build = build_version(opt.commit)
-#build = helpers.get_commit(".", opt.commit)
-#build = opt.commit
-
-#output = {"version": build_settings.get("RELEASE", "unknown"), "release": relnum, "build_commit": build[:7], "kmm_commit": kmm,  "kmm": {}, "kmmhub": {}}
-#fbc={}
-
-#components = helpers.Component(opt.kubeconfig, opt.namespace, match="spec.application=fbc-*")
-#components = helpers.Component(opt.kubeconfig, opt.namespace, label_selector="stage=fbc")
-debug = opt.test
-token = opt.token
-
-try:
-    #config = load_config(opt.config)
-    config = kmm_konflux.config.load_config_dict(opt.config)
-except ValueError as e:
-    print(f"Failed to load config: {e}", file=sys.stderr)
-    sys.exit(2)
-
-if not config.get("api_url"):
-    print(f"Config file {opt.config} must contain non-empty 'api_url'")
-    sys.exit(2)
-
-
-verify = resolve_tls_verify(config)
-
-
-kube_components = Konflux(config['api_url'],
-                        token,
-                        config['namespace'],
+def get_lastPromotedImages(config_dict, kmm_token):
+    verify = resolve_tls_verify(config_dict)
+    kube_components = Konflux(config_dict['api_url'],
+                        kmm_token,
+                        config_dict['namespace'],
                         "appstudio.redhat.com/v1alpha1",
                         "components",
                         verify)
 
+    components = kube_components.get(label_selector={"stage":"fbc"})
+    image_shas = {}
+    for comp in components:
+        try:
+            if not output["build_commit"]:
+                output["build_commit"] = comp["status"]["lastBuiltCommit"]
 
-supported_versions = latest_versions(config)
+            if comp["status"]["lastBuiltCommit"] != output["build_commit"]:
+                print(f"{comp["metadata"]["name"]} is out of sync with other builds ",
+                        f"{comp["status"]["lastBuiltCommit"]} != {output["build_commit"]}")
+                continue
 
-output = {
-#        "release": release_list[0]["metadata"]["labels"].get("relnumber", "unknown"),
-#        "kmm_commit": release_list[0]["metadata"]["labels"].get("kmmshort","unknown"),
-        "version": None,
-        "latest_versions": [],
-        "build_commit": None ,
-        "kmm_commit": None ,
-        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "kmm": {}, 
-        "kmmhub": {}
-        }
+            image_shas[comp["metadata"]["name"]] = comp["status"]["lastPromotedImage"]
 
-if opt.git:
-    output["build_commit"] = opt.git
-elif opt.autogit:
-    output["build_commit"] = git_rev_parse()
+        except AttributeError as e:
+            print(f"failed to get comp.status.lastBuiltCommit for {comp["metadata"]["name"]}: {e}")
+    return image_shas
 
 
-components = kube_components.get(label_selector={"stage":"fbc"})
-image_shas = {}
-#for comp in components.items():
-#for comp in components:
-#    #    print(f"{comp.status.lastBuiltCommit}=={build}")
-#    try:
-#        if comp.status.lastBuiltCommit == build:
-#            image_shas[comp.metadata.name] = comp.status.lastPromotedImage
-#    except AttributeError as e:
-#        print(f"failed to get comp.status.lastBuiltCommit for {comp.metadata.name}: {e}")
-#        #exit(0)
-for comp in components:
+def get_image_shas(config_dict, kmm_token):
+    images = {'kmmhub': {}, 'kmm': {}}
+    image_shas = get_lastPromotedImages(config_dict, kmm_token)
+
+    for k,v in image_shas.items():
+        if "hub" in k:
+            ocp = k.replace("fbc-hub-","ocp")
+            images['kmmhub'][ocp]=v
+        if "op" in k:
+            ocp = k.replace("fbc-op-","ocp")
+            images['kmm'][ocp]=v
+
+    return images
+
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-c', '--config', action='store', required=False,
+                        default="config/pullspec_config.json",
+                        help='json config file (default: config/pullspec_config.json) ')
+    parser.add_argument('-t', '--token', action='store', required=False,
+                        default=None,
+                        help='token to access k8s')
+    parser.add_argument('-g', '--git', default=None, help='git commit for releases')
+    parser.add_argument('-a', '--autogit', action='store_true',
+                                 default=False, help='calculate git commit for HEAD')
+    parser.add_argument('-r', '--release', default=None, help='release number to fetch (e.g. r31)')
+    parser.add_argument('--test', '--debug', default=False, action='store_true',
+                            help='file to write output to')
+    opt = parser.parse_args()
+
+    debug = opt.test
+    token = opt.token
+
     try:
-        if not output["build_commit"]:
-            output["build_commit"] = comp["status"]["lastBuiltCommit"]
+        config = kmm_konflux.config.load_config_dict(opt.config)
+    except ValueError as e:
+        print(f"Failed to load config: {e}", file=sys.stderr)
+        sys.exit(2)
 
-        if comp["status"]["lastBuiltCommit"] != output["build_commit"]:
-            print(f"{comp["metadata"]["name"]} is out of sync with other builds ",
-                    f"{comp["status"]["lastBuiltCommit"]} != {output["build_commit"]}")
-            continue
-
-        image_shas[comp["metadata"]["name"]] = comp["status"]["lastPromotedImage"]
-
-
-    except AttributeError as e:
-        print(f"failed to get comp.status.lastBuiltCommit for {comp["metadata"]["name"]}: {e}")
+    if not config.get("api_url"):
+        print(f"Config file {opt.config} must contain non-empty 'api_url'")
+        sys.exit(2)
 
 
-for k,v in image_shas.items():
-    if "hub" in k:
-        ocp = k.replace("fbc-hub-","ocp")
-        output['kmmhub'][ocp]=v
-    if "op" in k:
-        ocp = k.replace("fbc-op-","ocp")
-        output['kmm'][ocp]=v
+    supported_versions = latest_versions(config)
 
-for version,z_stream in supported_versions.items(): #.keys():
-    output["kmm_commit"] = get_kmm_commit(version, output["build_commit"] , short=False)
-    output["version"] = z_stream
-    output["latest_versions"] = list(supported_versions.values())
-    outputfile = config['qe_control_files'][version]
-    if not debug:
-        with open(outputfile, 'w') as file:
-            json.dump(output, file, indent=4)
-    else:
-        print(outputfile)
-        print(json.dumps(output, indent=4))
+    output = {
+            "version": None,
+            "latest_versions": [],
+            "build_commit": None ,
+            "kmm_commit": None ,
+            "kmm": {}, 
+            "kmmhub": {}
+            }
+    #"date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
 
-#if outputfile:
-#    with open(outputfile, 'w') as file:
-#        json.dump(output, file, indent=4)
-#else:
-#    print(json.dumps(output, indent=4))
+    if opt.git:
+        output["build_commit"] = opt.git
+    elif opt.autogit:
+        output["build_commit"] = git_rev_parse()
 
 
-exit(0)
+    output = {**output, **get_image_shas(config, token)}
+
+    for version,z_stream in supported_versions.items():
+        output["kmm_commit"] = get_kmm_commit(version, output["build_commit"] , short=False)
+        output["version"] = z_stream
+        output["latest_versions"] = list(supported_versions.values())
+        outputfile = config['qe_control_files'][version]
+        if not debug:
+            with open(outputfile, 'w', encoding="utf-8") as file:
+                json.dump(output, file, indent=4)
+        else:
+            print(outputfile)
+            print(json.dumps(output, indent=4))
+
+
+    sys.exit(0)

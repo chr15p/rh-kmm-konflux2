@@ -317,7 +317,7 @@ if __name__ == "__main__":
                         help='json config file (default: config/pullspec_config.json')
     parser.add_argument('-p', '--pr', action='store', required=True,
                         default=None, help='pr number')
-    parser.add_argument('--nocommit', action='store_true', required=True,
+    parser.add_argument('--nocommit', action='store_true', required=False,
                         default=False, help='do not check git commits when comparing')
     parser.add_argument('--test', action='store_true', default=False)
 
